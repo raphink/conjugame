@@ -1,0 +1,229 @@
+/* Common styles for all pages */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+.game-container, .home-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.flag-colors {
+    background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
+    height: 10px;
+    margin-bottom: 20px;
+}
+
+.game-header, .header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-title, .title {
+    color: #495057;
+    font-weight: bold;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-weight: normal;
+    margin-bottom: 30px;
+}
+
+.score-display, .streak-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #495057;
+}
+
+.answer-feedback {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+
+.correct {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.next-btn {
+    margin-top: 15px;
+}
+
+.difficulty-selector {
+    margin-bottom: 20px;
+}
+
+#loading {
+    display: none;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+.progress-container {
+    margin-top: 20px;
+}
+
+.game-mode-links {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Home page specific styles */
+body.home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mode-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.mode-card {
+    flex: 1;
+    min-width: 300px;
+    max-width: 350px;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.mode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    padding: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.identifier-header {
+    background-color: #007bff;
+}
+
+.choisir-header {
+    background-color: #28a745;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-description {
+    color: #495057;
+    margin-bottom: 20px;
+    min-height: 120px;
+}
+
+.card-action {
+    text-align: center;
+}
+
+.btn-play {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Choisir page specific styles */
+.verb-form-info {
+    font-size: 1.3rem;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.verb-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.verb-option {
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.verb-option:hover {
+    background-color: #e9ecef;
+}
+
+.verb-option.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Identifier page specific styles */
+.highlight {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 2.5rem;
+}
+
+.verb-display {
+    font-size: 2.5rem;
+    margin: 30px 0;
+    text-align: center;
+    min-height: 90px;
+}
+
+.verb-choices {
+    margin-bottom: 25px;
+}
+
+.choice-btn {
+    margin: 5px;
+}
+
+.tense-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tense-buttons .btn {
+    margin: 3px;
+}
