@@ -56,25 +56,32 @@
         </div>
 
         <div class="verb-form-info">
-            <div class="verb-choices">
-                <h6>Personne:</h6>
-                <div class="btn-group-sm d-flex flex-wrap" role="group" id="person-group">
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="0">1ère sing.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="1">2ème sing.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="2">3ème sing.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="3">1ère plur.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="4">2ème plur.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="5">3ème plur.</button>
+            <!-- New person and number selectors -->
+            <div class="row verb-choices">
+                <div class="col-md-6 mb-3">
+                    <h6>Personne:</h6>
+                    <div class="btn-group-sm d-flex" role="group" id="person-group">
+                        <button type="button" class="btn btn-outline-success choice-btn person-btn" data-person="0">1ère</button>
+                        <button type="button" class="btn btn-outline-success choice-btn person-btn" data-person="1">2ème</button>
+                        <button type="button" class="btn btn-outline-success choice-btn person-btn" data-person="2">3ème</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h6>Nombre:</h6>
+                    <div class="btn-group-sm d-flex" role="group" id="number-group">
+                        <button type="button" class="btn btn-outline-info choice-btn number-btn" data-number="0">Singulier</button>
+                        <button type="button" class="btn btn-outline-info choice-btn number-btn" data-number="1">Pluriel</button>
+                    </div>
                 </div>
             </div>
 
             <div class="verb-choices">
                 <h6>Mode:</h6>
                 <div class="btn-group-sm d-flex flex-wrap" role="group" id="mood-group">
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="indicatif">Indicatif</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="subjonctif">Subjonctif</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="conditionnel">Conditionnel</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="imperatif">Impératif</button>
+                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="indicatif">Indicatif</button>
+                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="subjonctif">Subjonctif</button>
+                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="conditionnel">Conditionnel</button>
+                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="imperatif">Impératif</button>
                 </div>
             </div>
 

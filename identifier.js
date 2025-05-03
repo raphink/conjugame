@@ -12,6 +12,7 @@ let reponseActuelle = {
 };
 let niveauDifficulte = "facile";
 let objectifScore = 10; // Number of correct answers needed to "win"
+let availableModes = []; // Array to store available modes for current verb
 
 // Function to update tense buttons based on selected mode
 function mettreAJourBoutonsTemps(mode) {
@@ -35,16 +36,105 @@ function mettreAJourBoutonsTemps(mode) {
             tempsDisponibles = modesTempsFaciles[mode] || [];
     }
 
-    tempsDisponibles.forEach(temps => {
-        const nomFrancais = nomsFrancaisTemps[temps] || temps;
-        container.append(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">${nomFrancais}</button>`);
-    });
+    // Filter tenses that exist for this verb
+    if (donneesDuVerbe && donneesDuVerbe.moods[mode]) {
+        tempsDisponibles = tempsDisponibles.filter(t => 
+            Object.keys(donneesDuVerbe.moods[mode]).includes(t)
+        );
+    }
 
-    // Add event listeners for new buttons
-    $('#tense-container .choice-btn').click(function() {
-        $(this).siblings().removeClass('active');
-        $(this).addClass('active');
-    });
+    // If only one tense is available, select it automatically
+    if (tempsDisponibles.length === 1) {
+        const temps = tempsDisponibles[0];
+        const nomFrancais = nomsFrancaisTemps[temps] || temps;
+        container.append(`
+            <button type="button" class="btn btn-outline-secondary choice-btn active" data-value="${temps}">
+                ${nomFrancais}
+            </button>
+        `);
+    } else {
+        // Otherwise add all available tenses as buttons
+        tempsDisponibles.forEach(temps => {
+            const nomFrancais = nomsFrancaisTemps[temps] || temps;
+            container.append(`
+                <button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">
+                    ${nomFrancais}
+                </button>
+            `);
+        });
+
+        // Add event listeners for new buttons
+        $('#tense-container .choice-btn').click(function() {
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+        });
+    }
+}
+
+// Function to convert person and number selections to person index
+function getPersonneIndex(personSelection, numberSelection) {
+    // In French conjugation:
+    // 0: 1st person singular (je)
+    // 1: 2nd person singular (tu)
+    // 2: 3rd person singular (il/elle)
+    // 3: 1st person plural (nous)
+    // 4: 2nd person plural (vous)
+    // 5: 3rd person plural (ils/elles)
+    
+    const personInt = parseInt(personSelection);
+    const numberInt = parseInt(numberSelection);
+    
+    if (numberInt === 0) { // Singular
+        return personInt;
+    } else { // Plural
+        return personInt + 3;
+    }
+}
+
+// Function to convert person index to person and number selections
+function getPersonneAndNumber(personneIndex) {
+    if (personneIndex < 3) { // Singular
+        return {
+            person: personneIndex,
+            number: 0
+        };
+    } else { // Plural
+        return {
+            person: personneIndex - 3,
+            number: 1
+        };
+    }
+}
+
+// Handle imperative mode which has fewer persons
+function handleImperativeMode(isImperative) {
+    if (isImperative) {
+        // Imperative only has 2nd person singular, 1st plural, and 2nd plural
+        // Hide 1st and 3rd person singular, and 3rd person plural
+        $('button[data-person="0"]').prop('disabled', true);
+        $('button[data-person="2"]').prop('disabled', true);
+        
+        // Only allow 2nd person singular, 1st & 2nd person plural
+        if ($('.person-btn.active').data('person') === "0" || 
+            $('.person-btn.active').data('person') === "2") {
+            // Reset selection if currently on a disabled person
+            $('.person-btn.active').removeClass('active');
+            // Select 2nd person by default for imperative
+            $('button[data-person="1"]').addClass('active');
+        }
+        
+        // For plural, only allow 1st and 2nd person
+        if ($('.number-btn.active').data('number') === "1" && 
+            $('.person-btn.active').data('person') === "2") {
+            // Reset if 3rd person plural
+            $('.person-btn.active').removeClass('active');
+            // Default to 1st person plural
+            $('button[data-person="0"]').addClass('active');
+        }
+    } else {
+        // Enable all person buttons for non-imperative modes
+        $('.person-btn').prop('disabled', false);
+    }
 }
 
 async function questionSuivante() {
@@ -77,23 +167,39 @@ async function questionSuivante() {
     // Get available forms for the current level
     const formesDisponibles = obtenirFormesDisponibles(niveauDifficulte);
     
-    // Display only buttons for available modes
-    $('#mood-group button').hide(); // Hide all mode buttons
-    Object.keys(formesDisponibles).forEach(mode => {
+    // Store and display only buttons for available modes
+    availableModes = Object.keys(formesDisponibles).filter(m => 
+        Object.keys(donneesDuVerbe.moods).includes(m)
+    );
+    
+    // Hide all mode buttons first
+    $('#mood-group button').hide();
+    
+    // Then show only available modes
+    availableModes.forEach(mode => {
         $(`#mood-group button[data-value="${mode}"]`).show();
     });
     
+    // If only one mode is available, select it automatically
+    if (availableModes.length === 1) {
+        const singleMode = availableModes[0];
+        $(`#mood-group button[data-value="${singleMode}"]`).addClass('active');
+        mettreAJourBoutonsTemps(singleMode);
+        handleImperativeMode(singleMode === "imperatif");
+    }
+    
     // Choose a random mode from those available for this level
-    const modes = Object.keys(formesDisponibles).filter(m => Object.keys(donneesDuVerbe.moods).includes(m));
-    if (modes.length === 0) {
+    if (availableModes.length === 0) {
         console.warn(`No mode available for this verb and difficulty level`);
         questionSuivante(); // Try another verb
         return;
     }
-    const mode = modes[Math.floor(Math.random() * modes.length)];
+    const mode = availableModes[Math.floor(Math.random() * availableModes.length)];
     
     // Choose a random tense for this mode
-    const tempsDisponibles = formesDisponibles[mode].filter(t => Object.keys(donneesDuVerbe.moods[mode]).includes(t));
+    const tempsDisponibles = formesDisponibles[mode].filter(t => 
+        Object.keys(donneesDuVerbe.moods[mode]).includes(t)
+    );
     if (tempsDisponibles.length === 0) {
         console.warn(`No tense available for verb ${verbeActuel} in mode ${mode}`);
         questionSuivante(); // Try another verb/mode
@@ -110,7 +216,21 @@ async function questionSuivante() {
     
     // Choose a random person (considering that imperative only has 3 persons)
     let maxPersonne = donneesDuVerbe.moods[mode][temps].length - 1;
-    const indicePersonne = Math.floor(Math.random() * (maxPersonne + 1));
+    let indicePersonne;
+    
+    if (mode === "imperatif") {
+        // Imperative only has 2nd singular, 1st plural, 2nd plural (typically indices 0, 1, 2)
+        // Map these to our standard array: tu(1-0), nous(0-1), vous(1-1)
+        const availableImperativeIndices = [1, 3, 4]; // 2nd sing, 1st plur, 2nd plur
+        indicePersonne = availableImperativeIndices[Math.floor(Math.random() * 3)];
+        
+        // Adjust if the verb's imperative doesn't follow standard pattern
+        if (indicePersonne > maxPersonne) {
+            indicePersonne = Math.floor(Math.random() * (maxPersonne + 1));
+        }
+    } else {
+        indicePersonne = Math.floor(Math.random() * (maxPersonne + 1));
+    }
     
     // Store the correct answer
     reponseActuelle = {
@@ -135,20 +255,30 @@ function verifierReponse() {
     totalQuestions++;
     $('#total').text(totalQuestions);
     
-    let personneSelectionnee = $('#person-group .active').data('value');
-    let modeSelectionne = $('#mood-group .active').data('value');
+    // Get person selection from the combination of person and number
+    const personSelection = $('.person-btn.active').data('person');
+    const numberSelection = $('.number-btn.active').data('number');
+    let personneSelectionnee;
+    
+    if (personSelection === undefined || numberSelection === undefined) {
+        alert("Veuillez sélectionner une personne et un nombre");
+        totalQuestions--; // Cancel the increment
+        $('#total').text(totalQuestions);
+        return;
+    } else {
+        personneSelectionnee = getPersonneIndex(personSelection, numberSelection);
+    }
+    
+    let modeSelectionne = $('.mood-btn.active').data('value');
     let tempsSelectionne = $('#tense-container .active').data('value');
     
     // Check that all choices have been made
-    if (personneSelectionnee === undefined || !modeSelectionne || !tempsSelectionne) {
-        alert("Veuillez sélectionner une personne, un mode et un temps");
+    if (!modeSelectionne || !tempsSelectionne) {
+        alert("Veuillez sélectionner un mode et un temps");
         totalQuestions--; // Cancel the increment
         $('#total').text(totalQuestions);
         return;
     }
-    
-    // Convert person to number for comparison
-    personneSelectionnee = parseInt(personneSelectionnee);
     
     let estCorrect = 
         personneSelectionnee === reponseActuelle.personne && 
@@ -168,7 +298,14 @@ function verifierReponse() {
         } else {
             // For imperative, display is different
             const personnesImperatif = ["Tu", "Nous", "Vous"];
-            personneNom = `${personnesImperatif[reponseActuelle.personne]} (impératif)`;
+            // Map standard indices to imperative-specific indices
+            let imperativeIndex;
+            if (reponseActuelle.personne === 1) imperativeIndex = 0;      // tu
+            else if (reponseActuelle.personne === 3) imperativeIndex = 1; // nous
+            else if (reponseActuelle.personne === 4) imperativeIndex = 2; // vous
+            else imperativeIndex = 0; // fallback
+            
+            personneNom = `${personnesImperatif[imperativeIndex]} (impératif)`;
         }
         
         $('#feedback').removeClass('incorrect').addClass('correct')
@@ -185,7 +322,14 @@ function verifierReponse() {
         } else {
             // For imperative, display is different
             const personnesImperatif = ["Tu", "Nous", "Vous"];
-            personneNom = `${personnesImperatif[reponseActuelle.personne]} (impératif)`;
+            // Map standard indices to imperative-specific indices
+            let imperativeIndex;
+            if (reponseActuelle.personne === 1) imperativeIndex = 0;      // tu
+            else if (reponseActuelle.personne === 3) imperativeIndex = 1; // nous
+            else if (reponseActuelle.personne === 4) imperativeIndex = 2; // vous
+            else imperativeIndex = 0; // fallback
+            
+            personneNom = `${personnesImperatif[imperativeIndex]} (impératif)`;
         }
         
         $('#feedback').removeClass('correct').addClass('incorrect')
@@ -237,13 +381,26 @@ $(document).ready(function() {
         questionSuivante();
     });
 
-    $('#mood-group .choice-btn').click(function() {
+    $('.mood-btn').click(function() {
         const mode = $(this).data('value');
         mettreAJourBoutonsTemps(mode);
+        handleImperativeMode(mode === "imperatif");
+    });
+    
+    // Handle combination of person and number
+    $('.person-btn, .number-btn').click(function() {
+        // If imperative mode is selected, handle special cases
+        if ($('.mood-btn.active').data('value') === "imperatif") {
+            handleImperativeMode(true);
+        }
     });
 
     $('#check-answer').click(verifierReponse);
     $('#next-question').click(questionSuivante);
+
+    // Select some default values to avoid empty selections
+    $('button[data-person="0"]').addClass('active'); // 1st person
+    $('button[data-number="0"]').addClass('active'); // singular
 
     // Start the game
     questionSuivante();
