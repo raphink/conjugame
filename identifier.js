@@ -48,7 +48,7 @@ function mettreAJourBoutonsTemps(mode) {
         const temps = tempsDisponibles[0];
         const nomFrancais = nomsFrancaisTemps[temps] || temps;
         container.append(`
-            <button type="button" class="btn btn-outline-secondary choice-btn active" data-value="${temps}">
+            <button type="button" class="btn btn-selector btn-temps choice-btn active" data-value="${temps}">
                 ${nomFrancais}
             </button>
         `);
@@ -57,7 +57,7 @@ function mettreAJourBoutonsTemps(mode) {
         tempsDisponibles.forEach(temps => {
             const nomFrancais = nomsFrancaisTemps[temps] || temps;
             container.append(`
-                <button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">
+                <button type="button" class="btn btn-selector btn-temps choice-btn" data-value="${temps}">
                     ${nomFrancais}
                 </button>
             `);
@@ -73,14 +73,6 @@ function mettreAJourBoutonsTemps(mode) {
 
 // Function to convert person and number selections to person index
 function getPersonneIndex(personSelection, numberSelection) {
-    // In French conjugation:
-    // 0: 1st person singular (je)
-    // 1: 2nd person singular (tu)
-    // 2: 3rd person singular (il/elle)
-    // 3: 1st person plural (nous)
-    // 4: 2nd person plural (vous)
-    // 5: 3rd person plural (ils/elles)
-    
     const personInt = parseInt(personSelection);
     const numberInt = parseInt(numberSelection);
     
@@ -88,21 +80,6 @@ function getPersonneIndex(personSelection, numberSelection) {
         return personInt;
     } else { // Plural
         return personInt + 3;
-    }
-}
-
-// Function to convert person index to person and number selections
-function getPersonneAndNumber(personneIndex) {
-    if (personneIndex < 3) { // Singular
-        return {
-            person: personneIndex,
-            number: 0
-        };
-    } else { // Plural
-        return {
-            person: personneIndex - 3,
-            number: 1
-        };
     }
 }
 
@@ -243,7 +220,11 @@ async function questionSuivante() {
     conjugaisonActuelle = donneesDuVerbe.moods[mode][temps][indicePersonne];
     
     // Display the conjugation
-    $('#verb-display').html(`<span class="highlight">${conjugaisonActuelle}</span>`);
+    $('#verb-display').html(`<h2 class="highlight">${conjugaisonActuelle}</h2>`);
+    
+    // Default selection for person and number
+    $('button[data-person="0"]').addClass('active'); // 1st person
+    $('button[data-number="0"]').addClass('active'); // singular
 }
 
 function verifierReponse() {
@@ -345,7 +326,7 @@ function verifierReponse() {
     if (score >= objectifScore) {
         // Congratulate the user
         const message = `<div class="alert alert-success mt-3">
-            <h4>Félicitations !</h4>
+            <h4>🎉 Félicitations !</h4>
             <p>Vous avez atteint votre objectif de ${objectifScore} bonnes réponses !</p>
             <p>Score final : ${score}/${totalQuestions}</p>
             <button class="btn btn-success mt-2" onclick="location.reload()">Recommencer</button>
@@ -397,10 +378,6 @@ $(document).ready(function() {
 
     $('#check-answer').click(verifierReponse);
     $('#next-question').click(questionSuivante);
-
-    // Select some default values to avoid empty selections
-    $('button[data-person="0"]').addClass('active'); // 1st person
-    $('button[data-number="0"]').addClass('active'); // singular
 
     // Start the game
     questionSuivante();

@@ -19,16 +19,12 @@
             <h1 class="game-title">Conjugaison Française</h1>
         </div>
 
-        <div class="row mb-4">
-            <div class="col">
-                <div class="score-display">
-                    Score: <span id="score">0</span> / <span id="total">0</span>
-                </div>
+        <div class="game-stats">
+            <div class="score-display">
+                🎯 Score: <span id="score">0</span> / <span id="total">0</span>
             </div>
-            <div class="col text-end">
-                <div class="streak-display">
-                    Série: <span id="streak">0</span> 🔥
-                </div>
+            <div class="streak-display">
+                🔥 Série: <span id="streak">0</span>
             </div>
         </div>
 
@@ -52,63 +48,79 @@
         </div>
 
         <div class="verb-display" id="verb-display">
-            Chargement...
+            <h2 class="highlight">Chargement...</h2>
         </div>
 
-        <div class="verb-form-info">
-            <!-- New person and number selectors -->
-            <div class="row verb-choices">
-                <div class="col-md-6 mb-3">
-                    <h6>Personne:</h6>
-                    <div class="btn-group-sm d-flex" role="group" id="person-group">
-                        <button type="button" class="btn btn-outline-success choice-btn person-btn" data-person="0">1ère</button>
-                        <button type="button" class="btn btn-outline-success choice-btn person-btn" data-person="1">2ème</button>
-                        <button type="button" class="btn btn-outline-success choice-btn person-btn" data-person="2">3ème</button>
+        <div class="row">
+            <!-- Personne Column -->
+            <div class="col-md-6 mb-3">
+                <div class="selector-container">
+                    <div class="selector-label">
+                        <span class="emoji">👤</span> Personne:
                     </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <h6>Nombre:</h6>
-                    <div class="btn-group-sm d-flex" role="group" id="number-group">
-                        <button type="button" class="btn btn-outline-info choice-btn number-btn" data-number="0">Singulier</button>
-                        <button type="button" class="btn btn-outline-info choice-btn number-btn" data-number="1">Pluriel</button>
+                    <div class="selector-buttons" id="person-group">
+                        <button type="button" class="btn btn-selector btn-personne choice-btn person-btn" data-person="0">1ère</button>
+                        <button type="button" class="btn btn-selector btn-personne choice-btn person-btn" data-person="1">2ème</button>
+                        <button type="button" class="btn btn-selector btn-personne choice-btn person-btn" data-person="2">3ème</button>
                     </div>
                 </div>
             </div>
-
-            <div class="verb-choices">
-                <h6>Mode:</h6>
-                <div class="btn-group-sm d-flex flex-wrap" role="group" id="mood-group">
-                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="indicatif">Indicatif</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="subjonctif">Subjonctif</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="conditionnel">Conditionnel</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn mood-btn" data-value="imperatif">Impératif</button>
-                </div>
-            </div>
-
-            <div class="verb-choices">
-                <h6>Temps:</h6>
-                <div id="tense-container" class="tense-buttons">
-                    <!-- Tense buttons will be added dynamically based on the selected mode -->
-                </div>
-            </div>
-
-            <button class="btn btn-success w-100 mt-4" id="check-answer">Vérifier la réponse</button>
-        </div>
-
-        <div class="answer-feedback mt-4" id="feedback">
             
+            <!-- Nombre Column -->
+            <div class="col-md-6 mb-3">
+                <div class="selector-container">
+                    <div class="selector-label">
+                        <span class="emoji">🔢</span> Nombre:
+                    </div>
+                    <div class="selector-buttons" id="number-group">
+                        <button type="button" class="btn btn-selector btn-nombre choice-btn number-btn" data-number="0">Singulier</button>
+                        <button type="button" class="btn btn-selector btn-nombre choice-btn number-btn" data-number="1">Pluriel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mode Column -->
+            <div class="col-md-6 mb-3">
+                <div class="selector-container">
+                    <div class="selector-label">
+                        <span class="emoji">🔄</span> Mode:
+                    </div>
+                    <div class="selector-buttons" id="mood-group">
+                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="indicatif">Indicatif</button>
+                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="subjonctif">Subjonctif</button>
+                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="conditionnel">Conditionnel</button>
+                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="imperatif">Impératif</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Temps Column -->
+            <div class="col-md-6 mb-3">
+                <div class="selector-container">
+                    <div class="selector-label">
+                        <span class="emoji">⏱️</span> Temps:
+                    </div>
+                    <div class="selector-buttons" id="tense-container">
+                        <!-- Tense buttons will be added dynamically -->
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <button class="btn btn-success w-100 btn-check-answer" id="check-answer">Vérifier la réponse</button>
+
+        <div class="answer-feedback mt-4" id="feedback"></div>
 
         <button class="btn btn-primary w-100 next-btn" id="next-question">Question suivante</button>
 
-        <div class="progress-container">
+        <div class="progress-container mt-4">
             <h6>Progrès:</h6>
             <div class="progress" role="progressbar">
                 <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
             </div>
         </div>
 
-        <div class="game-mode-links">
+        <div class="game-mode-links mt-4">
             <p>Changer de mode de jeu :</p>
             <a href="index.html" class="btn btn-outline-secondary">Accueil</a>
             <a href="choisir.html" class="btn btn-outline-primary">Mode: Choisir la Forme</a>

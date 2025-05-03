@@ -227,3 +227,123 @@ body.home {
 .tense-buttons .btn {
     margin: 3px;
 }
+
+/* Base styles inherited from styles.css */
+
+/* Compact selector styles */
+.selector-container {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.selector-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.selector-label .emoji {
+    font-size: 1.4rem;
+    margin-right: 8px;
+}
+
+.selector-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-selector {
+    min-width: 100px;
+    border-radius: 20px;
+    transition: all 0.2s;
+    padding: 8px 15px;
+}
+
+.btn-personne {
+    border-color: #28a745;
+    color: #28a745;
+}
+
+.btn-personne.active {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-nombre {
+    border-color: #17a2b8;
+    color: #17a2b8;
+}
+
+.btn-nombre.active {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-mode {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.btn-mode.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-temps {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-temps.active {
+    background-color: #6c757d;
+    color: white;
+}
+
+.verb-display {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.btn-check-answer {
+    background-color: #198754;
+    border: none;
+    border-radius: 25px;
+    padding: 12px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.game-stats {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Enhanced highlight style for the verb display */
+.highlight {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+/* Emoji feedback styles */
+.correct strong::before {
+    content: "✅ ";
+}
+
+.incorrect strong::before {
+    content: "❌ ";
+}
