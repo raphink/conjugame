@@ -198,17 +198,44 @@
     <script>
         // Verbes français par niveau de difficulté
         const verbesFaciles = [
-            "être", "avoir", "faire", "dire", "aller", "voir", "parler", "aimer", "manger", "finir", "jouer", "venir", "prendre"
+            "être", "avoir", "faire", "dire", "aller", "voir", "parler", "aimer", "manger", "finir", "jouer", "venir", "prendre",
+            "donner", "appeler", "attendre", "comprendre", "connaître", "croire", "demander", "entendre", "écrire", "étudier",
+            "habiter", "lire", "mettre", "montrer", "ouvrir", "penser", "perdre", "porter", "pouvoir", "regarder", "rendre",
+            "répondre", "savoir", "sentir", "sortir", "suivre", "travailler", "trouver", "vendre", "vivre", "vouloir",
+            "acheter", "arriver", "chanter", "choisir", "commencer", "compter", "courir", "découvrir", "descendre", "dessiner",
+            "dormir", "écouter", "envoyer", "espérer", "fermer", "imaginer", "inviter", "laisser", "marcher", "monter",
+            "offrir", "oublier", "partir", "passer", "préférer", "préparer", "rentrer", "rester", "revenir", "sembler"
         ];
 
         const verbesMoyens = [
-            "pouvoir", "vouloir", "savoir", "devoir", "croire", "mettre", "lire", "écrire", "comprendre", "attendre", 
-            "entendre", "partir", "sortir", "sentir", "suivre", "vivre", "boire", "envoyer", "recevoir", "appeler"
+            "pouvoir", "vouloir", "savoir", "devoir", "croire", "mettre", "lire", "écrire", "comprendre", "attendre",
+            "entendre", "partir", "sortir", "sentir", "suivre", "vivre", "boire", "envoyer", "recevoir", "appeler",
+            "apercevoir", "apparaître", "apprendre", "atteindre", "combattre", "conduire", "construire", "contenir", "contribuer", "convenir",
+            "correspondre", "couvrir", "craindre", "décevoir", "défendre", "définir", "détruire", "disparaître", "distraire", "entretenir",
+            "entreprendre", "équivaloir", "établir", "éteindre", "étendre", "fournir", "fuir", "inclure", "inscrire", "interrompre",
+            "intervenir", "introduire", "maintenir", "mentir", "obtenir", "offrir", "ouvrir", "paraître", "parcourir", "parvenir",
+            "percevoir", "peindre", "permettre", "plaindre", "plaire", "poursuivre", "prévoir", "produire", "promettre", "reconnaître",
+            "recourir", "réduire", "rejoindre", "remettre", "remplir", "répandre", "répondre", "résoudre", "retenir", "réunir",
+            "revenir", "rompre", "servir", "souffrir", "sourire", "soutenir", "suffire", "surprendre", "survivre", "taire",
+            "tendre", "traduire", "transmettre", "valoir", "vendre", "vêtir"
         ];
 
         const verbesDifficiles = [
-            "courir", "mourir", "tenir", "venir", "acquérir", "asseoir", "battre", "connaître", "craindre", "croître", 
-            "cueillir", "falloir", "joindre", "naître", "plaire", "pleuvoir", "résoudre", "rire", "suffire", "vaincre"
+            "courir", "mourir", "tenir", "venir", "acquérir", "asseoir", "battre", "connaître", "craindre", "croître",
+            "cueillir", "falloir", "joindre", "naître", "plaire", "pleuvoir", "résoudre", "rire", "suffire", "vaincre",
+            "abstraire", "accroître", "adjoindre", "advenir", "assaillir", "astreindre", "circonvenir", "clore", "comparaître", "complaire",
+            "compromettre", "concevoir", "conclure", "concourir", "conquérir", "convaincre", "découdre", "décrire", "déduire", "défaire",
+            "déplaire", "déteindre", "devenir", "disconvenir", "disjoindre", "dissoudre", "distraire", "ébattre", "échoir", "élire",
+            "émettre", "émoudre", "enceindre", "enclore", "encourir", "endormir", "enfuir", "enjoindre", "entendre", "entremettre",
+            "entrevoir", "entrouvrir", "envahir", "équivaloir", "exclure", "extraire", "faillir", "feindre", "forfaire", "gésir",
+            "haïr", "inscrire", "instruire", "interdire", "interjeter", "luire", "malfaire", "médire", "méfaire", "méprendre",
+            "mouvoir", "nuire", "occlure", "occire", "omettre", "paître", "paraître", "parfaire", "parvenir", "percevoir",
+            "poindre", "pourfendre", "pourvoir", "préconcevoir", "prédire", "prescrire", "prévaloir", "prévoir", "promouvoir", "proscrire",
+            "provenir", "rabattre", "rasseoir", "rassortir", "recevoir", "reconquérir", "recoudre", "recourir", "recueillir", "redevenir",
+            "redire", "réélire", "rejoindre", "relire", "reluire", "remettre", "remoudre", "renaître", "renvoyer", "repaître",
+            "requérir", "resservir", "ressortir", "restreindre", "retenir", "revaloir", "revêtir", "revivre", "saillir", "satisfaire",
+            "secourir", "seoir", "soumettre", "sourdre", "soustraire", "subvenir", "surproduire", "surseoir", "survenir", "taire",
+            "teindre", "tressaillir", "valoir", "vouloir"
         ];
 
         // Définir les temps disponibles par mode et niveau de difficulté
