@@ -105,7 +105,6 @@
         <div class="flag-colors"></div>
         <div class="game-header">
             <h1 class="game-title">Jeu de Conjugaison Française</h1>
-            <p class="lead">Testez vos connaissances en conjugaison française !</p>
         </div>
 
         <div class="row mb-4">
@@ -122,7 +121,6 @@
         </div>
 
         <div class="difficulty-selector text-center mb-4">
-            <h6>Niveau de difficulté:</h6>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="facile">Facile</button>
                 <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="moyen">Moyen</button>
@@ -214,9 +212,6 @@
         // Définir les modes et temps disponibles par niveau de difficulté
         const modesTempsFaciles = {
             "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait"],
-            "subjonctif": ["présent"],
-            "conditionnel": ["présent"],
-            "imperatif": ["imperatif-présent"]
         };
 
         const modesTempsIntermediaires = {
