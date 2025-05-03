@@ -128,8 +128,8 @@
             </div>
         </div>
 
-        <div id="verb-info" class="text-center mb-3">
-            <span class="badge bg-info">Infinitif: <span id="infinitive-verb">chargement...</span></span>
+                    <div id="verb-info" class="text-center mb-3">
+            <span class="badge bg-info" id="infinitive-badge">Infinitif: <span id="infinitive-verb">chargement...</span></span>
         </div>
 
         <div id="loading" class="text-center">
@@ -211,16 +211,16 @@
             "cueillir", "falloir", "joindre", "naître", "plaire", "pleuvoir", "résoudre", "rire", "suffire", "vaincre"
         ];
 
-        // Définir les modes et temps disponibles par niveau de difficulté
+        // Définir les temps disponibles par mode et niveau de difficulté
         const modesTempsFaciles = {
-            "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait"],
+            "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait"]
         };
 
         const modesTempsIntermediaires = {
             "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait", "plus-que-parfait", "passé-simple"],
-            "subjonctif": ["présent", "passé"],
-            "conditionnel": ["présent", "passé"],
-            "imperatif": ["imperatif-présent", "imperatif-passé"]
+            "subjonctif": ["présent"],
+            "conditionnel": ["présent"],
+            "imperatif": ["présent"]
         };
 
         const modesTempsAvances = {
@@ -359,11 +359,16 @@
                 $('.difficulty-btn').removeClass('active');
                 $(this).addClass('active');
                 niveauDifficulte = $(this).data('level');
-                // Mettre à jour les boutons de temps si un mode est déjà sélectionné
-                const modeSelectionne = $('#mood-group .active').data('value');
-                if (modeSelectionne) {
-                    mettreAJourBoutonsTemps(modeSelectionne);
+                
+                // Mettre à jour l'affichage de l'infinitif en fonction du niveau
+                if (niveauDifficulte === "facile") {
+                    $('#infinitive-badge').show();
+                } else {
+                    $('#infinitive-badge').hide();
                 }
+                
+                // Générer une nouvelle question pour le niveau sélectionné
+                questionSuivante();
             });
 
             $('#mood-group .choice-btn').click(function() {
@@ -410,7 +415,15 @@
                 return;
             }
             
-            // Déterminer les modes et temps disponibles selon le niveau de difficulté
+            // Gérer l'affichage de l'infinitif en fonction du niveau
+            $('#infinitive-verb').text(donneesDuVerbe.verb.infinitive);
+            if (niveauDifficulte === "facile") {
+                $('#infinitive-badge').show();
+            } else {
+                $('#infinitive-badge').hide();
+            }
+            
+            // Obtenir les modes disponibles pour le niveau actuel
             let formesDisponibles;
             switch (niveauDifficulte) {
                 case "facile":
@@ -426,12 +439,28 @@
                     formesDisponibles = modesTempsFaciles;
             }
             
-            // Choisir un mode aléatoire
+            // Afficher uniquement les boutons des modes disponibles
+            $('#mood-group button').hide(); // Cacher tous les boutons de mode
+            Object.keys(formesDisponibles).forEach(mode => {
+                $(`#mood-group button[data-value="${mode}"]`).show();
+            });
+            
+            // Choisir un mode aléatoire parmi ceux disponibles pour ce niveau
             const modes = Object.keys(formesDisponibles).filter(m => Object.keys(donneesDuVerbe.moods).includes(m));
+            if (modes.length === 0) {
+                console.warn(`Aucun mode disponible pour ce verbe et ce niveau de difficulté`);
+                questionSuivante(); // Essayer un autre verbe
+                return;
+            }
             const mode = modes[Math.floor(Math.random() * modes.length)];
             
             // Choisir un temps aléatoire pour ce mode
             const tempsDisponibles = formesDisponibles[mode].filter(t => Object.keys(donneesDuVerbe.moods[mode]).includes(t));
+            if (tempsDisponibles.length === 0) {
+                console.warn(`Aucun temps disponible pour le verbe ${verbeActuel} au mode ${mode}`);
+                questionSuivante(); // Essayer un autre verbe/mode
+                return;
+            }
             const temps = tempsDisponibles[Math.floor(Math.random() * tempsDisponibles.length)];
             
             // Vérifier si le temps existe pour ce verbe
@@ -455,8 +484,7 @@
             // Récupérer la conjugaison correcte
             conjugaisonActuelle = donneesDuVerbe.moods[mode][temps][indicePersonne];
             
-            // Afficher l'infinitif et la conjugaison
-            $('#infinitive-verb').text(donneesDuVerbe.verb.infinitive);
+            // Afficher la conjugaison
             $('#verb-display').html(`<span class="highlight">${conjugaisonActuelle}</span>`);
         }
 
