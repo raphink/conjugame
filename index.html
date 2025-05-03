@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conjugaison Française</title>
+    <title>Jeu de Conjugaison Française</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -12,595 +12,142 @@
         body {
             background-color: #f8f9fa;
             font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .game-container {
+        .home-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-        .score-display {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #495057;
-        }
-        .highlight {
-            font-weight: bold;
-            color: #007bff;
-            font-size: 2.5rem;
-        }
-        .answer-feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-        .correct {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .incorrect {
-            background-color: #f8d7da;
-            color: #721c24;
         }
         .flag-colors {
             background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
             height: 10px;
             margin-bottom: 20px;
         }
-        .game-header {
+        .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
-        .game-title {
+        .title {
             color: #495057;
             font-weight: bold;
+            margin-bottom: 10px;
         }
-        .verb-display {
-            font-size: 2.5rem;
-            margin: 30px 0;
-            text-align: center;
-            min-height: 90px;
+        .subtitle {
+            color: #6c757d;
+            font-weight: normal;
+            margin-bottom: 30px;
         }
-        .verb-choices {
-            margin-bottom: 25px;
-        }
-        .choice-btn {
-            margin: 5px;
-        }
-        .next-btn {
-            margin-top: 15px;
-        }
-        .difficulty-selector {
-            margin-bottom: 20px;
-        }
-        #loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-        }
-        .tense-buttons {
+        .mode-cards {
             display: flex;
             flex-wrap: wrap;
+            gap: 20px;
             justify-content: center;
+            margin-bottom: 30px;
         }
-        .tense-buttons .btn {
-            margin: 3px;
+        .mode-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
         }
-        .progress-container {
-            margin-top: 20px;
+        .mode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+        }
+        .identifier-header {
+            background-color: #007bff;
+        }
+        .choisir-header {
+            background-color: #28a745;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-description {
+            color: #495057;
+            margin-bottom: 20px;
+            min-height: 120px;
+        }
+        .card-action {
+            text-align: center;
+        }
+        .btn-play {
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-    <div class="game-container">
+    <div class="home-container">
         <div class="flag-colors"></div>
-        <div class="game-header">
-            <h1 class="game-title">Conjugaison Française</h1>
+        <div class="header">
+            <h1 class="title">Jeu de Conjugaison Française</h1>
+            <p class="subtitle">Améliorez votre maîtrise des conjugaisons françaises en jouant</p>
         </div>
 
-        <div class="row mb-4">
-            <div class="col">
-                <div class="score-display">
-                    Score: <span id="score">0</span> / <span id="total">0</span>
+        <div class="mode-cards">
+            <!-- Mode 1: Identifier la forme -->
+            <div class="mode-card card">
+                <div class="card-header identifier-header">
+                    Mode: Identifier la Forme
                 </div>
-            </div>
-            <div class="col text-end">
-                <div class="streak-display">
-                    Série: <span id="streak">0</span> 🔥
-                </div>
-            </div>
-        </div>
-
-        <div class="difficulty-selector text-center mb-4">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="facile">Facile</button>
-                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="moyen">Moyen</button>
-                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="difficile">Difficile</button>
-            </div>
-        </div>
-
-                    <div id="verb-info" class="text-center mb-3">
-            <span class="badge bg-info" id="infinitive-badge">Infinitif: <span id="infinitive-verb">chargement...</span></span>
-        </div>
-
-        <div id="loading" class="text-center">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Chargement...</span>
-            </div>
-            <p>Chargement des données du verbe...</p>
-        </div>
-
-        <div class="verb-display" id="verb-display">
-            Chargement...
-        </div>
-
-        <div class="verb-form-info">
-            <h5>Identifiez la forme verbale:</h5>
-            
-            <div class="verb-choices">
-                <h6>Personne:</h6>
-                <div class="btn-group-sm d-flex flex-wrap" role="group" id="person-group">
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="0">1ère sing.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="1">2ème sing.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="2">3ème sing.</button>
-                </div>
-                <div class="btn-group-sm d-flex flex-wrap" role="group" id="person-group">
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="3">1ère plur.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="4">2ème plur.</button>
-                    <button type="button" class="btn btn-outline-success choice-btn" data-value="5">3ème plur.</button>
+                <div class="card-body">
+                    <div class="card-description">
+                        <p>Une forme verbale vous est présentée, et vous devez identifier :</p>
+                        <ul>
+                            <li>La personne (je, tu, il/elle...)</li>
+                            <li>Le mode (indicatif, subjonctif...)</li>
+                            <li>Le temps (présent, imparfait...)</li>
+                        </ul>
+                    </div>
+                    <div class="card-action">
+                        <a href="identifier.html" class="btn btn-primary btn-play">Jouer</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="verb-choices">
-                <h6>Mode:</h6>
-                <div class="btn-group-sm d-flex flex-wrap" role="group" id="mood-group">
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="indicatif">Indicatif</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="subjonctif">Subjonctif</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="conditionnel">Conditionnel</button>
-                    <button type="button" class="btn btn-outline-primary choice-btn" data-value="imperatif">Impératif</button>
+            <!-- Mode 2: Choisir la conjugaison -->
+            <div class="mode-card card">
+                <div class="card-header choisir-header">
+                    Mode: Choisir la Conjugaison
+                </div>
+                <div class="card-body">
+                    <div class="card-description">
+                        <p>Le verbe à l'infinitif et la forme demandée sont affichés, et vous devez choisir la conjugaison correcte parmi plusieurs propositions.</p>
+                        <p>Testez votre capacité à reconnaître la bonne forme verbale.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="choisir.html" class="btn btn-success btn-play">Jouer</a>
+                    </div>
                 </div>
             </div>
-
-            <div class="verb-choices">
-                <h6>Temps:</h6>
-                <div id="tense-container" class="tense-buttons">
-                    <!-- Les boutons de temps seront ajoutés dynamiquement en fonction du mode sélectionné -->
-                </div>
-            </div>
-
-            <button class="btn btn-success w-100 mt-4" id="check-answer">Vérifier la réponse</button>
         </div>
 
-        <div class="answer-feedback mt-4" id="feedback">
-            
-        </div>
-
-        <button class="btn btn-primary w-100 next-btn" id="next-question">Question suivante</button>
-
-        <div class="progress-container">
-            <h6>Progrès:</h6>
-            <div class="progress" role="progressbar">
-                <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
-            </div>
+        <div class="footer">
+            <p>Jeu développé pour apprendre la conjugaison française de manière interactive et ludique.</p>
+            <p>Utilisez les trois niveaux de difficulté pour progresser à votre rythme.</p>
         </div>
     </div>
-
-    <!-- Script pour le jeu -->
-    <script>
-        // Verbes français par niveau de difficulté
-        const verbesFaciles = [
-            "être", "avoir", "faire", "dire", "aller", "voir", "parler", "aimer", "manger", "finir", "jouer", "venir", "prendre",
-            "donner", "appeler", "attendre", "comprendre", "connaître", "croire", "demander", "entendre", "écrire", "étudier",
-            "habiter", "lire", "mettre", "montrer", "ouvrir", "penser", "perdre", "porter", "pouvoir", "regarder", "rendre",
-            "répondre", "savoir", "sentir", "sortir", "suivre", "travailler", "trouver", "vendre", "vivre", "vouloir",
-            "acheter", "arriver", "chanter", "choisir", "commencer", "compter", "courir", "découvrir", "descendre", "dessiner",
-            "dormir", "écouter", "envoyer", "espérer", "fermer", "imaginer", "inviter", "laisser", "marcher", "monter",
-            "offrir", "oublier", "partir", "passer", "préférer", "préparer", "rentrer", "rester", "revenir", "sembler"
-        ];
-
-        const verbesMoyens = [
-            "pouvoir", "vouloir", "savoir", "devoir", "croire", "mettre", "lire", "écrire", "comprendre", "attendre",
-            "entendre", "partir", "sortir", "sentir", "suivre", "vivre", "boire", "envoyer", "recevoir", "appeler",
-            "apercevoir", "apparaître", "apprendre", "atteindre", "combattre", "conduire", "construire", "contenir", "contribuer", "convenir",
-            "correspondre", "couvrir", "craindre", "décevoir", "défendre", "définir", "détruire", "disparaître", "distraire", "entretenir",
-            "entreprendre", "équivaloir", "établir", "éteindre", "étendre", "fournir", "fuir", "inclure", "inscrire", "interrompre",
-            "intervenir", "introduire", "maintenir", "mentir", "obtenir", "offrir", "ouvrir", "paraître", "parcourir", "parvenir",
-            "percevoir", "peindre", "permettre", "plaindre", "plaire", "poursuivre", "prévoir", "produire", "promettre", "reconnaître",
-            "recourir", "réduire", "rejoindre", "remettre", "remplir", "répandre", "répondre", "résoudre", "retenir", "réunir",
-            "revenir", "rompre", "servir", "souffrir", "sourire", "soutenir", "suffire", "surprendre", "survivre", "taire",
-            "tendre", "traduire", "transmettre", "valoir", "vendre", "vêtir"
-        ];
-
-        const verbesDifficiles = [
-            "courir", "mourir", "tenir", "venir", "acquérir", "asseoir", "battre", "connaître", "craindre", "croître",
-            "cueillir", "falloir", "joindre", "naître", "plaire", "pleuvoir", "résoudre", "rire", "suffire", "vaincre",
-            "abstraire", "accroître", "adjoindre", "advenir", "assaillir", "astreindre", "circonvenir", "clore", "comparaître", "complaire",
-            "compromettre", "concevoir", "conclure", "concourir", "conquérir", "convaincre", "découdre", "décrire", "déduire", "défaire",
-            "déplaire", "déteindre", "devenir", "disconvenir", "disjoindre", "dissoudre", "distraire", "ébattre", "échoir", "élire",
-            "émettre", "émoudre", "enceindre", "enclore", "encourir", "endormir", "enfuir", "enjoindre", "entendre", "entremettre",
-            "entrevoir", "entrouvrir", "envahir", "équivaloir", "exclure", "extraire", "faillir", "feindre", "forfaire", "gésir",
-            "haïr", "inscrire", "instruire", "interdire", "interjeter", "luire", "malfaire", "médire", "méfaire", "méprendre",
-            "mouvoir", "nuire", "occlure", "occire", "omettre", "paître", "paraître", "parfaire", "parvenir", "percevoir",
-            "poindre", "pourfendre", "pourvoir", "préconcevoir", "prédire", "prescrire", "prévaloir", "prévoir", "promouvoir", "proscrire",
-            "provenir", "rabattre", "rasseoir", "rassortir", "recevoir", "reconquérir", "recoudre", "recourir", "recueillir", "redevenir",
-            "redire", "réélire", "rejoindre", "relire", "reluire", "remettre", "remoudre", "renaître", "renvoyer", "repaître",
-            "requérir", "resservir", "ressortir", "restreindre", "retenir", "revaloir", "revêtir", "revivre", "saillir", "satisfaire",
-            "secourir", "seoir", "soumettre", "sourdre", "soustraire", "subvenir", "surproduire", "surseoir", "survenir", "taire",
-            "teindre", "tressaillir", "valoir", "vouloir"
-        ];
-
-        // Définir les temps disponibles par mode et niveau de difficulté
-        const modesTempsFaciles = {
-            "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait"]
-        };
-
-        const modesTempsIntermediaires = {
-            "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait", "plus-que-parfait", "passé-simple"],
-            "subjonctif": ["présent"],
-            "conditionnel": ["présent"],
-            "imperatif": ["présent"]
-        };
-
-        const modesTempsAvances = {
-            "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait", "plus-que-parfait", "passé-simple", "futur-antérieur", "passé-antérieur"],
-            "subjonctif": ["présent", "passé", "imparfait", "plus-que-parfait"],
-            "conditionnel": ["présent", "passé"],
-            "imperatif": ["imperatif-présent", "imperatif-passé"]
-        };
-
-        // Noms français des temps pour l'affichage
-        const nomsFrancaisTemps = {
-            "présent": "Présent",
-            "futur-simple": "Futur simple",
-            "passé-composé": "Passé composé",
-            "imparfait": "Imparfait",
-            "plus-que-parfait": "Plus-que-parfait",
-            "passé-simple": "Passé simple",
-            "futur-antérieur": "Futur antérieur",
-            "passé-antérieur": "Passé antérieur",
-            "passé": "Passé",
-            "imperatif-présent": "Présent",
-            "imperatif-passé": "Passé"
-        };
-
-        // Noms des personnes pour l'affichage des résultats
-        const personnesNoms = [
-            "Je (1ère personne singulier)",
-            "Tu (2ème personne singulier)",
-            "Il/Elle (3ème personne singulier)",
-            "Nous (1ère personne pluriel)",
-            "Vous (2ème personne pluriel)",
-            "Ils/Elles (3ème personne pluriel)"
-        ];
-
-        // État du jeu
-        let score = 0;
-        let totalQuestions = 0;
-        let streak = 0;
-        let verbeActuel = "";
-        let conjugaisonActuelle = "";
-        let donneesDuVerbe = null;
-        let reponseActuelle = {
-            personne: null,
-            mode: "",
-            temps: ""
-        };
-        let niveauDifficulte = "facile";
-        let objectifScore = 10; // Nombre de questions à répondre correctement pour "gagner"
-
-        // Configuration du proxy CORS et de l'API
-        const PROXY_URL = "https://api.allorigins.win/raw?url=";
-        const API_BASE_URL = "http://verbe.cc/verbecc/conjugate/fr/";
-
-        // Fonction pour appeler l'API Verbecc en utilisant le proxy CORS
-        async function appelerAPI(verbe) {
-            $('#loading').show();
-            $('#verb-display').hide();
-
-            try {
-                // Utiliser le proxy CORS pour accéder à l'API HTTP
-                const apiUrl = `${PROXY_URL}${encodeURIComponent(API_BASE_URL + encodeURIComponent(verbe))}`;
-                
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) {
-                    throw new Error(`Erreur HTTP: ${response.status}`);
-                }
-                
-                const data = await response.json();
-
-                $('#loading').hide();
-                $('#verb-display').show();
-
-                if (!data || !data.value) {
-                    throw new Error("Format de données inattendu");
-                }
-
-                return data.value;
-            } catch (error) {
-                console.error('Erreur:', error);
-                $('#loading').hide();
-                $('#verb-display').show();
-                $('#verb-display').html(`
-                    <div class="alert alert-danger">
-                        <h5>Erreur lors de la récupération des données</h5>
-                        <p>${error.message}</p>
-                    </div>
-                `);
-                return null;
-            }
-        }
-
-        // Fonction pour mettre à jour les boutons de temps en fonction du mode sélectionné
-        function mettreAJourBoutonsTemps(mode) {
-            const container = $('#tense-container');
-            container.empty();
-
-            if (!mode) return;
-
-            let tempsDisponibles;
-            switch (niveauDifficulte) {
-                case "facile":
-                    tempsDisponibles = modesTempsFaciles[mode] || [];
-                    break;
-                case "moyen":
-                    tempsDisponibles = modesTempsIntermediaires[mode] || [];
-                    break;
-                case "difficile":
-                    tempsDisponibles = modesTempsAvances[mode] || [];
-                    break;
-                default:
-                    tempsDisponibles = modesTempsFaciles[mode] || [];
-            }
-
-            tempsDisponibles.forEach(temps => {
-                const nomFrancais = nomsFrancaisTemps[temps] || temps;
-                container.append(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">${nomFrancais}</button>`);
-            });
-
-            // Ajouter les écouteurs d'événements pour les nouveaux boutons
-            $('#tense-container .choice-btn').click(function() {
-                $(this).siblings().removeClass('active');
-                $(this).addClass('active');
-            });
-        }
-
-        // Initialiser le jeu
-        $(document).ready(function() {
-            // Configuration des gestionnaires d'événements
-            $('.choice-btn').click(function() {
-                $(this).siblings().removeClass('active');
-                $(this).addClass('active');
-            });
-            
-            $('.difficulty-btn').click(function() {
-                $('.difficulty-btn').removeClass('active');
-                $(this).addClass('active');
-                niveauDifficulte = $(this).data('level');
-                
-                // Mettre à jour l'affichage de l'infinitif en fonction du niveau
-                if (niveauDifficulte === "facile") {
-                    $('#infinitive-badge').show();
-                } else {
-                    $('#infinitive-badge').hide();
-                }
-                
-                // Générer une nouvelle question pour le niveau sélectionné
-                questionSuivante();
-            });
-
-            $('#mood-group .choice-btn').click(function() {
-                const mode = $(this).data('value');
-                mettreAJourBoutonsTemps(mode);
-            });
-
-            $('#check-answer').click(verifierReponse);
-            $('#next-question').click(questionSuivante);
-
-            // Commencer le jeu
-            questionSuivante();
-        });
-
-        function obtenirListeVerbes() {
-            switch(niveauDifficulte) {
-                case "facile":
-                    return verbesFaciles;
-                case "moyen":
-                    return [...verbesFaciles, ...verbesMoyens];
-                case "difficile":
-                    return [...verbesFaciles, ...verbesMoyens, ...verbesDifficiles];
-                default:
-                    return verbesFaciles;
-            }
-        }
-
-        async function questionSuivante() {
-            // Cacher le feedback
-            $('#feedback').hide();
-            
-            // Réinitialiser l'état des boutons
-            $('.choice-btn').removeClass('active');
-            
-            // Choisir un verbe aléatoire selon le niveau de difficulté
-            const verbesDisponibles = obtenirListeVerbes();
-            verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
-            
-            // Récupérer les données du verbe via l'API
-            donneesDuVerbe = await appelerAPI(verbeActuel);
-            
-            if (!donneesDuVerbe) {
-                // En cas d'erreur avec l'API
-                return;
-            }
-            
-            // Gérer l'affichage de l'infinitif en fonction du niveau
-            $('#infinitive-verb').text(donneesDuVerbe.verb.infinitive);
-            if (niveauDifficulte === "facile") {
-                $('#infinitive-badge').show();
-            } else {
-                $('#infinitive-badge').hide();
-            }
-            
-            // Obtenir les modes disponibles pour le niveau actuel
-            let formesDisponibles;
-            switch (niveauDifficulte) {
-                case "facile":
-                    formesDisponibles = modesTempsFaciles;
-                    break;
-                case "moyen":
-                    formesDisponibles = modesTempsIntermediaires;
-                    break;
-                case "difficile":
-                    formesDisponibles = modesTempsAvances;
-                    break;
-                default:
-                    formesDisponibles = modesTempsFaciles;
-            }
-            
-            // Afficher uniquement les boutons des modes disponibles
-            $('#mood-group button').hide(); // Cacher tous les boutons de mode
-            Object.keys(formesDisponibles).forEach(mode => {
-                $(`#mood-group button[data-value="${mode}"]`).show();
-            });
-            
-            // Choisir un mode aléatoire parmi ceux disponibles pour ce niveau
-            const modes = Object.keys(formesDisponibles).filter(m => Object.keys(donneesDuVerbe.moods).includes(m));
-            if (modes.length === 0) {
-                console.warn(`Aucun mode disponible pour ce verbe et ce niveau de difficulté`);
-                questionSuivante(); // Essayer un autre verbe
-                return;
-            }
-            const mode = modes[Math.floor(Math.random() * modes.length)];
-            
-            // Choisir un temps aléatoire pour ce mode
-            const tempsDisponibles = formesDisponibles[mode].filter(t => Object.keys(donneesDuVerbe.moods[mode]).includes(t));
-            if (tempsDisponibles.length === 0) {
-                console.warn(`Aucun temps disponible pour le verbe ${verbeActuel} au mode ${mode}`);
-                questionSuivante(); // Essayer un autre verbe/mode
-                return;
-            }
-            const temps = tempsDisponibles[Math.floor(Math.random() * tempsDisponibles.length)];
-            
-            // Vérifier si le temps existe pour ce verbe
-            if (!donneesDuVerbe.moods[mode][temps] || donneesDuVerbe.moods[mode][temps].length === 0) {
-                console.warn(`Le temps ${temps} n'existe pas pour le verbe ${verbeActuel} au mode ${mode}`);
-                questionSuivante(); // Essayer un autre verbe/mode/temps
-                return;
-            }
-            
-            // Choisir une personne aléatoire (tenant compte du fait que l'impératif n'a que 3 personnes)
-            let maxPersonne = donneesDuVerbe.moods[mode][temps].length - 1;
-            const indicePersonne = Math.floor(Math.random() * (maxPersonne + 1));
-            
-            // Stocker la réponse correcte
-            reponseActuelle = {
-                personne: indicePersonne,
-                mode: mode,
-                temps: temps
-            };
-            
-            // Récupérer la conjugaison correcte
-            conjugaisonActuelle = donneesDuVerbe.moods[mode][temps][indicePersonne];
-            
-            // Afficher la conjugaison
-            $('#verb-display').html(`<span class="highlight">${conjugaisonActuelle}</span>`);
-        }
-
-        function verifierReponse() {
-            if (!donneesDuVerbe) {
-                alert("Veuillez d'abord charger un verbe");
-                return;
-            }
-
-            totalQuestions++;
-            $('#total').text(totalQuestions);
-            
-            let personneSelectionnee = $('#person-group .active').data('value');
-            let modeSelectionne = $('#mood-group .active').data('value');
-            let tempsSelectionne = $('#tense-container .active').data('value');
-            
-            // Vérifier que tous les choix ont été faits
-            if (personneSelectionnee === undefined || !modeSelectionne || !tempsSelectionne) {
-                alert("Veuillez sélectionner une personne, un mode et un temps");
-                totalQuestions--; // Annuler l'incrémentation
-                $('#total').text(totalQuestions);
-                return;
-            }
-            
-            // Convertir la personne en nombre pour la comparaison
-            personneSelectionnee = parseInt(personneSelectionnee);
-            
-            let estCorrect = 
-                personneSelectionnee === reponseActuelle.personne && 
-                modeSelectionne === reponseActuelle.mode && 
-                tempsSelectionne === reponseActuelle.temps;
-            
-            if (estCorrect) {
-                score++;
-                streak++;
-                $('#score').text(score);
-                $('#streak').text(streak);
-                
-                // Formater le nom de la personne pour l'affichage
-                let personneNom = "?";
-                if (reponseActuelle.mode !== "imperatif") {
-                    personneNom = personnesNoms[reponseActuelle.personne];
-                } else {
-                    // Pour l'impératif, l'affichage est différent
-                    const personnesImperatif = ["Tu", "Nous", "Vous"];
-                    personneNom = `${personnesImperatif[reponseActuelle.personne]} (impératif)`;
-                }
-                
-                $('#feedback').removeClass('incorrect').addClass('correct')
-                    .html(`<strong>Correct !</strong> "${conjugaisonActuelle}" est bien le ${nomsFrancaisTemps[reponseActuelle.temps] || reponseActuelle.temps} de "${verbeActuel}" au mode ${reponseActuelle.mode}, forme ${personneNom}.`)
-                    .show();
-            } else {
-                streak = 0;
-                $('#streak').text(streak);
-                
-                // Formater le nom de la personne pour l'affichage
-                let personneNom = "?";
-                if (reponseActuelle.mode !== "imperatif") {
-                    personneNom = personnesNoms[reponseActuelle.personne];
-                } else {
-                    // Pour l'impératif, l'affichage est différent
-                    const personnesImperatif = ["Tu", "Nous", "Vous"];
-                    personneNom = `${personnesImperatif[reponseActuelle.personne]} (impératif)`;
-                }
-                
-                $('#feedback').removeClass('correct').addClass('incorrect')
-                    .html(`<strong>Incorrect.</strong> "${conjugaisonActuelle}" est le ${nomsFrancaisTemps[reponseActuelle.temps] || reponseActuelle.temps} de "${verbeActuel}" au mode ${reponseActuelle.mode}, forme ${personneNom}.`)
-                    .show();
-            }
-            
-            // Mettre à jour la barre de progression
-            const pourcentage = Math.min(100, (score / objectifScore) * 100);
-            $('#progress-bar').css('width', `${pourcentage}%`);
-            
-            // Vérifier si l'objectif est atteint
-            if (score >= objectifScore) {
-                // Féliciter l'utilisateur
-                const message = `<div class="alert alert-success mt-3">
-                    <h4>Félicitations !</h4>
-                    <p>Vous avez atteint votre objectif de ${objectifScore} bonnes réponses !</p>
-                    <p>Score final : ${score}/${totalQuestions}</p>
-                    <button class="btn btn-success mt-2" onclick="location.reload()">Recommencer</button>
-                </div>`;
-                
-                $('.game-container').append(message);
-                $('#next-question').prop('disabled', true);
-                $('#check-answer').prop('disabled', true);
-            }
-        }
-    </script>
 </body>
 </html>
