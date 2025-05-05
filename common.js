@@ -156,3 +156,14 @@ function obtenirFormesDisponibles(niveauDifficulte) {
             return modesTempsFaciles;
     }
 }
+
+// Function to toggle between verify and next question buttons
+function toggleActionButtons(showVerify = true) {
+    if (showVerify) {
+        $('#check-answer').show();
+        $('#next-question').hide();
+    } else {
+        $('#check-answer').hide();
+        $('#next-question').show();
+    }
+}

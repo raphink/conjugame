@@ -166,6 +166,12 @@ async function questionSuivante() {
     // Reset selected options
     $('.verb-option').removeClass('selected');
     
+    // Show verify button and hide next question button
+    toggleActionButtons(true);
+    
+    // Re-enable all verb options
+    $('.verb-option').prop('disabled', false);
+    
     // Choose a random verb based on difficulty level
     const verbesDisponibles = obtenirListeVerbes(niveauDifficulte);
     verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
@@ -293,6 +299,13 @@ function verifierReponse() {
             .show();
     }
     
+    // Disable verb options to prevent changes after submitting
+    $('.verb-option').prop('disabled', true);
+    $('.verb-option').css('pointer-events', 'none');
+    
+    // Toggle buttons: hide verify, show next
+    toggleActionButtons(false);
+    
     // Update progress bar
     const pourcentage = Math.min(100, (score / objectifScore) * 100);
     $('#progress-bar').css('width', `${pourcentage}%`);
@@ -301,7 +314,7 @@ function verifierReponse() {
     if (score >= objectifScore) {
         // Congratulate the user
         const message = `<div class="alert alert-success mt-3">
-            <h4>Félicitations !</h4>
+            <h4>🎉 Félicitations !</h4>
             <p>Vous avez atteint votre objectif de ${objectifScore} bonnes réponses !</p>
             <p>Score final : ${score}/${totalQuestions}</p>
             <button class="btn btn-success mt-2" onclick="location.reload()">Recommencer</button>
@@ -315,6 +328,9 @@ function verifierReponse() {
 
 // Initialize the game
 $(document).ready(function() {
+    // Initially hide the next question button
+    toggleActionButtons(true);
+    
     // Difficulty level management
     $('.difficulty-btn').click(function() {
         $('.difficulty-btn').removeClass('active');

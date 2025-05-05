@@ -114,12 +114,19 @@ function handleImperativeMode(isImperative) {
     }
 }
 
+
 async function questionSuivante() {
     // Hide feedback
     $('#feedback').hide();
     
     // Reset button state
     $('.choice-btn').removeClass('active');
+    
+    // Show verify button and hide next question button
+    toggleActionButtons(true);
+    
+    // Re-enable all form elements
+    $('.choice-btn').prop('disabled', false);
     
     // Choose a random verb based on difficulty level
     const verbesDisponibles = obtenirListeVerbes(niveauDifficulte);
@@ -318,6 +325,12 @@ function verifierReponse() {
             .show();
     }
     
+    // Disable all form elements to prevent changes after submitting
+    $('.choice-btn').prop('disabled', true);
+    
+    // Toggle buttons: hide verify, show next
+    toggleActionButtons(false);
+    
     // Update progress bar
     const pourcentage = Math.min(100, (score / objectifScore) * 100);
     $('#progress-bar').css('width', `${pourcentage}%`);
@@ -340,6 +353,9 @@ function verifierReponse() {
 
 // Initialize the game
 $(document).ready(function() {
+    // Initially hide the next question button
+    toggleActionButtons(true);
+    
     // Configuration of event handlers
     $('.choice-btn').click(function() {
         $(this).siblings().removeClass('active');
