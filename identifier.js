@@ -314,8 +314,8 @@ async function questionSuivante() {
     $('.number-btn').removeClass('active');
     
     // Set the correct selections
-    $(`button[data-person="${components.person}"]`).addClass('active');
-    $(`button[data-number="${components.number}"]`).addClass('active');
+    //$(`button[data-person="${components.person}"]`).addClass('active');
+    //$(`button[data-number="${components.number}"]`).addClass('active');
     
     // Update enabled/disabled state based on mode
     handlePersonSelection(mode);
@@ -486,8 +486,8 @@ $(document).ready(function() {
     $('#next-question').click(questionSuivante);
 
     // Select some default values to avoid empty selections
-    $('button[data-person="0"]').addClass('active'); // 1st person
-    $('button[data-number="0"]').addClass('active'); // singular
+    //$('button[data-person="0"]').addClass('active'); // 1st person
+    //$('button[data-number="0"]').addClass('active'); // singular
 
     // Start the game
     questionSuivante();
