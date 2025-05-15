@@ -99,33 +99,49 @@ const API_BASE_URL = "http://verbe.cc/verbecc/conjugate/fr/";
 async function appelerAPI(verbe) {
     $('#loading').show();
     $('#verb-display').hide();
-
-    try {
-        // Use CORS proxy to access the HTTP API
-        const apiUrl = `${PROXY_URL}${encodeURIComponent(API_BASE_URL + encodeURIComponent(verbe))}`;
-        
-        const response = await fetch(apiUrl);
-        
-        if (!response.ok) {
-            throw new Error(`Erreur HTTP: ${response.status}`);
+    
+    const maxAttempts = 3;
+    let attempts = 0;
+    const baseRetryInterval = 2000; // 2 seconds initial retry interval
+    
+    while (attempts < maxAttempts) {
+        try {
+            // Use CORS proxy to access the HTTP API
+            const apiUrl = `${PROXY_URL}${encodeURIComponent(API_BASE_URL + encodeURIComponent(verbe))}`;
+            
+            const response = await fetch(apiUrl);
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!data || !data.value) {
+                throw new Error("Format de données inattendu");
+            }
+            
+            $('#loading').hide();
+            $('#verb-display').show();
+            return data.value;
+            
+        } catch (error) {
+            attempts++;
+            console.error(`Erreur (tentative ${attempts}/${maxAttempts}):`, error);
+            
+            if (attempts >= maxAttempts) {
+                // All retry attempts failed
+                $('#loading').hide();
+                $('#verb-display').show();
+                alert("Échec de la récupération des données après plusieurs tentatives.");
+                return null;
+            }
+            
+            // Calculate backoff time and wait before next attempt
+            const retryDelay = baseRetryInterval * Math.pow(2, attempts - 1);
+            console.log(`Nouvelle tentative dans ${retryDelay/1000} secondes...`);
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
         }
-        
-        const data = await response.json();
-
-        $('#loading').hide();
-        $('#verb-display').show();
-
-        if (!data || !data.value) {
-            throw new Error("Format de données inattendu");
-        }
-
-        return data.value;
-    } catch (error) {
-        console.error('Erreur:', error);
-        $('#loading').hide();
-        $('#verb-display').show();
-        alert(`Erreur lors de la récupération des données: ${error.message}`);
-        return null;
     }
 }
 
