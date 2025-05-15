@@ -1,36 +1,3 @@
-// Define available tenses by mode and difficulty level
-const modesTempsFaciles = {
-    "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait"]
-};
-
-const modesTempsIntermediaires = {
-    "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait", "plus-que-parfait", "passé-simple"],
-    "subjonctif": ["présent"],
-    "conditionnel": ["présent"],
-    "imperatif": ["imperatif-présent"]
-};
-
-const modesTempsAvances = {
-    "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait", "plus-que-parfait", "passé-simple", "futur-antérieur", "passé-antérieur"],
-    "subjonctif": ["présent", "passé", "imparfait", "plus-que-parfait"],
-    "conditionnel": ["présent", "passé"],
-    "imperatif": ["imperatif-présent", "imperatif-passé"]
-};
-
-// French names of tenses for display
-const nomsFrancaisTemps = {
-    "présent": "Présent",
-    "futur-simple": "Futur simple",
-    "passé-composé": "Passé composé",
-    "imparfait": "Imparfait",
-    "plus-que-parfait": "Plus-que-parfait",
-    "passé-simple": "Passé simple",
-    "futur-antérieur": "Futur antérieur",
-    "passé-antérieur": "Passé antérieur",
-    "passé": "Passé",
-    "imperatif-présent": "Présent",
-    "imperatif-passé": "Passé"
-};
 
 // Names of persons for display
 const personnesAbrégées = [

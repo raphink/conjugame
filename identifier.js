@@ -77,43 +77,55 @@ function convertPersonneIndexToComponents(personneIndex) {
 }
 
 // Function to update tense buttons based on selected mode
-function updateTimeButtons(mode) {
+async function updateTimeButtons(mode) {
     const container = $('#tense-container');
     container.empty();
 
     if (!mode) return;
 
+    console.log("Updating tense buttons for mode:", mode);
+    let langData = await getLangData();
+
+    console.log("Language data:", langData);
     let availableTenses;
     switch (niveauDifficulte) {
         case "facile":
-            availableTenses = modesTempsFaciles[mode] || [];
+            availableTenses = langData.verbData.moodsTenses.easy[mode];
             break;
         case "moyen":
-            availableTenses = modesTempsIntermediaires[mode] || [];
+            availableTenses = langData.verbData.moodsTenses.medium[mode];
             break;
         case "difficile":
-            availableTenses = modesTempsAvances[mode] || [];
+            availableTenses = langData.verbData.moodsTenses.advanced[mode];
             break;
         default:
-            availableTenses = modesTempsFaciles[mode] || [];
+            availableTenses = langData.verbData.moodsTenses.easy[mode];
     }
 
+    let localMode = langData.verbData.moodsNames[mode].toLowerCase();
+
+    console.log("Local mode:", localMode);
+    console.log("Available tenses:", availableTenses);
+
     // Filter tenses that exist for this verb
-    if (verbData && verbData.moods[mode]) {
+    if (verbData && verbData.moods[localMode]) {
         availableTenses = availableTenses.filter(t => 
-            Object.keys(verbData.moods[mode]).includes(t)
+            Object.keys(verbData.moods[localMode]).includes(t)
         );
     }
 
     // If only one tense is available, select it automatically
     if (availableTenses.length === 1) {
         const temps = availableTenses[0];
-        const nomFrancais = nomsFrancaisTemps[temps] || temps;
+
+        console.log("Only one tense available:", temps);
+        const nomFrancais = langData.verbData.tensesNames[temps].toLowerCase() || temps;
         container.append(`<button type="button" class="btn btn-outline-secondary choice-btn active" data-value="${temps}">${nomFrancais}</button>`);
     } else {
+        console.log("Multiple tenses available:", availableTenses);
         // Otherwise add all available tenses as buttons
         availableTenses.forEach(temps => {
-            const nomFrancais = nomsFrancaisTemps[temps] || temps;
+            const nomFrancais = langData.verbData.tensesNames[temps].toLowerCase() || temps;
             container.append(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">${nomFrancais}</button>`);
         });
 
@@ -326,7 +338,7 @@ async function nextQuestion() {
     $('.number-btn').removeClass('active');
 }
 
-function verifyAnswer() {
+async function verifyAnswer() {
     if (!verbData) {
         alert("Veuillez d'abord charger un verbe");
         return;
@@ -365,8 +377,11 @@ function verifyAnswer() {
         selectedPerson === currentAnswer.personne && 
         selectedMood === currentAnswer.mode && 
         selectedTense === currentAnswer.temps;
+
+        let langData = await getLangData();
     
-    if (isCorrect) {
+let localTenseName = langData.verbData.tensesNames[currentAnswer.temps].toLowerCase() || currentAnswer.temps;
+if (isCorrect) {
         score++;
         streak++;
         $('#score').text(score);
@@ -391,7 +406,7 @@ function verifyAnswer() {
         }
         
         $('#feedback').removeClass('incorrect').addClass('correct')
-            .html(`<strong>Correct !</strong> "${currentConjugation}" est bien le ${nomsFrancaisTemps[currentAnswer.temps] || currentAnswer.temps} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
+            .html(`<strong>Correct !</strong> "${currentConjugation}" est bien le ${localTenseName} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
             .show();
     } else {
         streak = 0;
@@ -416,7 +431,7 @@ function verifyAnswer() {
         }
         
         $('#feedback').removeClass('correct').addClass('incorrect')
-            .html(`<strong>Incorrect.</strong> "${currentConjugation}" est le ${nomsFrancaisTemps[currentAnswer.temps] || currentAnswer.temps} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
+            .html(`<strong>Incorrect.</strong> "${currentConjugation}" est le ${localTenseName} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
             .show();
     }
     

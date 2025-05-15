@@ -244,9 +244,9 @@ async function nextQuestion() {
     };
     
     // Display information about the requested form
-    $('#verb-mode').text(mode);
-    $('#verb-temps').text(nomsFrancaisTemps[temps] || temps);
-    
+    $('#verb-mode').text(localMode);
+    $('#verb-temps').text(temps);
+
     if (mode !== "imperatif") {
         $('#verb-personne').text(personnesAbrégées[indicePersonne]);
     } else {

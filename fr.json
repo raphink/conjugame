@@ -49,7 +49,7 @@
       "conditional": "Conditionnel",
       "imperative": "Impératif"
     },
-    "tenseNames": {
+    "tensesNames": {
       "présent": "Présent",
       "futur-simple": "Futur simple",
       "passé-composé": "Passé composé",
