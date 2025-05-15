@@ -88,8 +88,8 @@
       "futuro-compuesto": "Futuro compuesto",
       "pretérito-anterior": "Pretérito anterior",
       "pretérito-perfecto": "Pretérito perfecto",
-      "imperativo-presente": "Presente",
-      "imperativo-perfecto": "Perfecto"
+      "afirmativo": "Afirmativo",
+      "negativo": "Negativo"
     },
     "verbs": {
       "easy": [
@@ -139,13 +139,13 @@
         "indicative": ["presente", "futuro-simple", "pretérito-perfecto-compuesto", "pretérito-imperfecto", "pretérito-pluscuamperfecto", "pretérito-perfecto-simple"],
         "subjunctive": ["presente"],
         "conditional": ["presente"],
-        "imperative": ["imperativo-presente"]
+        "imperative": ["afirmativo"]
       },
       "hard": {
         "indicative": ["presente", "futuro-simple", "pretérito-perfecto-compuesto", "pretérito-imperfecto", "pretérito-pluscuamperfecto", "pretérito-perfecto-simple", "futuro-compuesto", "pretérito-anterior"],
         "subjunctive": ["presente", "pretérito-perfecto", "pretérito-imperfecto", "pretérito-pluscuamperfecto"],
         "conditional": ["presente", "perfecto"],
-        "imperative": ["imperativo-presente", "imperativo-perfecto"]
+        "imperative": ["afirmativo", "negativo"]
       }
     },
     "personDisplay": {
