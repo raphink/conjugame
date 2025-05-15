@@ -390,7 +390,7 @@ if (isCorrect) {
         // Format person name for display
         let personName;
         if (currentAnswer.mode !== "imperatif") {
-            personName = personsNames[currentAnswer.personne];
+            personName = langData.verbData.personDisplay.fullNames[currentAnswer.personne].toLowerCase() || currentAnswer.personne;
         } else {
             // For imperative, use the custom display format based on the standard person index
             if (currentAnswer.personne === 1) {

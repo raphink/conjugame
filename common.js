@@ -6,16 +6,6 @@ const personnesAbrégées = [
 
 const personnesImperatif = ["2ème (tu)", "1ère (nous)", "2ème (vous)"];
 
-// Names of persons for result display
-const personsNames = [
-    "Je (1ère personne singulier)",
-    "Tu (2ème personne singulier)",
-    "Il/Elle (3ème personne singulier)",
-    "Nous (1ère personne pluriel)",
-    "Vous (2ème personne pluriel)",
-    "Ils/Elles (3ème personne pluriel)"
-];
-
 // API configuration
 const PROXY_URL = "https://api.allorigins.win/raw?url=";
 const API_BASE_URL = "http://verbe.cc/verbecc/conjugate/fr/";
