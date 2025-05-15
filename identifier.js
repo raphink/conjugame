@@ -241,7 +241,6 @@ async function questionSuivante() {
         const singleMode = availableModes[0];
         $(`#mood-group button[data-value="${singleMode}"]`).addClass('active');
         mettreAJourBoutonsTemps(singleMode);
-        handlePersonSelection(singleMode);
     }
     
     // Choose a random mode from those available for this level
@@ -312,13 +311,6 @@ async function questionSuivante() {
     // Reset current selections
     $('.person-btn').removeClass('active');
     $('.number-btn').removeClass('active');
-    
-    // Set the correct selections
-    //$(`button[data-person="${components.person}"]`).addClass('active');
-    //$(`button[data-number="${components.number}"]`).addClass('active');
-    
-    // Update enabled/disabled state based on mode
-    handlePersonSelection(mode);
 }
 
 function verifierReponse() {
