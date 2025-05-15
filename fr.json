@@ -27,6 +27,10 @@
       "identifyCorrectMessage": "<strong>Correct !</strong> \"{0}\" est bien le {1} de \"{2}\" au mode {3}, forme {4}.",
       "identifyIncorrectMessage": "<strong>Incorrect.</strong> \"{0}\" est le {1} de \"{2}\" au mode {3}, forme {4}.",
       "identifyCongratulationsMessage": "<h4>Félicitations !</h4><p>Vous avez atteint votre objectif de {0} bonnes réponses !</p><p>Score final: {1}/{2}.</p>",
+
+      "chooseCorrectMessage": "<strong>Correct !</strong> \"{0}\" est bien la forme correcte du verbe {1} au {2} du mode {3}, forme {4}.",
+      "chooseIncorrectMessage": "<strong>Incorrect.</strong> La forme correcte est \"{0}\".",
+      "chooseCongratulationsMessage": "<h4>Félicitations !</h4><p>Vous avez atteint votre objectif de {0} bonnes réponses !</p><p>Score final: {1}/{2}.</p>",
       
       "identifyForm": "Mode: Identifier la Forme",
       "chooseForm": "Mode: Choisir la Forme",

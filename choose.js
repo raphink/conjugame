@@ -277,7 +277,7 @@ async function nextQuestion() {
 }
 
 // Function to check the answer
-function verifyAnswer() {
+async function verifyAnswer() {
     if (!verbData) {
         alert("Veuillez d'abord charger un verbe");
         return;
@@ -304,16 +304,24 @@ function verifyAnswer() {
         $('#score').text(score);
         $('#streak').text(streak);
         
+        let mode =  await localize(currentAnswer.mode);
+        let temps = currentAnswer.temps;
+        const messageTmpl = await localize("chooseCorrectMessage");
+        const message = messageTmpl.replace("{0}", currentConjugation)
+            .replace("{1}", verbeActuel)
+            .replace("{2}", temps)
+            .replace("{3}", mode)
+            .replace("{4}", personnesAbrégées[currentAnswer.personne]);
         $('#feedback').removeClass('incorrect').addClass('correct')
-            .html(`<strong>Correct !</strong> "${currentConjugation}" est bien la forme correcte de "${verbeActuel}".`)
-            .show();
+            .html(message).show();
     } else {
         streak = 0;
         $('#streak').text(streak);
         
+        const messageTmpl = await localize("chooseIncorrectMessage");
+        const message = messageTmpl.replace("{0}", currentConjugation);
         $('#feedback').removeClass('correct').addClass('incorrect')
-            .html(`<strong>Incorrect.</strong> La forme correcte est "${currentConjugation}".`)
-            .show();
+            .html(message).show();
     }
     
     // Disable verb options to prevent changes after submitting
@@ -330,13 +338,11 @@ function verifyAnswer() {
     // Check if goal is reached
     if (score >= objectifScore) {
         // Congratulate the user
-        const message = `<div class="alert alert-success mt-3">
-            <h4>🎉 Félicitations !</h4>
-            <p>Vous avez atteint votre objectif de ${objectifScore} bonnes réponses !</p>
-            <p>Score final : ${score}/${totalQuestions}</p>
-            <button class="btn btn-success mt-2" onclick="location.reload()">Recommencer</button>
-        </div>`;
-        
+        const messageTmpl = await localize("chooseCongratulationsMessage");
+        const message = messageTmpl.replace("{0}", objectifScore).replace("{1}", score).replace("{2}", totalQuestions);
+        $('#feedback').removeClass('incorrect').addClass('correct')
+            .html(message)
+            .show();
         $('.game-container').append(message);
         $('#next-question').prop('disabled', true);
         $('#check-answer').prop('disabled', true);
