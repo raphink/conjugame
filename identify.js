@@ -10,7 +10,6 @@ let currentAnswer = {
     mode: "",
     temps: ""
 };
-let difficulty = "easy";
 let objectifScore = 10; // Number of correct answers needed to "win"
 let availableModes = []; // Array to store available modes for current verb
 
@@ -378,6 +377,9 @@ async function verifyAnswer() {
 
 // Initialize the game
 $(document).ready(async function() {
+    // Initialize settings from URL parameters
+    initializeSettings();
+
     // Initially hide the next question button
     toggleActionButtons(true);
 
@@ -387,6 +389,12 @@ $(document).ready(async function() {
     $('.choice-btn').click(function() {
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
+    });
+    
+    // Handle language change
+    $('#language-selector').change(function() {
+        const selectedLang = $(this).val();
+        changeLanguage(selectedLang);
     });
     
     $('.difficulty-btn').click(function() {
@@ -400,6 +408,9 @@ $(document).ready(async function() {
         } else {
             $('#infinitive-badge').hide();
         }
+        
+        // Update URL parameters with new difficulty
+        updateUrlParameters();
         
         // Generate a new question for the selected level
         nextQuestion();

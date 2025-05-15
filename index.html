@@ -17,27 +17,35 @@
     <div class="home-container">
         <div class="flag-colors"></div>
         <div class="header">
-            <h1 class="title">Jeu de Conjugaison Française</h1>
-            <p class="subtitle">Améliorez votre maîtrise des conjugaisons françaises en jouant</p>
+            <h1 class="title" data-translate="gameTitle">Jeu de Conjugaison Française</h1>
+            <p class="subtitle" data-translate="gameSubtitle">Améliorez votre maîtrise des conjugaisons françaises en jouant</p>
+        </div>
+        
+        <div class="language-selector-container text-end">
+            <label for="language-selector" data-translate="language">Langue</label>:
+            <select id="language-selector" class="form-select form-select-sm d-inline-block w-auto">
+                <option value="fr" data-translate="french">Français</option>
+                <option value="es" data-translate="spanish">Espagnol</option>
+            </select>
         </div>
 
         <div class="mode-cards">
             <!-- Mode 1: Identifier la forme -->
             <div class="mode-card card">
                 <div class="card-header identifier-header">
-                    Mode: Identifier la Forme
+                    <span data-translate="identifyForm">Mode: Identifier la Forme</span>
                 </div>
                 <div class="card-body">
                     <div class="card-description">
-                        <p>Une forme verbale vous est présentée, et vous devez identifier :</p>
+                        <p data-translate="identifyDescription">Une forme verbale vous est présentée, et vous devez identifier :</p>
                         <ul>
-                            <li>La personne (je, tu, il/elle...)</li>
-                            <li>Le mode (indicatif, subjonctif...)</li>
-                            <li>Le temps (présent, imparfait...)</li>
+                            <li data-translate="identifyDescriptionPerson">La personne (je, tu, il/elle...)</li>
+                            <li data-translate="identifyDescriptionMood">Le mode (indicatif, subjonctif...)</li>
+                            <li data-translate="identifyDescriptionTense">Le temps (présent, imparfait...)</li>
                         </ul>
                     </div>
                     <div class="card-action">
-                        <a href="identify.html" class="btn btn-primary btn-play">Jouer</a>
+                        <a href="identify.html" class="btn btn-primary btn-play" data-translate="play">Jouer</a>
                     </div>
                 </div>
             </div>
@@ -45,24 +53,51 @@
             <!-- Mode 2: Choisir la conjugaison -->
             <div class="mode-card card">
                 <div class="card-header choisir-header">
-                    Mode: Choisir la Conjugaison
+                    <span data-translate="chooseForm">Mode: Choisir la Conjugaison</span>
                 </div>
                 <div class="card-body">
                     <div class="card-description">
-                        <p>Le verbe à l'infinitif et la forme demandée sont affichés, et vous devez choisir la conjugaison correcte parmi plusieurs propositions.</p>
-                        <p>Testez votre capacité à reconnaître la bonne forme verbale.</p>
+                        <p data-translate="chooseDescription">Le verbe à l'infinitif et la forme demandée sont affichés, et vous devez choisir la conjugaison correcte parmi plusieurs propositions.</p>
+                        <p data-translate="chooseDescriptionAbility">Testez votre capacité à reconnaître la bonne forme verbale.</p>
                     </div>
                     <div class="card-action">
-                        <a href="choose.html" class="btn btn-success btn-play">Jouer</a>
+                        <a href="choose.html" class="btn btn-success btn-play" data-translate="play">Jouer</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>Jeu développé pour apprendre la conjugaison française de manière interactive et ludique.</p>
-            <p>Utilisez les trois niveaux de difficulté pour progresser à votre rythme.</p>
+            <p data-translate="footerDescription">Jeu développé pour apprendre la conjugaison de manière interactive et ludique.</p>
+            <p data-translate="footerDifficulty">Utilisez les trois niveaux de difficulté pour progresser à votre rythme.</p>
         </div>
     </div>
+
+    <!-- JavaScript files -->
+    <script src="common.js"></script>
+    <script>
+        // Initialize the application when the DOM is fully loaded
+        $(document).ready(async function() {
+            // Initialize settings from URL parameters
+            initializeSettings();
+            
+            // Translate the UI
+            await translateUI();
+            
+            // Handle language selection
+            $('#language-selector').change(function() {
+                const selectedLang = $(this).val();
+                changeLanguage(selectedLang);
+            });
+            
+            // Update URL parameters for any links
+            $('a').each(function() {
+                const href = $(this).attr('href');
+                if (href && href.includes('.html') && !href.includes('?')) {
+                    $(this).attr('href', href + '?lang=' + lang);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

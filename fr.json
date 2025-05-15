@@ -65,7 +65,23 @@
       "formIdentificationFeedback": "\"{0}\" est bien le {1} de \"{2}\" au mode {3}, forme {4}.",
       
       "error": "Erreur !",
-      "apiError": "Impossible de contacter le serveur de conjugaison. Veuillez vérifier votre connexion Internet et réessayer."
+      "apiError": "Impossible de contacter le serveur de conjugaison. Veuillez vérifier votre connexion Internet et réessayer.",
+      
+      "language": "Langue",
+      "french": "Français",
+      "spanish": "Espagnol",
+      "italian": "Italien",
+      
+      "gameSubtitle": "Améliorez votre maîtrise des conjugaisons françaises en jouant",
+      "identifyDescription": "Une forme verbale vous est présentée, et vous devez identifier :",
+      "identifyDescriptionPerson": "La personne (je, tu, il/elle...)",
+      "identifyDescriptionMood": "Le mode (indicatif, subjonctif...)",
+      "identifyDescriptionTense": "Le temps (présent, imparfait...)",
+      "chooseDescription": "Le verbe à l'infinitif et la forme demandée sont affichés, et vous devez choisir la conjugaison correcte parmi plusieurs propositions.",
+      "chooseDescriptionAbility": "Testez votre capacité à reconnaître la bonne forme verbale.",
+      "play": "Jouer",
+      "footerDescription": "Jeu développé pour apprendre la conjugaison de manière interactive et ludique.",
+      "footerDifficulty": "Utilisez les trois niveaux de difficulté pour progresser à votre rythme."
   },
   "verbData": {
     "moodsNames": {

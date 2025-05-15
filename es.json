@@ -67,7 +67,23 @@
       "formIdentificationFeedback": "\"{0}\" es el {1} del verbo \"{2}\" en modo {3}, forma {4}.",
       
       "error": "¡Error!",
-      "apiError": "No se pudo contactar con el servidor de conjugación. Por favor verifica tu conexión a internet e inténtalo de nuevo."
+      "apiError": "No se pudo contactar con el servidor de conjugación. Por favor verifica tu conexión a internet e inténtalo de nuevo.",
+
+      "language": "Idioma",
+      "french": "Francés",
+      "spanish": "Español",
+      "italian": "Italiano",
+      
+      "gameSubtitle": "Mejora tu dominio de las conjugaciones españolas jugando",
+      "identifyDescription": "Se te presenta una forma verbal, y debes identificar:",
+      "identifyDescriptionPerson": "La persona (yo, tú, él/ella...)",
+      "identifyDescriptionMood": "El modo (indicativo, subjuntivo...)",
+      "identifyDescriptionTense": "El tiempo (presente, pretérito imperfecto...)",
+      "chooseDescription": "Se muestran el verbo en infinitivo y la forma requerida, y debes elegir la conjugación correcta entre varias opciones.",
+      "chooseDescriptionAbility": "Prueba tu capacidad para reconocer la forma verbal correcta.",
+      "play": "Jugar",
+      "footerDescription": "Juego desarrollado para aprender la conjugación de manera interactiva y lúdica.",
+      "footerDifficulty": "Usa los tres niveles de dificultad para progresar a tu ritmo."
   },
   "verbData": {
     "moodsNames": {

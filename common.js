@@ -1,6 +1,77 @@
+// Default language and configuration
 let lang = "fr"; // Default language
+let difficulty = "easy"; // Default difficulty
 
-// Names of persons for display
+// Function to get URL parameters
+function getUrlParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Initialize settings from URL parameters
+function initializeSettings() {
+    // Check URL parameters for language and difficulty
+    const urlLang = getUrlParameter('lang');
+    const urlDifficulty = getUrlParameter('difficulty');
+    
+    // Set language if provided in URL
+    if (urlLang && ['fr', 'es', 'it'].includes(urlLang)) {
+        lang = urlLang;
+        updateLanguageSelector();
+    }
+    
+    // Set difficulty if provided in URL
+    if (urlDifficulty && ['easy', 'medium', 'hard'].includes(urlDifficulty)) {
+        difficulty = urlDifficulty;
+        updateDifficultySelector();
+    }
+    
+    // Update API base URL
+    updateApiBaseUrl();
+}
+
+// Function to update API base URL when language changes
+function updateApiBaseUrl() {
+    api_base_url = `http://verbe.cc/verbecc/conjugate/${lang}/`;
+}
+
+// Function to update language selector
+function updateLanguageSelector() {
+    if ($('#language-selector').length) {
+        $('#language-selector').val(lang);
+    }
+}
+
+// Function to update difficulty selector
+function updateDifficultySelector() {
+    $('.difficulty-btn').removeClass('active');
+    $(`.difficulty-btn[data-level="${difficulty}"]`).addClass('active');
+}
+
+// Function to change language
+function changeLanguage(newLang) {
+    if (newLang && ['fr', 'es', 'it'].includes(newLang)) {
+        lang = newLang;
+        updateApiBaseUrl();
+        translateUI();
+        // If we're in a game, reload the current question
+        if (typeof nextQuestion === 'function') {
+            nextQuestion();
+        }
+        // Update URL parameters
+        updateUrlParameters();
+    }
+}
+
+// Function to update URL parameters
+function updateUrlParameters() {
+    const url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    url.searchParams.set('difficulty', difficulty);
+    window.history.replaceState({}, '', url);
+}
+
+// Names of persons for display (legacy, will be replaced by translations)
 const personnesAbrégées = [
     "1ère (je)", "2ème (tu)", "3ème (il/elle)", "1ère (nous)", "2ème (vous)", "3ème (ils/elles)"
 ];
@@ -176,6 +247,20 @@ async function getPersonFullName(person) {
 async function translateUI() {
     let langData = await getLangData();
 
+    // Update document title based on current page
+    const currentPage = window.location.pathname.split('/').pop();
+    if (currentPage.includes('identify')) {
+        document.title = await localize('gameTitle') + ' - ' + await localize('identifyForm');
+    } else if (currentPage.includes('choose')) {
+        document.title = await localize('gameTitle') + ' - ' + await localize('chooseForm');
+    } else {
+        document.title = await localize('gameTitle');
+    }
+
+    // Update HTML lang attribute
+    document.documentElement.lang = lang;
+
+    // Update all elements with data-translate attribute
     $('[data-translate]').each(async function () {
         const key = $(this).data('translate');
         const translation = await localize(key);
@@ -183,6 +268,9 @@ async function translateUI() {
             $(this).text(translation);
         }
     });
+    
+    // Update language selector
+    updateLanguageSelector();
 }
 
 // Function to get array index for imperative mode

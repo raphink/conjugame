@@ -357,16 +357,28 @@ async function verifyAnswer() {
 
 // Initialize the game
 $(document).ready(async function() {
+    // Initialize settings from URL parameters
+    initializeSettings();
+    
     // Initially hide the next question button
     toggleActionButtons(true);
 
     await translateUI();
+    
+    // Handle language change
+    $('#language-selector').change(function() {
+        const selectedLang = $(this).val();
+        changeLanguage(selectedLang);
+    });
     
     // Difficulty level management
     $('.difficulty-btn').click(function() {
         $('.difficulty-btn').removeClass('active');
         $(this).addClass('active');
         difficulty = $(this).data('level');
+        
+        // Update URL parameters with new difficulty
+        updateUrlParameters();
         
         // Generate a new question for the selected level
         nextQuestion();
