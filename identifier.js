@@ -461,11 +461,44 @@ if (isCorrect) {
     }
 }
 
+async function translateUI() {
+    let langData = await getLangData();
+    // Translate UI elements
+    $('.game-title').text(langData.translations.title);
+    $('.score-title').text(langData.translations.score);
+    $('.streak-title').text(langData.translations.streak);
+    $('.difficulty-selector [data-level|="easy"]').text(langData.translations.easy);
+    $('.difficulty-selector [data-level|="medium"]').text(langData.translations.medium);
+    $('.difficulty-selector [data-level|="hard"]').text(langData.translations.hard);
+    $('.infinitive-title').text(langData.verbData.moodsNames.infinitive);
+
+    $('.person-title').text(langData.translations.person);
+    $('.person-btn [data-person|="0"]').text(langData.verbData.personDisplay.ordinal[0]);
+    $('.person-btn [data-person|="1"]').text(langData.verbData.personDisplay.ordinal[1]);
+    $('.person-btn [data-person|="2"]').text(langData.verbData.personDisplay.ordinal[2]);
+    $('.number-title').text(langData.translations.number);
+    $('.title-mood').text(langData.translations.mood);
+    $('.title-tense').text(langData.translations.tense);
+
+    // Loading
+    $('.loading').text(langData.translations.loading);
+    $('.loading-verb-data').text(langData.translations.loadingVerbData);
+
+    $('#check-answer').text(langData.translations.checkAnswer);
+    $('#next-question').text(langData.translations.nextQuestion);
+    $('.title-progress').text(langData.translations.progress);
+    $('.title-game-mode').text(langData.translations.changeGameMode);
+    $('.title-home').text(langData.translations.home);
+    $('.title-choose-form').text(langData.translations.chooseForm);
+}
+
 // Initialize the game
-$(document).ready(function() {
+$(document).ready(async function() {
     // Initially hide the next question button
     toggleActionButtons(true);
-    
+
+    await translateUI();
+
     // Configuration of event handlers
     $('.choice-btn').click(function() {
         $(this).siblings().removeClass('active');

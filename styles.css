@@ -265,12 +265,12 @@ body.home {
     padding: 8px 15px;
 }
 
-.btn-personne {
+.btn-person {
     border-color: #28a745;
     color: #28a745;
 }
 
-.btn-personne.active {
+.btn-person.active {
     background-color: #28a745;
     color: white;
 }

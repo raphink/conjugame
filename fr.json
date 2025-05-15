@@ -4,14 +4,15 @@
       "score": "Score",
       "streak": "Série",
       "difficulty": "Niveau de difficulté",
-      "loading": "Chargement des données du verbe...",
+      "loading": "Chargement...",
+      "loadingVerbData": "Chargement des données de conjugaison...",
       "checkAnswer": "Vérifier la réponse",
       "nextQuestion": "Question suivante",
       "progress": "Progrès",
       "home": "Accueil",
       "correct": "Correct !",
       "incorrect": "Incorrect.",
-      "changeModes": "Changer de mode de jeu :",
+      "changeGameMode": "Changer le mode de jeu",
       "congratulations": "Félicitations !",
       "targetReached": "Vous avez atteint votre objectif de {0} bonnes réponses !",
       "finalScore": "Score final : {0}/{1}",
@@ -120,6 +121,7 @@
       }
     },
     "personDisplay": {
+      "ordinal": ["1ère", "2ème", "3ème"],
       "abbreviations": [
         "1ère (je)", "2ème (tu)", "3ème (il/elle)", "1ère (nous)", "2ème (vous)", "3ème (ils/elles)"
       ],
