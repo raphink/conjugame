@@ -126,16 +126,27 @@ function toggleActionButtons(showVerify = true) {
     }
 }
 
+// Function to get translation for a specific item
+async function localize(item) {
+    let langData = await getLangData();
+    const translation = await langData.translations[item];
+    if (translation) {
+        return translation;
+    } else {
+        console.warn(`Translation not found for: ${item}`);
+        return item; // Fallback to original item if translation is not found
+    }
+}
 
+// Function to translate UI elements
 async function translateUI() {
     let langData = await getLangData();
 
-    $('[data-translate]').each(function() {
+    $('[data-translate]').each(async function () {
         const key = $(this).data('translate');
-        const translation = langData.translations[key];
+        const translation = await localize(key);
         if (translation) {
             $(this).text(translation);
         }
-    }
-    );
+    });
 }
