@@ -70,7 +70,7 @@ async function updateTimeButtons(mode) {
 
     availableTenses.forEach(async tense => {
         const localName = await getFullTenseName(tense);
-        const btn = $(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${tense}">${localName}</button>`);
+        const btn = $(`<button type="button" class="btn btn-selector btn-temps choice-btn" data-value="${tense}">${localName}</button>`);
         btn.click(function () {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
@@ -354,6 +354,7 @@ async function verifyAnswer() {
     }
     
     // Disable all form elements to prevent changes after submitting
+    // but don't remove the active status
     $('.choice-btn').prop('disabled', true);
     
     // Toggle buttons: hide verify, show next
