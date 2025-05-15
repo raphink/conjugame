@@ -10,7 +10,7 @@ let currentAnswer = {
     mode: "",
     temps: ""
 };
-let niveauDifficulte = "easy";
+let difficulty = "easy";
 let objectifScore = 10; // Number of correct answers needed to "win"
 let availableModes = []; // Array to store available modes for current verb
 
@@ -88,7 +88,7 @@ async function updateTimeButtons(mode) {
 
     console.log("Language data:", langData);
     let availableTenses;
-    switch (niveauDifficulte) {
+    switch (difficulty) {
         case "easy":
             availableTenses = langData.verbData.moodsTenses.easy[mode];
             break;
@@ -213,7 +213,7 @@ async function nextQuestion() {
     $('.choice-btn').prop('disabled', false);
     
     // Choose a random verb based on difficulty level
-    const verbesDisponibles = await getVerbList(niveauDifficulte);
+    const verbesDisponibles = await getVerbList(difficulty);
     verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
     
     // Get verb data via API
@@ -226,14 +226,14 @@ async function nextQuestion() {
     
     // Handle infinitive display based on level
     $('#infinitive-verb').text(verbData.verb.infinitive);
-    if (niveauDifficulte === "easy") {
+    if (difficulty === "easy") {
         $('#infinitive-badge').show();
     } else {
         $('#infinitive-badge').hide();
     }
     
     // Get available forms for the current level
-    const availableForms = await getAvailableForms(niveauDifficulte);
+    const availableForms = await getAvailableForms(difficulty);
 
     console.log("Available forms:", availableForms);
 
@@ -468,10 +468,10 @@ $(document).ready(async function() {
     $('.difficulty-btn').click(function() {
         $('.difficulty-btn').removeClass('active');
         $(this).addClass('active');
-        niveauDifficulte = $(this).data('level');
+        difficulty = $(this).data('level');
         
         // Update infinitive display based on level
-        if (niveauDifficulte === "easy") {
+        if (difficulty === "easy") {
             $('#infinitive-badge').show();
         } else {
             $('#infinitive-badge').hide();
