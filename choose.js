@@ -164,6 +164,9 @@ async function genererOptionsIncorrectes(formeCorrecte, verbData, modeCorrect, t
 async function nextQuestion() {
     // Hide feedback
     $('#feedback').hide();
+
+    // Scroll back to the top of the page
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
     
     // Reset selected options
     $('.verb-option').removeClass('selected');

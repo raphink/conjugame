@@ -144,6 +144,9 @@ function handlePersonSelection(mode) {
 async function nextQuestion() {
     // Hide feedback
     $('#feedback').hide();
+
+    // Scroll back to the top of the page
+    $('html, body').animate({ scrollTop: 0 }, 500);
     
     // Reset button state but keep the current selections
     $('.choice-btn').removeClass('disabled');
