@@ -17,70 +17,68 @@
     <div class="game-container">
         <div class="flag-colors"></div>
         <div class="game-header">
-            <h1 class="game-title">Conjugaison Française</h1>
+            <h1 class="game-title" data-translate="gameTitle">Conjugation</h1>
         </div>
 
         <div class="row mb-4">
             <div class="col">
                 <div class="score-display">
-                    Score: <span id="score">0</span> / <span id="total">0</span>
+                    <span data-translate="score">Score</span>: <span id="score">0</span> / <span id="total">0</span>
                 </div>
             </div>
             <div class="col text-end">
                 <div class="streak-display">
-                    Série: <span id="streak">0</span> 🔥
+                    <span data-translate="streak">Streak</span>: <span id="streak">0</span> 🔥
                 </div>
             </div>
         </div>
 
         <div class="difficulty-selector text-center mb-4">
-            <h6>Niveau de difficulté:</h6>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="easy">Facile</button>
-                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="medium">Moyen</button>
-                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="hard">Difficile</button>
+                <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="easy" data-translate="easy">Easy</button>
+                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="medium" data-translate="medium">Medium</button>
+                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="hard" data-translate="hard">Hard</button>
             </div>
         </div>
 
         <div id="loading" class="text-center">
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Chargement...</span>
+                <span class="visually-hidden" data-translate="loading">Loading...</span>
             </div>
-            <p>Chargement des données du verbe...</p>
+            <p data-translate="loadingVerbData">Loading verb data...</p>
         </div>
 
         <div class="verb-info text-center">
-            <h3><span id="verb-infinitive" class="badge bg-primary">chargement...</span></h3>
+            <h3><span id="verb-infinitive" class="badge bg-primary" data-translate="loading">Loading...</span></h3>
         </div>
 
         <div class="verb-form-info">
-            Conjuguez au <strong><span id="verb-temps">chargement...</span></strong> du <strong><span id="verb-mode">chargement...</span></strong>, 
-            <strong><span id="verb-personne">chargement...</span></strong> personne
+            Conjugate to <strong><span id="verb-temps" data-translate="loading">Loading...</span></strong> du <strong><span id="verb-mode" data-translate="loading">Loading...</span></strong>,
+            <strong><span id="verb-personne" data-translate="loading">Loading...</span></strong> personne
         </div>
 
         <div class="verb-options" id="verb-options">
             <!-- Conjugation options will be added dynamically -->
         </div>
 
-        <button class="btn btn-success w-100 mt-4" id="check-answer">Vérifier la réponse</button>
+        <button class="btn btn-success w-100 mt-4" id="check-answer" data-translate="checkAnswer">Check Answer</button>
 
         <div class="answer-feedback mt-4" id="feedback">
-            
         </div>
 
-        <button class="btn btn-primary w-100 next-btn" id="next-question">Question suivante</button>
+        <button class="btn btn-primary w-100 next-btn" id="next-question" data-translate="nextQuestion">Next Question</button>
 
         <div class="progress-container">
-            <h6>Progrès:</h6>
+            <h6 data-translate="progress">Progress:</h6>
             <div class="progress" role="progressbar">
                 <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
             </div>
         </div>
 
         <div class="game-mode-links">
-            <p>Changer de mode de jeu :</p>
-            <a href="index.html" class="btn btn-outline-secondary">Accueil</a>
-            <a href="identifier.html" class="btn btn-outline-primary">Mode: Identifier la Forme</a>
+            <p data-translate="changeGameMode">Switch Game Mode:</p>
+            <a href="index.html" class="btn btn-outline-secondary" data-translate="home">Home</a>
+            <a href="identifier.html" class="btn btn-outline-primary" data-translate="identifyForm">Mode: Identify the Form</a>
         </div>
     </div>
 
