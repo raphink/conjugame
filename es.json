@@ -1,0 +1,181 @@
+{
+  "translations": {
+      "gameTitle": "Conjugación Española",
+      "score": "Puntuación",
+      "streak": "Racha",
+      "difficulty": "Nivel de dificultad",
+      "loading": "Cargando...",
+      "loadingVerbData": "Cargando datos de conjugación...",
+      "checkAnswer": "Verificar respuesta",
+      "nextQuestion": "Siguiente pregunta",
+      "progress": "Progreso:",
+      "home": "Inicio",
+      "correct": "¡Correcto!",
+      "incorrect": "Incorrecto.",
+      "changeGameMode": "Cambiar modo de juego",
+      "congratulations": "¡Felicidades!",
+      "targetReached": "¡Has alcanzado tu objetivo de {0} respuestas correctas!",
+      "finalScore": "Puntuación final: {0}/{1}",
+      "restart": "Comenzar de nuevo",
+
+      "loadVerbFirst": "Por favor carga un verbo primero.",
+      "personNumberRequired": "Por favor selecciona una persona y un número.",
+      "moodTenseRequired": "Por favor selecciona un modo y un tiempo.",
+      "chooseConjugation": "Por favor selecciona una conjugación.",
+
+      "identifyCorrectMessage": "<strong>¡Correcto!</strong> \"{0}\" es el {1} del verbo \"{2}\" en modo {3}, forma {4}.",
+      "identifyIncorrectMessage": "<strong>Incorrecto.</strong> \"{0}\" es el {1} del verbo \"{2}\" en modo {3}, forma {4}.",
+      "identifyCongratulationsMessage": "<h4>¡Felicidades!</h4><p>¡Has alcanzado tu objetivo de {0} respuestas correctas!</p><p>Puntuación final: {1}/{2}.</p>",
+
+      "chooseCorrectMessage": "<strong>¡Correcto!</strong> \"{0}\" es la forma correcta del verbo {1} en el {2} del modo {3}, forma {4}.",
+      "chooseIncorrectMessage": "<strong>Incorrecto.</strong> La forma correcta es \"{0}\".",
+      "chooseCongratulationsMessage": "<h4>¡Felicidades!</h4><p>¡Has alcanzado tu objetivo de {0} respuestas correctas!</p><p>Puntuación final: {1}/{2}.</p>",
+      
+      "identifyForm": "Modo: Identificar la Forma",
+      "chooseForm": "Modo: Elegir la Forma",
+      
+      "easy": "Fácil",
+      "medium": "Medio",
+      "hard": "Difícil",
+      
+      "person": "Persona",
+      "number": "Número",
+      "mood": "Modo",
+      "tense": "Tiempo",
+      "conjugateTo": "Conjuga en el <strong>{0}</strong> del modo <strong>{1}</strong>, <strong>{2}</strong> persona",
+      "singular": "Singular",
+      "plural": "Plural",
+
+      "first": "1ª",
+      "second": "2ª",
+      "third": "3ª",
+      
+      "tu": "tú",
+      "nous": "nosotros",
+      "vous": "vosotros",
+
+      "indicative": "Indicativo",
+      "infinitive": "Infinitivo",
+      "participle": "Participio",
+      "subjunctive": "Subjuntivo",
+      "conditional": "Condicional",
+      "imperative": "Imperativo",
+      
+      "correctAnswerIs": "La forma correcta es \"{0}\".",
+      "correctFormFeedback": "\"{0}\" es la forma correcta de \"{1}\".",
+      "incorrectFormFeedback": "La forma correcta es \"{0}\".",
+      "formIdentificationFeedback": "\"{0}\" es el {1} del verbo \"{2}\" en modo {3}, forma {4}.",
+      
+      "error": "¡Error!",
+      "apiError": "No se pudo contactar con el servidor de conjugación. Por favor verifica tu conexión a internet e inténtalo de nuevo."
+  },
+  "verbData": {
+    "moodsNames": {
+      "indicative": "indicativo",
+      "infinitive": "infinitivo",
+      "participle": "participio",
+      "subjunctive": "subjuntivo",
+      "conditional": "condicional",
+      "imperative": "imperativo"
+    },
+    "tensesNames": {
+      "presente": "Presente",
+      "futuro-simple": "Futuro simple",
+      "pretérito-perfecto-compuesto": "Pretérito perfecto compuesto",
+      "pretérito-imperfecto": "Pretérito imperfecto",
+      "pretérito-pluscuamperfecto": "Pretérito pluscuamperfecto",
+      "pretérito-perfecto-simple": "Pretérito perfecto simple",
+      "futuro-compuesto": "Futuro compuesto",
+      "pretérito-anterior": "Pretérito anterior",
+      "pretérito-perfecto": "Pretérito perfecto",
+      "imperativo-presente": "Presente",
+      "imperativo-perfecto": "Perfecto"
+    },
+    "verbs": {
+      "easy": [
+        "ser", "estar", "hacer", "decir", "ir", "ver", "hablar", "amar", "comer", "vivir", "jugar", "venir", "tomar",
+        "dar", "llamar", "esperar", "entender", "conocer", "creer", "preguntar", "escuchar", "escribir", "estudiar",
+        "vivir", "leer", "poner", "mostrar", "abrir", "pensar", "perder", "llevar", "poder", "mirar", "devolver",
+        "responder", "saber", "sentir", "salir", "seguir", "trabajar", "encontrar", "vender", "vivir", "querer",
+        "comprar", "llegar", "cantar", "elegir", "comenzar", "contar", "correr", "descubrir", "bajar", "dibujar",
+        "dormir", "escuchar", "enviar", "esperar", "cerrar", "imaginar", "invitar", "dejar", "caminar", "subir",
+        "ofrecer", "olvidar", "partir", "pasar", "preferir", "preparar", "volver", "quedar", "regresar", "parecer"
+      ],
+      "medium": [
+        "poder", "querer", "saber", "deber", "creer", "poner", "leer", "escribir", "entender", "esperar",
+        "escuchar", "partir", "salir", "sentir", "seguir", "vivir", "beber", "enviar", "recibir", "llamar",
+        "percibir", "aparecer", "aprender", "alcanzar", "combatir", "conducir", "construir", "contener", "contribuir", "convenir",
+        "corresponder", "cubrir", "temer", "decepcionar", "defender", "definir", "destruir", "desaparecer", "distraer", "mantener",
+        "emprender", "equivaler", "establecer", "extinguir", "extender", "proveer", "huir", "incluir", "inscribir", "interrumpir",
+        "intervenir", "introducir", "mantener", "mentir", "obtener", "ofrecer", "abrir", "parecer", "recorrer", "llegar",
+        "percibir", "pintar", "permitir", "quejar", "gustar", "perseguir", "prever", "producir", "prometer", "reconocer",
+        "recurrir", "reducir", "reunir", "poner", "llenar", "esparcir", "responder", "resolver", "retener", "reunir",
+        "volver", "romper", "servir", "sufrir", "sonreír", "sostener", "bastar", "sorprender", "sobrevivir", "callar",
+        "tender", "traducir", "transmitir", "valer", "vender", "vestir"
+      ],
+      "hard": [
+        "correr", "morir", "tener", "venir", "adquirir", "sentar", "golpear", "conocer", "temer", "crecer",
+        "coger", "necesitar", "unir", "nacer", "gustar", "llover", "resolver", "reír", "bastar", "vencer",
+        "abstraer", "acrecentar", "adjuntar", "suceder", "asaltar", "astringir", "circunvenir", "cerrar", "comparecer", "complacer",
+        "comprometer", "concebir", "concluir", "concurrir", "conquistar", "convencer", "descoser", "describir", "deducir", "deshacer",
+        "disgustar", "desteñir", "devenir", "disconvenir", "desunir", "disolver", "distraer", "debatir", "deparar", "elegir",
+        "emitir", "esmerilar", "envolver", "encerrar", "incurrir", "dormir", "huir", "mandar", "escuchar", "mediar",
+        "entrever", "abrir", "invadir", "equivaler", "excluir", "extraer", "fallar", "fingir", "desfalcar", "yacer",
+        "odiar", "inscribir", "instruir", "interdecir", "interjetar", "lucir", "malograr", "calumniar", "dañar", "equivocarse",
+        "mover", "dañar", "ocluir", "matar", "omitir", "pastar", "parecer", "perfeccionar", "llegar", "percibir",
+        "despuntar", "hendir", "proveer", "preconcebir", "predecir", "prescribir", "prevaler", "prever", "promover", "proscribir",
+        "provenir", "abatir", "sentar", "clasificar", "recibir", "reconquistar", "recoser", "socorrer", "recoger", "volver",
+        "redecir", "reelegir", "reunir", "releer", "relucir", "reponer", "remoler", "renacer", "reenviar", "repastar",
+        "requerir", "reservir", "traspasar", "restringir", "retener", "revalidar", "revestir", "revivir", "sobresalir", "satisfacer",
+        "socorrer", "sentarse", "someter", "susurrar", "sustraer", "sobrevenir", "superproducir", "suspender", "sobrevenir", "callar",
+        "teñir", "temblar", "valer", "querer"
+      ]
+    },
+    "moodsTenses": {
+      "easy": {
+        "indicative": ["presente", "futuro-simple", "pretérito-perfecto-compuesto", "pretérito-imperfecto"]
+      },
+      "medium": {
+        "indicative": ["presente", "futuro-simple", "pretérito-perfecto-compuesto", "pretérito-imperfecto", "pretérito-pluscuamperfecto", "pretérito-perfecto-simple"],
+        "subjunctive": ["presente"],
+        "conditional": ["presente"],
+        "imperative": ["imperativo-presente"]
+      },
+      "hard": {
+        "indicative": ["presente", "futuro-simple", "pretérito-perfecto-compuesto", "pretérito-imperfecto", "pretérito-pluscuamperfecto", "pretérito-perfecto-simple", "futuro-compuesto", "pretérito-anterior"],
+        "subjunctive": ["presente", "pretérito-perfecto", "pretérito-imperfecto", "pretérito-pluscuamperfecto"],
+        "conditional": ["presente", "perfecto"],
+        "imperative": ["imperativo-presente", "imperativo-perfecto"]
+      }
+    },
+    "personDisplay": {
+      "ordinal": ["1ª", "2ª", "3ª"],
+      "abbreviations": [
+        "1ª (yo)", "2ª (tú)", "3ª (él/ella)", "1ª (nosotros)", "2ª (vosotros)", "3ª (ellos/ellas)"
+      ],
+      "imperative": ["2ª (tú)", "1ª (nosotros)", "2ª (vosotros)"],
+      "fullNames": [
+        "Yo (1ª persona del singular)",
+        "Tú (2ª persona del singular)",
+        "Él/Ella (3ª persona del singular)",
+        "Nosotros (1ª persona del plural)",
+        "Vosotros (2ª persona del plural)",
+        "Ellos/Ellas (3ª persona del plural)"
+      ]
+    },
+    "personsByMood": {
+      "indicative": [0, 1, 2, 3, 4, 5],
+      "subjunctive": [0, 1, 2, 3, 4, 5],
+      "conditional": [0, 1, 2, 3, 4, 5],
+      "imperative": [1, 3, 4]
+    },
+    "imperativeMapping": {
+      "1": 0,
+      "3": 1,
+      "4": 2,
+      "array_0": 1,
+      "array_1": 3,
+      "array_2": 4
+    }
+  }
+}
