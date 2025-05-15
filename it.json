@@ -1,0 +1,197 @@
+{
+  "translations": {
+      "gameTitle": "Coniugazione Italiana",
+      "score": "Punteggio",
+      "streak": "Serie",
+      "difficulty": "Livello di difficoltà",
+      "loading": "Caricamento...",
+      "loadingVerbData": "Caricamento dei dati di coniugazione...",
+      "checkAnswer": "Verifica risposta",
+      "nextQuestion": "Prossima domanda",
+      "progress": "Progresso:",
+      "home": "Home",
+      "correct": "Corretto!",
+      "incorrect": "Incorretto.",
+      "changeGameMode": "Cambia modalità di gioco",
+      "congratulations": "Congratulazioni!",
+      "targetReached": "Hai raggiunto il tuo obiettivo di {0} risposte corrette!",
+      "finalScore": "Punteggio finale: {0}/{1}",
+      "restart": "Ricomincia",
+      "chooseForm": "Modalità: Scegli la Forma",
+      "identifyForm": "Modalità: Identifica la Forma",
+      "gameSubtitle": "Migliora la tua padronanza delle coniugazioni italiane giocando",
+
+      "loadVerbFirst": "Per favore carica prima un verbo.",
+      "personNumberRequired": "Per favore seleziona una persona e un numero.",
+      "moodTenseRequired": "Per favore seleziona un modo e un tempo.",
+      "chooseConjugation": "Per favore seleziona una coniugazione.",
+
+      "identifyCorrectMessage": "<strong>Corretto!</strong> \"{0}\" è il {1} del verbo \"{2}\" nel modo {3}, forma {4}.",
+      "identifyIncorrectMessage": "<strong>Incorretto.</strong> \"{0}\" è il {1} del verbo \"{2}\" nel modo {3}, forma {4}.",
+      "identifyCongratulationsMessage": "<h4>Congratulazioni!</h4><p>Hai raggiunto il tuo obiettivo di {0} risposte corrette!</p><p>Punteggio finale: {1}/{2}.</p>",
+
+      "chooseCorrectMessage": "<strong>Corretto!</strong> \"{0}\" è la forma corretta del verbo {1} nel {2} del modo {3}, forma {4}.",
+      "chooseIncorrectMessage": "<strong>Incorretto.</strong> La forma corretta è \"{0}\".",
+      "chooseCongratulationsMessage": "<h4>Congratulazioni!</h4><p>Hai raggiunto il tuo obiettivo di {0} risposte corrette!</p><p>Punteggio finale: {1}/{2}.</p>",
+      
+      "easy": "Facile",
+      "medium": "Medio",
+      "hard": "Difficile",
+      
+      "person": "Persona",
+      "number": "Numero",
+      "mood": "Modo",
+      "tense": "Tempo",
+      "conjugateTo": "Coniuga nel <strong>{0}</strong> del modo <strong>{1}</strong>, <strong>{2}</strong> persona",
+      "singular": "Singolare",
+      "plural": "Plurale",
+
+      "first": "1ª",
+      "second": "2ª",
+      "third": "3ª",
+      
+      "tu": "tu",
+      "nous": "noi",
+      "vous": "voi",
+
+      "indicative": "Indicativo",
+      "infinitive": "Infinito",
+      "participle": "Participio",
+      "subjunctive": "Congiuntivo",
+      "conditional": "Condizionale",
+      "imperative": "Imperativo",
+      
+      "correctAnswerIs": "La forma corretta è \"{0}\".",
+      "correctFormFeedback": "\"{0}\" è la forma corretta di \"{1}\".",
+      "incorrectFormFeedback": "La forma corretta è \"{0}\".",
+      "formIdentificationFeedback": "\"{0}\" è il {1} del verbo \"{2}\" nel modo {3}, forma {4}.",
+      
+      "error": "Errore!",
+      "apiError": "Impossibile contattare il server di coniugazione. Per favore verifica la tua connessione Internet e riprova.",
+
+      "language": "Lingua",
+      "french": "Francese",
+      "spanish": "Spagnolo",
+      "italian": "Italiano",
+      
+      "identifyDescription": "Ti viene presentata una forma verbale, e devi identificare:",
+      "identifyDescriptionPerson": "La persona (io, tu, egli/ella...)",
+      "identifyDescriptionMood": "Il modo (indicativo, congiuntivo...)",
+      "identifyDescriptionTense": "Il tempo (presente, imperfetto...)",
+      "chooseDescription": "Vengono mostrati il verbo all'infinito e la forma richiesta, e devi scegliere la coniugazione corretta tra diverse proposte.",
+      "chooseDescriptionAbility": "Metti alla prova la tua capacità di riconoscere la forma verbale corretta.",
+      "play": "Gioca",
+      "footerDescription": "Gioco sviluppato per imparare la coniugazione in modo interattivo e divertente.",
+      "footerDifficulty": "Usa i tre livelli di difficoltà per progredire al tuo ritmo."
+  },
+  "verbData": {
+    "moodsNames": {
+      "indicative": "indicativo",
+      "infinitive": "infinito",
+      "participle": "participio",
+      "subjunctive": "congiuntivo",
+      "conditional": "condizionale",
+      "imperative": "imperativo"
+    },
+    "tensesNames": {
+      "presente": "Presente",
+      "futuro-semplice": "Futuro semplice",
+      "passato-prossimo": "Passato prossimo",
+      "imperfetto": "Imperfetto",
+      "trapassato-prossimo": "Trapassato prossimo",
+      "passato-remoto": "Passato remoto",
+      "futuro-anteriore": "Futuro anteriore",
+      "trapassato-remoto": "Trapassato remoto",
+      "presente-congiuntivo": "Presente",
+      "passato-congiuntivo": "Passato",
+      "imperfetto-congiuntivo": "Imperfetto",
+      "trapassato-congiuntivo": "Trapassato"
+    },
+    "verbs": {
+      "easy": [
+        "essere", "avere", "fare", "dire", "andare", "vedere", "parlare", "amare", "mangiare", "finire", "giocare", "venire", "prendere",
+        "dare", "chiamare", "aspettare", "capire", "conoscere", "credere", "domandare", "sentire", "scrivere", "studiare",
+        "abitare", "leggere", "mettere", "mostrare", "aprire", "pensare", "perdere", "portare", "potere", "guardare", "rendere",
+        "rispondere", "sapere", "sentire", "uscire", "seguire", "lavorare", "trovare", "vendere", "vivere", "volere",
+        "comprare", "arrivare", "cantare", "scegliere", "cominciare", "contare", "correre", "scoprire", "scendere", "disegnare",
+        "dormire", "ascoltare", "inviare", "sperare", "chiudere", "immaginare", "invitare", "lasciare", "camminare", "salire",
+        "offrire", "dimenticare", "partire", "passare", "preferire", "preparare", "tornare", "restare", "ritornare", "sembrare"
+      ],
+      "medium": [
+        "potere", "volere", "sapere", "dovere", "credere", "mettere", "leggere", "scrivere", "capire", "aspettare",
+        "sentire", "partire", "uscire", "sentire", "seguire", "vivere", "bere", "inviare", "ricevere", "chiamare",
+        "percepire", "apparire", "imparare", "raggiungere", "combattere", "condurre", "costruire", "contenere", "contribuire", "convenire",
+        "corrispondere", "coprire", "temere", "deludere", "difendere", "definire", "distruggere", "scomparire", "distrarre", "mantenere",
+        "intraprendere", "equivalere", "stabilire", "spegnere", "estendere", "fornire", "fuggire", "includere", "iscrivere", "interrompere",
+        "intervenire", "introdurre", "mantenere", "mentire", "ottenere", "offrire", "aprire", "sembrare", "percorrere", "pervenire",
+        "percepire", "dipingere", "permettere", "lamentarsi", "piacere", "proseguire", "prevedere", "produrre", "promettere", "riconoscere",
+        "ricorrere", "ridurre", "riunire", "rimettere", "riempire", "spandere", "rispondere", "risolvere", "trattenere", "riunire",
+        "ritornare", "rompere", "servire", "soffrire", "sorridere", "sostenere", "bastare", "sorprendere", "sopravvivere", "tacere",
+        "tendere", "tradurre", "trasmettere", "valere", "vendere", "vestire"
+      ],
+      "hard": [
+        "correre", "morire", "tenere", "venire", "acquisire", "sedere", "battere", "conoscere", "temere", "crescere",
+        "cogliere", "bisognare", "congiungere", "nascere", "piacere", "piovere", "risolvere", "ridere", "bastare", "vincere",
+        "astrarre", "accrescere", "aggiungere", "avvenire", "assalire", "costringere", "circonvenire", "chiudere", "comparire", "compiacere",
+        "compromettere", "concepire", "concludere", "concorrere", "conquistare", "convincere", "scucire", "descrivere", "dedurre", "disfare",
+        "dispiacere", "scolorire", "divenire", "disconvenire", "disgiungere", "dissolvere", "distrarre", "dibattere", "scadere", "eleggere",
+        "emettere", "affilare", "cingere", "racchiudere", "incorrere", "addormentare", "fuggire", "ingiungere", "intendere", "intermediare",
+        "intravedere", "socchiudere", "invadere", "equivalere", "escludere", "estrarre", "fallire", "fingere", "defalcare", "giacere",
+        "odiare", "iscrivere", "istruire", "interdire", "interloquire", "lucere", "manomettere", "malignare", "malfare", "sbagliarsi",
+        "muovere", "nuocere", "occludere", "uccidere", "omettere", "pascere", "apparire", "perfezionare", "pervenire", "percepire",
+        "spuntare", "squarciare", "provvedere", "preconcepire", "predire", "prescrivere", "prevalere", "prevedere", "promuovere", "proscrivere",
+        "provenire", "abbattere", "risedere", "classificare", "ricevere", "riconquistare", "ricucire", "ricorrere", "raccogliere", "ridivenire",
+        "ridire", "rieleggere", "riunire", "rileggere", "rilucere", "rimettere", "rimacinare", "rinascere", "rinviare", "ripascere",
+        "richiedere", "riservire", "riemergere", "restringere", "ritenere", "rivalere", "rivestire", "rivivere", "risaltare", "soddisfare",
+        "soccorrere", "stare", "sottomettere", "sussurrare", "sottrarre", "sopravvenire", "sovraprodurre", "soprassedere", "sopravvenire", "tacere",
+        "tingere", "trasalire", "valere", "volere"
+      ]
+    },
+    "moodsTenses": {
+      "easy": {
+        "indicative": ["presente", "futuro-semplice", "passato-prossimo", "imperfetto"]
+      },
+      "medium": {
+        "indicative": ["presente", "futuro-semplice", "passato-prossimo", "imperfetto", "trapassato-prossimo", "passato-remoto"],
+        "subjunctive": ["presente-congiuntivo"],
+        "conditional": ["presente"],
+        "imperative": ["presente"]
+      },
+      "hard": {
+        "indicative": ["presente", "futuro-semplice", "passato-prossimo", "imperfetto", "trapassato-prossimo", "passato-remoto", "futuro-anteriore", "trapassato-remoto"],
+        "subjunctive": ["presente-congiuntivo", "passato-congiuntivo", "imperfetto-congiuntivo", "trapassato-congiuntivo"],
+        "conditional": ["presente", "passato"],
+        "imperative": ["presente"]
+      }
+    },
+    "personDisplay": {
+      "ordinal": ["1ª", "2ª", "3ª"],
+      "abbreviations": [
+        "1ª (io)", "2ª (tu)", "3ª (egli/ella)", "1ª (noi)", "2ª (voi)", "3ª (essi/esse)"
+      ],
+      "imperative": ["2ª (tu)", "1ª (noi)", "2ª (voi)"],
+      "fullNames": [
+        "Io (1ª persona del singolare)",
+        "Tu (2ª persona del singolare)",
+        "Egli/Ella (3ª persona del singolare)",
+        "Noi (1ª persona del plurale)",
+        "Voi (2ª persona del plurale)",
+        "Essi/Esse (3ª persona del plurale)"
+      ]
+    },
+    "personsByMood": {
+      "indicative": [0, 1, 2, 3, 4, 5],
+      "subjunctive": [0, 1, 2, 3, 4, 5],
+      "conditional": [0, 1, 2, 3, 4, 5],
+      "imperative": [1, 3, 4]
+    },
+    "imperativeMapping": {
+      "1": 0,
+      "3": 1,
+      "4": 2,
+      "array_0": 1,
+      "array_1": 3,
+      "array_2": 4
+    }
+  }
+}

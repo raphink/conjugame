@@ -1,7 +1,7 @@
 // Default language and configuration
 let lang = "fr"; // Default language
 let difficulty = "easy"; // Default difficulty
-const supportedLanguages = ["fr", "es"]; // Supported languages (French, Spanish)
+const supportedLanguages = ["fr", "es", "it"]; // Supported languages (French, Spanish, Italian)
 
 // Function to get URL parameters
 function getUrlParameter(name) {
