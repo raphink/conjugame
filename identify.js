@@ -368,7 +368,9 @@ async function verifyAnswer() {
     if (score >= objectifScore) {
         // Congratulate the user
         const messageTemplate = await localize("identifyCongratulationsMessage");
-        const message = messageTemplate.replace("{0}", score).replace("{1}", totalQuestions);
+        const message = messageTemplate.replace("{0}", objectifScore)
+          .replace("{1}", score)
+          .replace("{2}", totalQuestions);
         $('#feedback').removeClass('correct incorrect').addClass('congratulations')
             .html(`<strong>${await localize("congratulations")}</strong> ${message}`)
             .show();
