@@ -1,3 +1,4 @@
+let lang = "fr"; // Default language
 
 // Names of persons for display
 const personnesAbrégées = [
@@ -30,7 +31,7 @@ const imperative_mapping = {
 
 // API configuration
 const PROXY_URL = "https://api.allorigins.win/raw?url=";
-const API_BASE_URL = "http://verbe.cc/verbecc/conjugate/fr/";
+let api_base_url = `http://verbe.cc/verbecc/conjugate/${lang}/`;
 
 // Function to call the Verbecc API using CORS proxy
 async function callAPI(verbe) {
@@ -44,7 +45,7 @@ async function callAPI(verbe) {
     while (attempts < maxAttempts) {
         try {
             // Use CORS proxy to access the HTTP API
-            const apiUrl = `${PROXY_URL}${encodeURIComponent(API_BASE_URL + encodeURIComponent(verbe))}`;
+            const apiUrl = `${PROXY_URL}${encodeURIComponent(api_base_url + encodeURIComponent(verbe))}`;
             
             // fetch from $lang.json with cache
             $.ajaxSetup({ cache: true });
@@ -90,7 +91,6 @@ async function callAPI(verbe) {
 }
 // Get language data from JSON file synchronously
 async function getLangData() {
-    let lang = "fr"; // Default language
     // fetch from $lang.json with cache
     $.ajaxSetup({ cache: true });
     $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
