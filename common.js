@@ -140,7 +140,6 @@ async function translateUI() {
     );
 
     // Translate UI elements
-    $('.infinitive-title').text(langData.verbData.moodsNames.infinitive);
 
     $('.person-btn [data-person|="0"]').text(langData.verbData.personDisplay.ordinal[0]);
     $('.person-btn [data-person|="1"]').text(langData.verbData.personDisplay.ordinal[1]);

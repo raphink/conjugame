@@ -102,7 +102,7 @@ async function updateTimeButtons(mode) {
             availableTenses = langData.verbData.moodsTenses.easy[mode];
     }
 
-    let localMode = langData.verbData.moodsNames[mode].toLowerCase();
+    let localMode = langData.verbData.moodsNames[mode];
 
     console.log("Local mode:", localMode);
     console.log("Available tenses:", availableTenses);
@@ -242,7 +242,7 @@ async function nextQuestion() {
     // Store and display only buttons for available modes
     let langData = await getLangData();
     availableModes = Object.keys(availableForms).filter(m =>
-        Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m].toLowerCase())
+        Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m])
     );
 
     console.log("Available modes:", availableModes);
@@ -252,8 +252,8 @@ async function nextQuestion() {
 
     // Generate buttons for available modes
     availableModes.forEach(mode => {
-        const nomFrancais = langData.verbData.moodsNames[mode];
-        $('#mood-group').append(`<button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="${mode}">${nomFrancais}</button>`);
+        const localName = langData.translations[mode] || mode;
+        $('#mood-group').append(`<button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="${mode}">${localName}</button>`);
     });
    // If only one mode is available, select it automatically
     if (availableModes.length === 1) {
@@ -278,7 +278,7 @@ async function nextQuestion() {
     const mode = availableModes[Math.floor(Math.random() * availableModes.length)];
 
     console.log("Selected mode:", mode);
-    const localMode = langData.verbData.moodsNames[mode].toLowerCase();
+    const localMode = langData.verbData.moodsNames[mode] || mode;
     console.log("Local mode:", localMode);
 
     console.log("Available tenses for this mode:", availableForms[mode]);

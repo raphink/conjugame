@@ -32,6 +32,13 @@
       "conjugateTo": "Conjuguez au {0} du {1}, {2} personne",
       "singular": "Singulier",
       "plural": "Pluriel",
+
+      "indicative": "Indicatif",
+      "infinitive": "Infinitif",
+      "participle": "Participe",
+      "subjunctive": "Subjonctif",
+      "conditional": "Conditionnel",
+      "imperative": "Impératif",
       
       "correctAnswerIs": "La forme correcte est \"{0}\".",
       "correctFormFeedback": "\"{0}\" est bien la forme correcte de \"{1}\".",
@@ -43,12 +50,12 @@
   },
   "verbData": {
     "moodsNames": {
-      "indicative": "Indicatif",
-      "infinitive": "Infinitif",
-      "participle": "Participe",
-      "subjunctive": "Subjonctif",
-      "conditional": "Conditionnel",
-      "imperative": "Imperatif"
+      "indicative": "indicatif",
+      "infinitive": "infinitif",
+      "participle": "participe",
+      "subjunctive": "subjonctif",
+      "conditional": "conditionnel",
+      "imperative": "imperatif"
     },
     "tensesNames": {
       "présent": "Présent",
