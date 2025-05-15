@@ -138,6 +138,18 @@ async function getFullTenseName(tense) {
     }
 }
 
+// Function to get person name
+async function getPersonFullName(person) {
+    let langData = await getLangData();
+    const personName = await langData.verbData.personDisplay.fullNames[person];
+    if (personName) {
+        return personName;
+    } else {
+        console.warn(`Person not found: ${person}`);
+        return person; // Fallback to original person if not found
+    }
+}
+
 // Function to translate UI elements
 async function translateUI() {
     let langData = await getLangData();

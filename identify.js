@@ -345,11 +345,10 @@ async function verifyAnswer() {
         selectedMood === currentAnswer.mode && 
         selectedTense === currentAnswer.temps;
 
-        let langData = await getLangData();
+    let langData = await getLangData();
     
-    let localTenseName = langData.verbData.tensesNames[currentAnswer.temps].toLowerCase() || currentAnswer.temps;
-    // Format person name for display
-    let personName = langData.verbData.personDisplay.fullNames[selectedPerson] || selectedPerson;
+    let localTenseName = await getFullTenseName(currentAnswer.temps);
+    let personName = await getPersonFullName(selectedPerson);
 
     if (isCorrect) {
         score++;
