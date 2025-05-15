@@ -14,27 +14,6 @@ let difficulty = "easy";
 let objectifScore = 10; // Number of correct answers needed to "win"
 let availableModes = []; // Array to store available modes for current verb
 
-// Define available persons by mode (moved from common.js)
-const personnesParMode = {
-    "indicative": [0, 1, 2, 3, 4, 5],      // all 6 persons
-    "subjunctive": [0, 1, 2, 3, 4, 5],     // all 6 persons
-    "conditional": [0, 1, 2, 3, 4, 5],   // all 6 persons
-    "imperative": [1, 3, 4]                // only 2nd sing, 1st plur, 2nd plur (tu, nous, vous)
-};
-
-// Mapping between standard person indices and imperative array indices
-const imperative_mapping = {
-    // Standard index to array index
-    "1": 0,  // tu (2nd person singular) -> position 0 in imperative array
-    "3": 1,  // nous (1st person plural) -> position 1 in imperative array
-    "4": 2,  // vous (2nd person plural) -> position 2 in imperative array
-    
-    // Array index to standard index (reverse mapping)
-    "array_0": 1,  // position 0 in imperative array -> tu (2nd person singular)
-    "array_1": 3,  // position 1 in imperative array -> nous (1st person plural)
-    "array_2": 4   // position 2 in imperative array -> vous (2nd person plural)
-};
-
 // Get person index from person and number selections
 function getPersonneIndex(personSelection, numberSelection) {
     const personInt = parseInt(personSelection);
