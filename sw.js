@@ -74,7 +74,10 @@ self.addEventListener('fetch', event => {
 
             caches.open(CACHE_NAME)
               .then(cache => {
-                // Don't cache API calls
+                // NOTE: We could cache API calls to enhance offline capability,
+                // but this would significantly increase cache size. For now,
+                // we're only storing previously viewed content, not verb data.
+                // This means the app will need internet connection for new verbs.
                 if (!event.request.url.includes('verbe.cc')) {
                   cache.put(event.request, responseToCache);
                 }
