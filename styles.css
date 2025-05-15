@@ -47,10 +47,29 @@ body {
     margin-bottom: 50px;
 }
 
+/* Default flag colors - French */
 .flag-colors {
     background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
     height: 10px;
     margin-bottom: 20px;
+}
+
+/* Spanish flag colors */
+.flag-colors.es {
+    background: linear-gradient(to right, 
+        #AA151B 25%, /* Red */
+        #F1BF00 25%, #F1BF00 75%, /* Yellow */
+        #AA151B 75% /* Red */
+    );
+}
+
+/* Italian flag colors */
+.flag-colors.it {
+    background: linear-gradient(to right, 
+        #009246 33%, /* Green */
+        white 33%, white 66%, 
+        #CE2B37 66% /* Red */
+    );
 }
 
 .game-header, .header {

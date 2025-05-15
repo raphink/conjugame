@@ -19,6 +19,9 @@ function initializeSettings() {
     if (urlLang && supportedLanguages.includes(urlLang)) {
         lang = urlLang;
         updateLanguageSelection();
+    } else {
+        // Even if no language param was provided, update the top flag with the default language
+        updateTopFlagColors();
     }
     
     // Set difficulty if provided in URL
@@ -36,11 +39,26 @@ function updateApiBaseUrl() {
     api_base_url = `http://verbe.cc/verbecc/conjugate/${lang}/`;
 }
 
-// Function to update language selection in flag icons
+// Function to update language selection in flag icons and update top flag colors
 function updateLanguageSelection() {
+    // Update active flag icon
     if ($('.language-flag').length) {
         $('.language-flag').removeClass('active');
         $(`.language-flag[data-lang="${lang}"]`).addClass('active');
+    }
+    
+    // Update the top flag colors based on selected language
+    updateTopFlagColors();
+}
+
+// Function to update the top flag colors based on selected language
+function updateTopFlagColors() {
+    // First, remove any language-specific classes
+    $('.flag-colors').removeClass('es it');
+    
+    // Then add the class for the current language (leave fr as default)
+    if (lang !== 'fr') {
+        $('.flag-colors').addClass(lang);
     }
 }
 
