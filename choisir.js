@@ -3,9 +3,9 @@ let score = 0;
 let totalQuestions = 0;
 let streak = 0;
 let verbeActuel = "";
-let conjugaisonActuelle = "";
-let donneesDuVerbe = null;
-let reponseActuelle = {
+let currentConjugation = "";
+let verbData = null;
+let currentAnswer = {
     personne: null,
     mode: "",
     temps: ""
@@ -16,24 +16,24 @@ let optionsConjugaison = []; // Conjugation options to display
 let indexOptionCorrecte = -1; // Index of the correct option
 
 // Function to generate incorrect but plausible options
-async function genererOptionsIncorrectes(formeCorrecte, donneesDuVerbe, modeCorrect, tempsCorrect) {
+async function genererOptionsIncorrectes(formeCorrecte, verbData, modeCorrect, tempsCorrect) {
     const options = [];
     const nombreOptions = 3; // Number of incorrect options to generate
-    const personneIdx = reponseActuelle.personne; // Person for which to generate options
+    const personneIdx = currentAnswer.personne; // Person for which to generate options
 
     let langData = await getLangData();
     modeCorrectLocal = langData.verbData.moodsNames[modeCorrect].toLowerCase();
     console.log("Generating incorrect options for:", formeCorrecte, modeCorrectLocal, tempsCorrect);
     
     // Strategy 1: Use the same person index but other tenses of the same mode
-    const autresTompsMode = Object.keys(donneesDuVerbe.moods[modeCorrectLocal])
+    const autresTompsMode = Object.keys(verbData.moods[modeCorrectLocal])
         .filter(t => t !== tempsCorrect);
         
     if (autresTompsMode.length > 0) {
         for (const autreTemps of autresTompsMode) {
-            if (donneesDuVerbe.moods[modeCorrectLocal][autreTemps] &&
-                donneesDuVerbe.moods[modeCorrectLocal][autreTemps].length > personneIdx) {
-                const option = donneesDuVerbe.moods[modeCorrectLocal][autreTemps][personneIdx];
+            if (verbData.moods[modeCorrectLocal][autreTemps] &&
+                verbData.moods[modeCorrectLocal][autreTemps].length > personneIdx) {
+                const option = verbData.moods[modeCorrectLocal][autreTemps][personneIdx];
                 if (option !== formeCorrecte && !options.includes(option) && options.length < nombreOptions) {
                     options.push(option);
                 }
@@ -42,17 +42,17 @@ async function genererOptionsIncorrectes(formeCorrecte, donneesDuVerbe, modeCorr
     }
     
     // Strategy 2: Use other modes but the same person
-    const autresModes = Object.keys(donneesDuVerbe.moods)
+    const autresModes = Object.keys(verbData.moods)
         .filter(m => m !== modeCorrectLocal && m !== "participe" && m !== "infinitif");
         
     if (autresModes.length > 0 && options.length < nombreOptions) {
         for (const autreMode of autresModes) {
-            const temps = Object.keys(donneesDuVerbe.moods[autreMode]);
+            const temps = Object.keys(verbData.moods[autreMode]);
             if (temps.length > 0) {
                 for (const unTemps of temps) {
-                    if (donneesDuVerbe.moods[autreMode][unTemps] && 
-                        donneesDuVerbe.moods[autreMode][unTemps].length > personneIdx) {
-                        const option = donneesDuVerbe.moods[autreMode][unTemps][personneIdx];
+                    if (verbData.moods[autreMode][unTemps] && 
+                        verbData.moods[autreMode][unTemps].length > personneIdx) {
+                        const option = verbData.moods[autreMode][unTemps][personneIdx];
                         if (option !== formeCorrecte && !options.includes(option) && options.length < nombreOptions) {
                             options.push(option);
                         }
@@ -165,7 +165,7 @@ async function genererOptionsIncorrectes(formeCorrecte, donneesDuVerbe, modeCorr
 }
 
 // Function to generate a new question
-async function questionSuivante() {
+async function nextQuestion() {
     // Hide feedback
     $('#feedback').hide();
     
@@ -179,65 +179,65 @@ async function questionSuivante() {
     $('.verb-option').prop('disabled', false);
     
     // Choose a random verb based on difficulty level
-    const verbesDisponibles = await obtenirListeVerbes(niveauDifficulte);
+    const verbesDisponibles = await getVerbList(niveauDifficulte);
     verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
     
     // Get verb data via API
-    donneesDuVerbe = await appelerAPI(verbeActuel);
+    verbData = await callAPI(verbeActuel);
     
-    if (!donneesDuVerbe) {
+    if (!verbData) {
         // In case of error with the API
         return;
     }
     
     // Display the verb infinitive
-    $('#verb-infinitive').text(donneesDuVerbe.verb.infinitive);
+    $('#verb-infinitive').text(verbData.verb.infinitive);
     
     // Get available forms for the current level
-    const formesDisponibles = await obtenirFormesDisponibles(niveauDifficulte);
+    const availableForms = await getAvailableForms(niveauDifficulte);
 
-    console.log("Available forms:", formesDisponibles);
+    console.log("Available forms:", availableForms);
     
     // Choose a random mode from those available for this level
     let langData = await getLangData();
     console.log("Lang data:", langData);
-    const modes = Object.keys(formesDisponibles).filter(m => Object.keys(donneesDuVerbe.moods).includes(langData.verbData.moodsNames[m].toLowerCase()));
+    const modes = Object.keys(availableForms).filter(m => Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m].toLowerCase()));
     if (modes.length === 0) {
         console.warn(`No mode available for this verb and difficulty level`);
-        questionSuivante(); // Try another verb
+        nextQuestion(); // Try another verb
         return;
     }
     const mode = modes[Math.floor(Math.random() * modes.length)];
     const localMode = langData.verbData.moodsNames[mode].toLowerCase();
 
     console.log("Selected mode:", localMode);
-    console.log(donneesDuVerbe);
+    console.log(verbData);
 
-    console.log("Available tenses:", formesDisponibles[mode]);
-    console.log(donneesDuVerbe.moods[localMode]);
+    console.log("Available tenses:", availableForms[mode]);
+    console.log(verbData.moods[localMode]);
 
     // Choose a random tense for this mode
-    const tempsDisponibles = formesDisponibles[mode].filter(t => Object.keys(donneesDuVerbe.moods[localMode]).includes(t));
-    if (tempsDisponibles.length === 0) {
+    const availableTenses = availableForms[mode].filter(t => Object.keys(verbData.moods[localMode]).includes(t));
+    if (availableTenses.length === 0) {
         console.warn(`No tense available for verb ${verbeActuel} in mode ${mode}`);
-        questionSuivante(); // Try another verb/mode
+        nextQuestion(); // Try another verb/mode
         return;
     }
-    const temps = tempsDisponibles[Math.floor(Math.random() * tempsDisponibles.length)];
+    const temps = availableTenses[Math.floor(Math.random() * availableTenses.length)];
     
     // Check if the tense exists for this verb
-    if (!donneesDuVerbe.moods[localMode][temps] || donneesDuVerbe.moods[localMode][temps].length === 0) {
+    if (!verbData.moods[localMode][temps] || verbData.moods[localMode][temps].length === 0) {
         console.warn(`Tense ${temps} does not exist for verb ${verbeActuel} in mode ${mode}`);
-        questionSuivante(); // Try another verb/mode/tense
+        nextQuestion(); // Try another verb/mode/tense
         return;
     }
     
     // Choose a random person (considering that imperative only has 3 persons)
-    let maxPersonne = donneesDuVerbe.moods[localMode][temps].length - 1;
+    let maxPersonne = verbData.moods[localMode][temps].length - 1;
     const indicePersonne = Math.floor(Math.random() * (maxPersonne + 1));
     
     // Store the correct answer
-    reponseActuelle = {
+    currentAnswer = {
         personne: indicePersonne,
         mode: mode,
         temps: temps
@@ -254,14 +254,14 @@ async function questionSuivante() {
     }
     
     // Get the correct conjugation
-    conjugaisonActuelle = donneesDuVerbe.moods[localMode][temps][indicePersonne];
+    currentConjugation = verbData.moods[localMode][temps][indicePersonne];
     
     // Generate incorrect options
-    optionsConjugaison = await genererOptionsIncorrectes(conjugaisonActuelle, donneesDuVerbe, mode, temps);
+    optionsConjugaison = await genererOptionsIncorrectes(currentConjugation, verbData, mode, temps);
     
     // Shuffle options
     indexOptionCorrecte = Math.floor(Math.random() * (optionsConjugaison.length + 1));
-    optionsConjugaison.splice(indexOptionCorrecte, 0, conjugaisonActuelle);
+    optionsConjugaison.splice(indexOptionCorrecte, 0, currentConjugation);
     
     // Display options
     const optionsContainer = $('#verb-options');
@@ -277,8 +277,8 @@ async function questionSuivante() {
 }
 
 // Function to check the answer
-function verifierReponse() {
-    if (!donneesDuVerbe) {
+function verifyAnswer() {
+    if (!verbData) {
         alert("Veuillez d'abord charger un verbe");
         return;
     }
@@ -296,23 +296,23 @@ function verifierReponse() {
         return;
     }
     
-    let estCorrect = optionSelectionneeIndex === indexOptionCorrecte;
+    let isCorrect = optionSelectionneeIndex === indexOptionCorrecte;
     
-    if (estCorrect) {
+    if (isCorrect) {
         score++;
         streak++;
         $('#score').text(score);
         $('#streak').text(streak);
         
         $('#feedback').removeClass('incorrect').addClass('correct')
-            .html(`<strong>Correct !</strong> "${conjugaisonActuelle}" est bien la forme correcte de "${verbeActuel}".`)
+            .html(`<strong>Correct !</strong> "${currentConjugation}" est bien la forme correcte de "${verbeActuel}".`)
             .show();
     } else {
         streak = 0;
         $('#streak').text(streak);
         
         $('#feedback').removeClass('correct').addClass('incorrect')
-            .html(`<strong>Incorrect.</strong> La forme correcte est "${conjugaisonActuelle}".`)
+            .html(`<strong>Incorrect.</strong> La forme correcte est "${currentConjugation}".`)
             .show();
     }
     
@@ -355,7 +355,7 @@ $(document).ready(function() {
         niveauDifficulte = $(this).data('level');
         
         // Generate a new question for the selected level
-        questionSuivante();
+        nextQuestion();
     });
     
     // Conjugation options management
@@ -364,9 +364,9 @@ $(document).ready(function() {
         $(this).addClass('selected');
     });
 
-    $('#check-answer').click(verifierReponse);
-    $('#next-question').click(questionSuivante);
+    $('#check-answer').click(verifyAnswer);
+    $('#next-question').click(nextQuestion);
 
     // Start the game
-    questionSuivante();
+    nextQuestion();
 });

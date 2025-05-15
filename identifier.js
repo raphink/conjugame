@@ -3,9 +3,9 @@ let score = 0;
 let totalQuestions = 0;
 let streak = 0;
 let verbeActuel = "";
-let conjugaisonActuelle = "";
-let donneesDuVerbe = null;
-let reponseActuelle = {
+let currentConjugation = "";
+let verbData = null;
+let currentAnswer = {
     personne: null,
     mode: "",
     temps: ""
@@ -77,42 +77,42 @@ function convertPersonneIndexToComponents(personneIndex) {
 }
 
 // Function to update tense buttons based on selected mode
-function mettreAJourBoutonsTemps(mode) {
+function updateTimeButtons(mode) {
     const container = $('#tense-container');
     container.empty();
 
     if (!mode) return;
 
-    let tempsDisponibles;
+    let availableTenses;
     switch (niveauDifficulte) {
         case "facile":
-            tempsDisponibles = modesTempsFaciles[mode] || [];
+            availableTenses = modesTempsFaciles[mode] || [];
             break;
         case "moyen":
-            tempsDisponibles = modesTempsIntermediaires[mode] || [];
+            availableTenses = modesTempsIntermediaires[mode] || [];
             break;
         case "difficile":
-            tempsDisponibles = modesTempsAvances[mode] || [];
+            availableTenses = modesTempsAvances[mode] || [];
             break;
         default:
-            tempsDisponibles = modesTempsFaciles[mode] || [];
+            availableTenses = modesTempsFaciles[mode] || [];
     }
 
     // Filter tenses that exist for this verb
-    if (donneesDuVerbe && donneesDuVerbe.moods[mode]) {
-        tempsDisponibles = tempsDisponibles.filter(t => 
-            Object.keys(donneesDuVerbe.moods[mode]).includes(t)
+    if (verbData && verbData.moods[mode]) {
+        availableTenses = availableTenses.filter(t => 
+            Object.keys(verbData.moods[mode]).includes(t)
         );
     }
 
     // If only one tense is available, select it automatically
-    if (tempsDisponibles.length === 1) {
-        const temps = tempsDisponibles[0];
+    if (availableTenses.length === 1) {
+        const temps = availableTenses[0];
         const nomFrancais = nomsFrancaisTemps[temps] || temps;
         container.append(`<button type="button" class="btn btn-outline-secondary choice-btn active" data-value="${temps}">${nomFrancais}</button>`);
     } else {
         // Otherwise add all available tenses as buttons
-        tempsDisponibles.forEach(temps => {
+        availableTenses.forEach(temps => {
             const nomFrancais = nomsFrancaisTemps[temps] || temps;
             container.append(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">${nomFrancais}</button>`);
         });
@@ -187,7 +187,7 @@ function handlePersonSelection(mode) {
     });
 }
 
-async function questionSuivante() {
+async function nextQuestion() {
     // Hide feedback
     $('#feedback').hide();
     
@@ -201,19 +201,19 @@ async function questionSuivante() {
     $('.choice-btn').prop('disabled', false);
     
     // Choose a random verb based on difficulty level
-    const verbesDisponibles = await obtenirListeVerbes(niveauDifficulte);
+    const verbesDisponibles = await getVerbList(niveauDifficulte);
     verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
     
     // Get verb data via API
-    donneesDuVerbe = await appelerAPI(verbeActuel);
+    verbData = await callAPI(verbeActuel);
     
-    if (!donneesDuVerbe) {
+    if (!verbData) {
         // In case of error with the API
         return;
     }
     
     // Handle infinitive display based on level
-    $('#infinitive-verb').text(donneesDuVerbe.verb.infinitive);
+    $('#infinitive-verb').text(verbData.verb.infinitive);
     if (niveauDifficulte === "facile") {
         $('#infinitive-badge').show();
     } else {
@@ -221,16 +221,16 @@ async function questionSuivante() {
     }
     
     // Get available forms for the current level
-    const formesDisponibles = await obtenirFormesDisponibles(niveauDifficulte);
+    const availableForms = await getAvailableForms(niveauDifficulte);
 
-    console.log("Available forms:", formesDisponibles);
+    console.log("Available forms:", availableForms);
 
-    console.log(donneesDuVerbe);
+    console.log(verbData);
     
     // Store and display only buttons for available modes
     let langData = await getLangData();
-    availableModes = Object.keys(formesDisponibles).filter(m =>
-        Object.keys(donneesDuVerbe.moods).includes(langData.verbData.moodsNames[m].toLowerCase())
+    availableModes = Object.keys(availableForms).filter(m =>
+        Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m].toLowerCase())
     );
 
     console.log("Available modes:", availableModes);
@@ -247,13 +247,13 @@ async function questionSuivante() {
     if (availableModes.length === 1) {
         const singleMode = availableModes[0];
         $(`#mood-group button[data-value="${singleMode}"]`).addClass('active');
-        mettreAJourBoutonsTemps(singleMode);
+        updateTimeButtons(singleMode);
     }
     
     // Choose a random mode from those available for this level
     if (availableModes.length === 0) {
         console.warn(`No mode available for this verb and difficulty level`);
-        questionSuivante(); // Try another verb
+        nextQuestion(); // Try another verb
         return;
     }
     const mode = availableModes[Math.floor(Math.random() * availableModes.length)];
@@ -262,23 +262,23 @@ async function questionSuivante() {
     const localMode = langData.verbData.moodsNames[mode].toLowerCase();
     console.log("Local mode:", localMode);
 
-    console.log("Available tenses for this mode:", formesDisponibles[mode]);
+    console.log("Available tenses for this mode:", availableForms[mode]);
     
     // Choose a random tense for this mode
-    const tempsDisponibles = formesDisponibles[mode].filter(t => 
-        Object.keys(donneesDuVerbe.moods[localMode]).includes(t)
+    const availableTenses = availableForms[mode].filter(t => 
+        Object.keys(verbData.moods[localMode]).includes(t)
     );
-    if (tempsDisponibles.length === 0) {
+    if (availableTenses.length === 0) {
         console.warn(`No tense available for verb ${verbeActuel} in mode ${mode}`);
-        questionSuivante(); // Try another verb/mode
+        nextQuestion(); // Try another verb/mode
         return;
     }
-    const temps = tempsDisponibles[Math.floor(Math.random() * tempsDisponibles.length)];
+    const temps = availableTenses[Math.floor(Math.random() * availableTenses.length)];
     
     // Check if the tense exists for this verb
-    if (!donneesDuVerbe.moods[localMode][temps] || donneesDuVerbe.moods[localMode][temps].length === 0) {
+    if (!verbData.moods[localMode][temps] || verbData.moods[localMode][temps].length === 0) {
         console.warn(`Tense ${temps} does not exist for verb ${verbeActuel} in mode ${mode}`);
-        questionSuivante(); // Try another verb/mode/tense
+        nextQuestion(); // Try another verb/mode/tense
         return;
     }
     
@@ -290,7 +290,7 @@ async function questionSuivante() {
     const selectedPersonIndex = availablePersons[randomPersonIndex];
     
     // Store the correct answer with the standard person index
-    reponseActuelle = {
+    currentAnswer = {
         personne: selectedPersonIndex,
         mode: mode,
         temps: temps
@@ -307,16 +307,16 @@ async function questionSuivante() {
     }
     
     // Check if arrayIndex is within bounds
-    const maxIndex = donneesDuVerbe.moods[localMode][temps].length - 1;
+    const maxIndex = verbData.moods[localMode][temps].length - 1;
     if (arrayIndex > maxIndex) {
         arrayIndex = maxIndex;
     }
     
     // Get the actual conjugation
-    conjugaisonActuelle = donneesDuVerbe.moods[localMode][temps][arrayIndex];
+    currentConjugation = verbData.moods[localMode][temps][arrayIndex];
     
     // Display the conjugation
-    $('#verb-display').html(`<h2 class="highlight">${conjugaisonActuelle}</h2>`);
+    $('#verb-display').html(`<h2 class="highlight">${currentConjugation}</h2>`);
     
     // Pre-select correct person and number
     const components = convertPersonneIndexToComponents(selectedPersonIndex);
@@ -326,8 +326,8 @@ async function questionSuivante() {
     $('.number-btn').removeClass('active');
 }
 
-function verifierReponse() {
-    if (!donneesDuVerbe) {
+function verifyAnswer() {
+    if (!verbData) {
         alert("Veuillez d'abord charger un verbe");
         return;
     }
@@ -338,7 +338,7 @@ function verifierReponse() {
     // Get person selection from the combination of person and number
     const personSelection = $('.person-btn.active').data('person');
     const numberSelection = $('.number-btn.active').data('number');
-    let personneSelectionnee;
+    let selectedPerson;
     
     if (personSelection === undefined || numberSelection === undefined) {
         alert("Veuillez sélectionner une personne et un nombre");
@@ -346,14 +346,14 @@ function verifierReponse() {
         $('#total').text(totalQuestions);
         return;
     } else {
-        personneSelectionnee = getPersonneIndex(personSelection, numberSelection);
+        selectedPerson = getPersonneIndex(personSelection, numberSelection);
     }
     
-    let modeSelectionne = $('.mood-btn.active').data('value');
-    let tempsSelectionne = $('#tense-container .active').data('value');
+    let selectedMood = $('.mood-btn.active').data('value');
+    let selectedTense = $('#tense-container .active').data('value');
     
     // Check that all choices have been made
-    if (!modeSelectionne || !tempsSelectionne) {
+    if (!selectedMood || !selectedTense) {
         alert("Veuillez sélectionner un mode et un temps");
         totalQuestions--; // Cancel the increment
         $('#total').text(totalQuestions);
@@ -361,62 +361,62 @@ function verifierReponse() {
     }
     
     // Check if the answer is correct - direct comparison with stored answer
-    let estCorrect = 
-        personneSelectionnee === reponseActuelle.personne && 
-        modeSelectionne === reponseActuelle.mode && 
-        tempsSelectionne === reponseActuelle.temps;
+    let isCorrect = 
+        selectedPerson === currentAnswer.personne && 
+        selectedMood === currentAnswer.mode && 
+        selectedTense === currentAnswer.temps;
     
-    if (estCorrect) {
+    if (isCorrect) {
         score++;
         streak++;
         $('#score').text(score);
         $('#streak').text(streak);
         
         // Format person name for display
-        let personneNom;
-        if (reponseActuelle.mode !== "imperatif") {
-            personneNom = personnesNoms[reponseActuelle.personne];
+        let personName;
+        if (currentAnswer.mode !== "imperatif") {
+            personName = personsNames[currentAnswer.personne];
         } else {
             // For imperative, use the custom display format based on the standard person index
-            if (reponseActuelle.personne === 1) {
-                personneNom = "Tu (2ème personne singulier - impératif)";
-            } else if (reponseActuelle.personne === 3) {
-                personneNom = "Nous (1ère personne pluriel - impératif)";
-            } else if (reponseActuelle.personne === 4) {
-                personneNom = "Vous (2ème personne pluriel - impératif)";
+            if (currentAnswer.personne === 1) {
+                personName = "Tu (2ème personne singulier - impératif)";
+            } else if (currentAnswer.personne === 3) {
+                personName = "Nous (1ère personne pluriel - impératif)";
+            } else if (currentAnswer.personne === 4) {
+                personName = "Vous (2ème personne pluriel - impératif)";
             } else {
                 // Fallback - should not happen with correct mapping
-                personneNom = personnesNoms[reponseActuelle.personne] + " (impératif)";
+                personName = personsNames[currentAnswer.personne] + " (impératif)";
             }
         }
         
         $('#feedback').removeClass('incorrect').addClass('correct')
-            .html(`<strong>Correct !</strong> "${conjugaisonActuelle}" est bien le ${nomsFrancaisTemps[reponseActuelle.temps] || reponseActuelle.temps} de "${verbeActuel}" au mode ${reponseActuelle.mode}, forme ${personneNom}.`)
+            .html(`<strong>Correct !</strong> "${currentConjugation}" est bien le ${nomsFrancaisTemps[currentAnswer.temps] || currentAnswer.temps} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
             .show();
     } else {
         streak = 0;
         $('#streak').text(streak);
         
         // Format person name for display
-        let personneNom;
-        if (reponseActuelle.mode !== "imperatif") {
-            personneNom = personnesNoms[reponseActuelle.personne];
+        let personName;
+        if (currentAnswer.mode !== "imperatif") {
+            personName = personsNames[currentAnswer.personne];
         } else {
             // For imperative, use the custom display format based on the standard person index
-            if (reponseActuelle.personne === 1) {
-                personneNom = "Tu (2ème personne singulier - impératif)";
-            } else if (reponseActuelle.personne === 3) {
-                personneNom = "Nous (1ère personne pluriel - impératif)";
-            } else if (reponseActuelle.personne === 4) {
-                personneNom = "Vous (2ème personne pluriel - impératif)";
+            if (currentAnswer.personne === 1) {
+                personName = "Tu (2ème personne singulier - impératif)";
+            } else if (currentAnswer.personne === 3) {
+                personName = "Nous (1ère personne pluriel - impératif)";
+            } else if (currentAnswer.personne === 4) {
+                personName = "Vous (2ème personne pluriel - impératif)";
             } else {
                 // Fallback - should not happen with correct mapping
-                personneNom = personnesNoms[reponseActuelle.personne] + " (impératif)";
+                personName = personsNames[currentAnswer.personne] + " (impératif)";
             }
         }
         
         $('#feedback').removeClass('correct').addClass('incorrect')
-            .html(`<strong>Incorrect.</strong> "${conjugaisonActuelle}" est le ${nomsFrancaisTemps[reponseActuelle.temps] || reponseActuelle.temps} de "${verbeActuel}" au mode ${reponseActuelle.mode}, forme ${personneNom}.`)
+            .html(`<strong>Incorrect.</strong> "${currentConjugation}" est le ${nomsFrancaisTemps[currentAnswer.temps] || currentAnswer.temps} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
             .show();
     }
     
@@ -470,12 +470,12 @@ $(document).ready(function() {
         }
         
         // Generate a new question for the selected level
-        questionSuivante();
+        nextQuestion();
     });
 
     $('.mood-btn').click(function() {
         const mode = $(this).data('value');
-        mettreAJourBoutonsTemps(mode);
+        updateTimeButtons(mode);
         handlePersonSelection(mode);
     });
     
@@ -487,13 +487,13 @@ $(document).ready(function() {
         }
     });
 
-    $('#check-answer').click(verifierReponse);
-    $('#next-question').click(questionSuivante);
+    $('#check-answer').click(verifyAnswer);
+    $('#next-question').click(nextQuestion);
 
     // Select some default values to avoid empty selections
     //$('button[data-person="0"]').addClass('active'); // 1st person
     //$('button[data-number="0"]').addClass('active'); // singular
 
     // Start the game
-    questionSuivante();
+    nextQuestion();
 });

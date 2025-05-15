@@ -40,7 +40,7 @@ const personnesAbrégées = [
 const personnesImperatif = ["2ème (tu)", "1ère (nous)", "2ème (vous)"];
 
 // Names of persons for result display
-const personnesNoms = [
+const personsNames = [
     "Je (1ère personne singulier)",
     "Tu (2ème personne singulier)",
     "Il/Elle (3ème personne singulier)",
@@ -54,7 +54,7 @@ const PROXY_URL = "https://api.allorigins.win/raw?url=";
 const API_BASE_URL = "http://verbe.cc/verbecc/conjugate/fr/";
 
 // Function to call the Verbecc API using CORS proxy
-async function appelerAPI(verbe) {
+async function callAPI(verbe) {
     $('#loading').show();
     $('#verb-display').hide();
     
@@ -125,7 +125,7 @@ async function getLangData() {
 }
 
 // Get verb list based on difficulty level
-async function obtenirListeVerbes(niveauDifficulte) {
+async function getVerbList(niveauDifficulte) {
     let langData = await getLangData();
 
     switch(niveauDifficulte) {
@@ -141,7 +141,7 @@ async function obtenirListeVerbes(niveauDifficulte) {
 }
 
 // Get available forms based on difficulty level
-async function obtenirFormesDisponibles(niveauDifficulte) {
+async function getAvailableForms(niveauDifficulte) {
     let langData = await getLangData();
 
     console.log("Formes disponibles:", langData.verbData.moodsTenses);
