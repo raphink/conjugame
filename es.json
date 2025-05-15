@@ -1,5 +1,9 @@
 {
   "translations": {
+      "installApp": "Instala Conjugame en tu dispositivo",
+      "installAppDesc": "Para usar la aplicación incluso sin conexión a internet",
+      "install": "Instalar",
+      "later": "Más tarde",
       "gameTitle": "Conjugación Española",
       "score": "Puntuación",
       "streak": "Racha",

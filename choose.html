@@ -12,6 +12,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Conjugame">
+    <link rel="apple-touch-icon" href="icon.png">
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Conjugame">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
 </head>
 <body>
     <div class="game-container">
@@ -94,5 +108,27 @@
     <script src="common.js"></script>
     <script src="languageFlags.js"></script>
     <script src="choose.js"></script>
+    <script src="pwa-install.js"></script>
+    <script>
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+        
+        // Update installation prompt with correct language after UI is translated
+        $(document).ready(async function() {
+            if (typeof updateInstallPrompt === 'function') {
+                updateInstallPrompt();
+            }
+        });
+    </script>
 </body>
 </html>

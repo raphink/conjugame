@@ -1,5 +1,9 @@
 {
   "translations": {
+      "installApp": "Installez Conjugame sur votre appareil",
+      "installAppDesc": "Pour utiliser l'application même sans connexion internet",
+      "install": "Installer",
+      "later": "Plus tard",
       "gameTitle": "Conjugaison Française",
       "score": "Score",
       "streak": "Série",
