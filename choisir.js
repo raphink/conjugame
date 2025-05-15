@@ -16,20 +16,24 @@ let optionsConjugaison = []; // Conjugation options to display
 let indexOptionCorrecte = -1; // Index of the correct option
 
 // Function to generate incorrect but plausible options
-function genererOptionsIncorrectes(formeCorrecte, donneesDuVerbe, modeCorrect, tempsCorrect) {
+async function genererOptionsIncorrectes(formeCorrecte, donneesDuVerbe, modeCorrect, tempsCorrect) {
     const options = [];
     const nombreOptions = 3; // Number of incorrect options to generate
     const personneIdx = reponseActuelle.personne; // Person for which to generate options
+
+    let langData = await getLangData();
+    modeCorrectLocal = langData.verbData.moodsNames[modeCorrect].toLowerCase();
+    console.log("Generating incorrect options for:", formeCorrecte, modeCorrectLocal, tempsCorrect);
     
     // Strategy 1: Use the same person index but other tenses of the same mode
-    const autresTompsMode = Object.keys(donneesDuVerbe.moods[modeCorrect])
+    const autresTompsMode = Object.keys(donneesDuVerbe.moods[modeCorrectLocal])
         .filter(t => t !== tempsCorrect);
         
     if (autresTompsMode.length > 0) {
         for (const autreTemps of autresTompsMode) {
-            if (donneesDuVerbe.moods[modeCorrect][autreTemps] && 
-                donneesDuVerbe.moods[modeCorrect][autreTemps].length > personneIdx) {
-                const option = donneesDuVerbe.moods[modeCorrect][autreTemps][personneIdx];
+            if (donneesDuVerbe.moods[modeCorrectLocal][autreTemps] &&
+                donneesDuVerbe.moods[modeCorrectLocal][autreTemps].length > personneIdx) {
+                const option = donneesDuVerbe.moods[modeCorrectLocal][autreTemps][personneIdx];
                 if (option !== formeCorrecte && !options.includes(option) && options.length < nombreOptions) {
                     options.push(option);
                 }
@@ -39,7 +43,7 @@ function genererOptionsIncorrectes(formeCorrecte, donneesDuVerbe, modeCorrect, t
     
     // Strategy 2: Use other modes but the same person
     const autresModes = Object.keys(donneesDuVerbe.moods)
-        .filter(m => m !== modeCorrect && m !== "participe" && m !== "infinitif");
+        .filter(m => m !== modeCorrectLocal && m !== "participe" && m !== "infinitif");
         
     if (autresModes.length > 0 && options.length < nombreOptions) {
         for (const autreMode of autresModes) {
@@ -57,6 +61,8 @@ function genererOptionsIncorrectes(formeCorrecte, donneesDuVerbe, modeCorrect, t
             }
         }
     }
+
+    console.log("Generated options from other tenses/modes:", options);
     
     // If we don't have enough options, create plausible variations
     if (options.length < nombreOptions) {
@@ -173,7 +179,7 @@ async function questionSuivante() {
     $('.verb-option').prop('disabled', false);
     
     // Choose a random verb based on difficulty level
-    const verbesDisponibles = obtenirListeVerbes(niveauDifficulte);
+    const verbesDisponibles = await obtenirListeVerbes(niveauDifficulte);
     verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
     
     // Get verb data via API
@@ -188,19 +194,30 @@ async function questionSuivante() {
     $('#verb-infinitive').text(donneesDuVerbe.verb.infinitive);
     
     // Get available forms for the current level
-    const formesDisponibles = obtenirFormesDisponibles(niveauDifficulte);
+    const formesDisponibles = await obtenirFormesDisponibles(niveauDifficulte);
+
+    console.log("Available forms:", formesDisponibles);
     
     // Choose a random mode from those available for this level
-    const modes = Object.keys(formesDisponibles).filter(m => Object.keys(donneesDuVerbe.moods).includes(m));
+    let langData = await getLangData();
+    console.log("Lang data:", langData);
+    const modes = Object.keys(formesDisponibles).filter(m => Object.keys(donneesDuVerbe.moods).includes(langData.verbData.moodsNames[m].toLowerCase()));
     if (modes.length === 0) {
         console.warn(`No mode available for this verb and difficulty level`);
         questionSuivante(); // Try another verb
         return;
     }
     const mode = modes[Math.floor(Math.random() * modes.length)];
-    
+    const localMode = langData.verbData.moodsNames[mode].toLowerCase();
+
+    console.log("Selected mode:", localMode);
+    console.log(donneesDuVerbe);
+
+    console.log("Available tenses:", formesDisponibles[mode]);
+    console.log(donneesDuVerbe.moods[localMode]);
+
     // Choose a random tense for this mode
-    const tempsDisponibles = formesDisponibles[mode].filter(t => Object.keys(donneesDuVerbe.moods[mode]).includes(t));
+    const tempsDisponibles = formesDisponibles[mode].filter(t => Object.keys(donneesDuVerbe.moods[localMode]).includes(t));
     if (tempsDisponibles.length === 0) {
         console.warn(`No tense available for verb ${verbeActuel} in mode ${mode}`);
         questionSuivante(); // Try another verb/mode
@@ -209,14 +226,14 @@ async function questionSuivante() {
     const temps = tempsDisponibles[Math.floor(Math.random() * tempsDisponibles.length)];
     
     // Check if the tense exists for this verb
-    if (!donneesDuVerbe.moods[mode][temps] || donneesDuVerbe.moods[mode][temps].length === 0) {
+    if (!donneesDuVerbe.moods[localMode][temps] || donneesDuVerbe.moods[localMode][temps].length === 0) {
         console.warn(`Tense ${temps} does not exist for verb ${verbeActuel} in mode ${mode}`);
         questionSuivante(); // Try another verb/mode/tense
         return;
     }
     
     // Choose a random person (considering that imperative only has 3 persons)
-    let maxPersonne = donneesDuVerbe.moods[mode][temps].length - 1;
+    let maxPersonne = donneesDuVerbe.moods[localMode][temps].length - 1;
     const indicePersonne = Math.floor(Math.random() * (maxPersonne + 1));
     
     // Store the correct answer
@@ -237,10 +254,10 @@ async function questionSuivante() {
     }
     
     // Get the correct conjugation
-    conjugaisonActuelle = donneesDuVerbe.moods[mode][temps][indicePersonne];
+    conjugaisonActuelle = donneesDuVerbe.moods[localMode][temps][indicePersonne];
     
     // Generate incorrect options
-    optionsConjugaison = genererOptionsIncorrectes(conjugaisonActuelle, donneesDuVerbe, mode, temps);
+    optionsConjugaison = await genererOptionsIncorrectes(conjugaisonActuelle, donneesDuVerbe, mode, temps);
     
     // Shuffle options
     indexOptionCorrecte = Math.floor(Math.random() * (optionsConjugaison.length + 1));

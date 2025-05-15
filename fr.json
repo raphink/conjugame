@@ -1,0 +1,151 @@
+{
+  "translations": {
+      "gameTitle": "Conjugaison Française",
+      "score": "Score",
+      "streak": "Série",
+      "difficulty": "Niveau de difficulté",
+      "loading": "Chargement des données du verbe...",
+      "checkAnswer": "Vérifier la réponse",
+      "nextQuestion": "Question suivante",
+      "progress": "Progrès",
+      "home": "Accueil",
+      "correct": "Correct !",
+      "incorrect": "Incorrect.",
+      "changeModes": "Changer de mode de jeu :",
+      "congratulations": "Félicitations !",
+      "targetReached": "Vous avez atteint votre objectif de {0} bonnes réponses !",
+      "finalScore": "Score final : {0}/{1}",
+      "restart": "Recommencer",
+      
+      "identifyForm": "Mode: Identifier la Forme",
+      "chooseForm": "Mode: Choisir la Forme",
+      
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile",
+      
+      "person": "Personne",
+      "number": "Nombre",
+      "mood": "Mode",
+      "tense": "Temps",
+      "conjugateTo": "Conjuguez au {0} du {1}, {2} personne",
+      "singular": "Singulier",
+      "plural": "Pluriel",
+      
+      "correctAnswerIs": "La forme correcte est \"{0}\".",
+      "correctFormFeedback": "\"{0}\" est bien la forme correcte de \"{1}\".",
+      "incorrectFormFeedback": "La forme correcte est \"{0}\".",
+      "formIdentificationFeedback": "\"{0}\" est bien le {1} de \"{2}\" au mode {3}, forme {4}.",
+      
+      "error": "Erreur !",
+      "apiError": "Impossible de contacter le serveur de conjugaison. Veuillez vérifier votre connexion Internet et réessayer."
+  },
+  "verbData": {
+    "moodsNames": {
+      "indicative": "Indicatif",
+      "infinitive": "Infinitif",
+      "participle": "Participe",
+      "subjunctive": "Subjonctif",
+      "conditional": "Conditionnel",
+      "imperative": "Impératif"
+    },
+    "tenseNames": {
+      "présent": "Présent",
+      "futur-simple": "Futur simple",
+      "passé-composé": "Passé composé",
+      "imparfait": "Imparfait",
+      "plus-que-parfait": "Plus-que-parfait",
+      "passé-simple": "Passé simple",
+      "futur-antérieur": "Futur antérieur",
+      "passé-antérieur": "Passé antérieur",
+      "passé": "Passé",
+      "imperatif-présent": "Présent",
+      "imperatif-passé": "Passé"
+    },
+    "verbs": {
+      "easy": [
+        "être", "avoir", "faire", "dire", "aller", "voir", "parler", "aimer", "manger", "finir", "jouer", "venir", "prendre",
+        "donner", "appeler", "attendre", "comprendre", "connaître", "croire", "demander", "entendre", "écrire", "étudier",
+        "habiter", "lire", "mettre", "montrer", "ouvrir", "penser", "perdre", "porter", "pouvoir", "regarder", "rendre",
+        "répondre", "savoir", "sentir", "sortir", "suivre", "travailler", "trouver", "vendre", "vivre", "vouloir",
+        "acheter", "arriver", "chanter", "choisir", "commencer", "compter", "courir", "découvrir", "descendre", "dessiner",
+        "dormir", "écouter", "envoyer", "espérer", "fermer", "imaginer", "inviter", "laisser", "marcher", "monter",
+        "offrir", "oublier", "partir", "passer", "préférer", "préparer", "rentrer", "rester", "revenir", "sembler"
+      ],
+      "medium": [
+        "pouvoir", "vouloir", "savoir", "devoir", "croire", "mettre", "lire", "écrire", "comprendre", "attendre",
+        "entendre", "partir", "sortir", "sentir", "suivre", "vivre", "boire", "envoyer", "recevoir", "appeler",
+        "apercevoir", "apparaître", "apprendre", "atteindre", "combattre", "conduire", "construire", "contenir", "contribuer", "convenir",
+        "correspondre", "couvrir", "craindre", "décevoir", "défendre", "définir", "détruire", "disparaître", "distraire", "entretenir",
+        "entreprendre", "équivaloir", "établir", "éteindre", "étendre", "fournir", "fuir", "inclure", "inscrire", "interrompre",
+        "intervenir", "introduire", "maintenir", "mentir", "obtenir", "offrir", "ouvrir", "paraître", "parcourir", "parvenir",
+        "percevoir", "peindre", "permettre", "plaindre", "plaire", "poursuivre", "prévoir", "produire", "promettre", "reconnaître",
+        "recourir", "réduire", "rejoindre", "remettre", "remplir", "répandre", "répondre", "résoudre", "retenir", "réunir",
+        "revenir", "rompre", "servir", "souffrir", "sourire", "soutenir", "suffire", "surprendre", "survivre", "taire",
+        "tendre", "traduire", "transmettre", "valoir", "vendre", "vêtir"
+      ],
+      "hard": [
+        "courir", "mourir", "tenir", "venir", "acquérir", "asseoir", "battre", "connaître", "craindre", "croître",
+        "cueillir", "falloir", "joindre", "naître", "plaire", "pleuvoir", "résoudre", "rire", "suffire", "vaincre",
+        "abstraire", "accroître", "adjoindre", "advenir", "assaillir", "astreindre", "circonvenir", "clore", "comparaître", "complaire",
+        "compromettre", "concevoir", "conclure", "concourir", "conquérir", "convaincre", "découdre", "décrire", "déduire", "défaire",
+        "déplaire", "déteindre", "devenir", "disconvenir", "disjoindre", "dissoudre", "distraire", "ébattre", "échoir", "élire",
+        "émettre", "émoudre", "enceindre", "enclore", "encourir", "endormir", "enfuir", "enjoindre", "entendre", "entremettre",
+        "entrevoir", "entrouvrir", "envahir", "équivaloir", "exclure", "extraire", "faillir", "feindre", "forfaire", "gésir",
+        "haïr", "inscrire", "instruire", "interdire", "interjeter", "luire", "malfaire", "médire", "méfaire", "méprendre",
+        "mouvoir", "nuire", "occlure", "occire", "omettre", "paître", "paraître", "parfaire", "parvenir", "percevoir",
+        "poindre", "pourfendre", "pourvoir", "préconcevoir", "prédire", "prescrire", "prévaloir", "prévoir", "promouvoir", "proscrire",
+        "provenir", "rabattre", "rasseoir", "rassortir", "recevoir", "reconquérir", "recoudre", "recourir", "recueillir", "redevenir",
+        "redire", "réélire", "rejoindre", "relire", "reluire", "remettre", "remoudre", "renaître", "renvoyer", "repaître",
+        "requérir", "resservir", "ressortir", "restreindre", "retenir", "revaloir", "revêtir", "revivre", "saillir", "satisfaire",
+        "secourir", "seoir", "soumettre", "sourdre", "soustraire", "subvenir", "surproduire", "surseoir", "survenir", "taire",
+        "teindre", "tressaillir", "valoir", "vouloir"
+      ]
+    },
+    "moodsTenses": {
+      "easy": {
+        "indicative": ["présent", "futur-simple", "passé-composé", "imparfait"]
+      },
+      "medium": {
+        "indicative": ["présent", "futur-simple", "passé-composé", "imparfait", "plus-que-parfait", "passé-simple"],
+        "subjunctive": ["présent"],
+        "conditional": ["présent"],
+        "imperative": ["imperatif-présent"]
+      },
+      "hard": {
+        "indicative": ["présent", "futur-simple", "passé-composé", "imparfait", "plus-que-parfait", "passé-simple", "futur-antérieur", "passé-antérieur"],
+        "subjunctive": ["présent", "passé", "imparfait", "plus-que-parfait"],
+        "conditional": ["présent", "passé"],
+        "imperative": ["imperatif-présent", "imperatif-passé"]
+      }
+    },
+    "personDisplay": {
+      "abbreviations": [
+        "1ère (je)", "2ème (tu)", "3ème (il/elle)", "1ère (nous)", "2ème (vous)", "3ème (ils/elles)"
+      ],
+      "imperative": ["2ème (tu)", "1ère (nous)", "2ème (vous)"],
+      "fullNames": [
+        "Je (1ère personne singulier)",
+        "Tu (2ème personne singulier)",
+        "Il/Elle (3ème personne singulier)",
+        "Nous (1ère personne pluriel)",
+        "Vous (2ème personne pluriel)",
+        "Ils/Elles (3ème personne pluriel)"
+      ]
+    },
+    "personsByMood": {
+      "indicative": [0, 1, 2, 3, 4, 5],
+      "subjunctive": [0, 1, 2, 3, 4, 5],
+      "conditional": [0, 1, 2, 3, 4, 5],
+      "imperative": [1, 3, 4]
+    },
+    "imperativeMapping": {
+      "1": 0,
+      "3": 1,
+      "4": 2,
+      "array_0": 1,
+      "array_1": 3,
+      "array_2": 4
+    }
+  }
+}

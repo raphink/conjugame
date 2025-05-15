@@ -1,45 +1,3 @@
-// Verbs by difficulty level
-const verbesFaciles = [
-    "être", "avoir", "faire", "dire", "aller", "voir", "parler", "aimer", "manger", "finir", "jouer", "venir", "prendre",
-    "donner", "appeler", "attendre", "comprendre", "connaître", "croire", "demander", "entendre", "écrire", "étudier",
-    "habiter", "lire", "mettre", "montrer", "ouvrir", "penser", "perdre", "porter", "pouvoir", "regarder", "rendre",
-    "répondre", "savoir", "sentir", "sortir", "suivre", "travailler", "trouver", "vendre", "vivre", "vouloir",
-    "acheter", "arriver", "chanter", "choisir", "commencer", "compter", "courir", "découvrir", "descendre", "dessiner",
-    "dormir", "écouter", "envoyer", "espérer", "fermer", "imaginer", "inviter", "laisser", "marcher", "monter",
-    "offrir", "oublier", "partir", "passer", "préférer", "préparer", "rentrer", "rester", "revenir", "sembler"
-];
-
-const verbesMoyens = [
-    "pouvoir", "vouloir", "savoir", "devoir", "croire", "mettre", "lire", "écrire", "comprendre", "attendre",
-    "entendre", "partir", "sortir", "sentir", "suivre", "vivre", "boire", "envoyer", "recevoir", "appeler",
-    "apercevoir", "apparaître", "apprendre", "atteindre", "combattre", "conduire", "construire", "contenir", "contribuer", "convenir",
-    "correspondre", "couvrir", "craindre", "décevoir", "défendre", "définir", "détruire", "disparaître", "distraire", "entretenir",
-    "entreprendre", "équivaloir", "établir", "éteindre", "étendre", "fournir", "fuir", "inclure", "inscrire", "interrompre",
-    "intervenir", "introduire", "maintenir", "mentir", "obtenir", "offrir", "ouvrir", "paraître", "parcourir", "parvenir",
-    "percevoir", "peindre", "permettre", "plaindre", "plaire", "poursuivre", "prévoir", "produire", "promettre", "reconnaître",
-    "recourir", "réduire", "rejoindre", "remettre", "remplir", "répandre", "répondre", "résoudre", "retenir", "réunir",
-    "revenir", "rompre", "servir", "souffrir", "sourire", "soutenir", "suffire", "surprendre", "survivre", "taire",
-    "tendre", "traduire", "transmettre", "valoir", "vendre", "vêtir"
-];
-
-const verbesDifficiles = [
-    "courir", "mourir", "tenir", "venir", "acquérir", "asseoir", "battre", "connaître", "craindre", "croître",
-    "cueillir", "falloir", "joindre", "naître", "plaire", "pleuvoir", "résoudre", "rire", "suffire", "vaincre",
-    "abstraire", "accroître", "adjoindre", "advenir", "assaillir", "astreindre", "circonvenir", "clore", "comparaître", "complaire",
-    "compromettre", "concevoir", "conclure", "concourir", "conquérir", "convaincre", "découdre", "décrire", "déduire", "défaire",
-    "déplaire", "déteindre", "devenir", "disconvenir", "disjoindre", "dissoudre", "distraire", "ébattre", "échoir", "élire",
-    "émettre", "émoudre", "enceindre", "enclore", "encourir", "endormir", "enfuir", "enjoindre", "entendre", "entremettre",
-    "entrevoir", "entrouvrir", "envahir", "équivaloir", "exclure", "extraire", "faillir", "feindre", "forfaire", "gésir",
-    "haïr", "inscrire", "instruire", "interdire", "interjeter", "luire", "malfaire", "médire", "méfaire", "méprendre",
-    "mouvoir", "nuire", "occlure", "occire", "omettre", "paître", "paraître", "parfaire", "parvenir", "percevoir",
-    "poindre", "pourfendre", "pourvoir", "préconcevoir", "prédire", "prescrire", "prévaloir", "prévoir", "promouvoir", "proscrire",
-    "provenir", "rabattre", "rasseoir", "rassortir", "recevoir", "reconquérir", "recoudre", "recourir", "recueillir", "redevenir",
-    "redire", "réélire", "rejoindre", "relire", "reluire", "remettre", "remoudre", "renaître", "renvoyer", "repaître",
-    "requérir", "resservir", "ressortir", "restreindre", "retenir", "revaloir", "revêtir", "revivre", "saillir", "satisfaire",
-    "secourir", "seoir", "soumettre", "sourdre", "soustraire", "subvenir", "surproduire", "surseoir", "survenir", "taire",
-    "teindre", "tressaillir", "valoir", "vouloir"
-];
-
 // Define available tenses by mode and difficulty level
 const modesTempsFaciles = {
     "indicatif": ["présent", "futur-simple", "passé-composé", "imparfait"]
@@ -109,6 +67,13 @@ async function appelerAPI(verbe) {
             // Use CORS proxy to access the HTTP API
             const apiUrl = `${PROXY_URL}${encodeURIComponent(API_BASE_URL + encodeURIComponent(verbe))}`;
             
+            // fetch from $lang.json with cache
+            $.ajaxSetup({ cache: true });
+            $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                if (options.url === apiUrl) {
+                    options.cache = true; // Cache the request
+                }
+            });
             const response = await fetch(apiUrl);
             
             if (!response.ok) {
@@ -144,32 +109,52 @@ async function appelerAPI(verbe) {
         }
     }
 }
+// Get language data from JSON file synchronously
+async function getLangData() {
+    let lang = "fr"; // Default language
+    // fetch from $lang.json with cache
+    $.ajaxSetup({ cache: true });
+    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        if (options.url === `${lang}.json`) {
+            options.cache = true; // Cache the request
+        }
+    });
+    const response = await $.getJSON(`${lang}.json`);
+    console.log("Lang data loaded:", response);
+    return response;
+}
 
 // Get verb list based on difficulty level
-function obtenirListeVerbes(niveauDifficulte) {
+async function obtenirListeVerbes(niveauDifficulte) {
+    let langData = await getLangData();
+
     switch(niveauDifficulte) {
         case "facile":
-            return verbesFaciles;
+            return langData.verbData.verbs.easy;
         case "moyen":
-            return [...verbesFaciles, ...verbesMoyens];
+            return [...langData.verbData.verbs.easy, ...langData.verbData.verbs.medium];
         case "difficile":
-            return [...verbesFaciles, ...verbesMoyens, ...verbesDifficiles];
+            return [...langData.verbData.verbs.easy, ...langData.verbData.verbs.medium, ...langData.verbData.verbs.hard];
         default:
-            return verbesFaciles;
+            return langData.verbData.verbs.easy;
     }
 }
 
 // Get available forms based on difficulty level
-function obtenirFormesDisponibles(niveauDifficulte) {
+async function obtenirFormesDisponibles(niveauDifficulte) {
+    let langData = await getLangData();
+
+    console.log("Formes disponibles:", langData.verbData.moodsTenses);
+
     switch (niveauDifficulte) {
         case "facile":
-            return modesTempsFaciles;
+            return langData.verbData.moodsTenses.easy;
         case "moyen":
-            return modesTempsIntermediaires;
+            return langData.verbData.moodsTenses.medium;
         case "difficile":
-            return modesTempsAvances;
+            return langData.verbData.moodsTenses.hard;
         default:
-            return modesTempsFaciles;
+            return langData.verbData.moodsTenses.easy;
     }
 }
 

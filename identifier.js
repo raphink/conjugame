@@ -16,10 +16,10 @@ let availableModes = []; // Array to store available modes for current verb
 
 // Define available persons by mode (moved from common.js)
 const personnesParMode = {
-    "indicatif": [0, 1, 2, 3, 4, 5],      // all 6 persons
-    "subjonctif": [0, 1, 2, 3, 4, 5],     // all 6 persons
-    "conditionnel": [0, 1, 2, 3, 4, 5],   // all 6 persons
-    "imperatif": [1, 3, 4]                // only 2nd sing, 1st plur, 2nd plur (tu, nous, vous)
+    "indicative": [0, 1, 2, 3, 4, 5],      // all 6 persons
+    "subjonctive": [0, 1, 2, 3, 4, 5],     // all 6 persons
+    "conditional": [0, 1, 2, 3, 4, 5],   // all 6 persons
+    "imperative": [1, 3, 4]                // only 2nd sing, 1st plur, 2nd plur (tu, nous, vous)
 };
 
 // Mapping between standard person indices and imperative array indices
@@ -201,7 +201,7 @@ async function questionSuivante() {
     $('.choice-btn').prop('disabled', false);
     
     // Choose a random verb based on difficulty level
-    const verbesDisponibles = obtenirListeVerbes(niveauDifficulte);
+    const verbesDisponibles = await obtenirListeVerbes(niveauDifficulte);
     verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
     
     // Get verb data via API
@@ -221,12 +221,19 @@ async function questionSuivante() {
     }
     
     // Get available forms for the current level
-    const formesDisponibles = obtenirFormesDisponibles(niveauDifficulte);
+    const formesDisponibles = await obtenirFormesDisponibles(niveauDifficulte);
+
+    console.log("Available forms:", formesDisponibles);
+
+    console.log(donneesDuVerbe);
     
     // Store and display only buttons for available modes
-    availableModes = Object.keys(formesDisponibles).filter(m => 
-        Object.keys(donneesDuVerbe.moods).includes(m)
+    let langData = await getLangData();
+    availableModes = Object.keys(formesDisponibles).filter(m =>
+        Object.keys(donneesDuVerbe.moods).includes(langData.verbData.moodsNames[m].toLowerCase())
     );
+
+    console.log("Available modes:", availableModes);
     
     // Hide all mode buttons first
     $('#mood-group button').hide();
@@ -250,10 +257,16 @@ async function questionSuivante() {
         return;
     }
     const mode = availableModes[Math.floor(Math.random() * availableModes.length)];
+
+    console.log("Selected mode:", mode);
+    const localMode = langData.verbData.moodsNames[mode].toLowerCase();
+    console.log("Local mode:", localMode);
+
+    console.log("Available tenses for this mode:", formesDisponibles[mode]);
     
     // Choose a random tense for this mode
     const tempsDisponibles = formesDisponibles[mode].filter(t => 
-        Object.keys(donneesDuVerbe.moods[mode]).includes(t)
+        Object.keys(donneesDuVerbe.moods[localMode]).includes(t)
     );
     if (tempsDisponibles.length === 0) {
         console.warn(`No tense available for verb ${verbeActuel} in mode ${mode}`);
@@ -263,7 +276,7 @@ async function questionSuivante() {
     const temps = tempsDisponibles[Math.floor(Math.random() * tempsDisponibles.length)];
     
     // Check if the tense exists for this verb
-    if (!donneesDuVerbe.moods[mode][temps] || donneesDuVerbe.moods[mode][temps].length === 0) {
+    if (!donneesDuVerbe.moods[localMode][temps] || donneesDuVerbe.moods[localMode][temps].length === 0) {
         console.warn(`Tense ${temps} does not exist for verb ${verbeActuel} in mode ${mode}`);
         questionSuivante(); // Try another verb/mode/tense
         return;
@@ -294,13 +307,13 @@ async function questionSuivante() {
     }
     
     // Check if arrayIndex is within bounds
-    const maxIndex = donneesDuVerbe.moods[mode][temps].length - 1;
+    const maxIndex = donneesDuVerbe.moods[localMode][temps].length - 1;
     if (arrayIndex > maxIndex) {
         arrayIndex = maxIndex;
     }
     
     // Get the actual conjugation
-    conjugaisonActuelle = donneesDuVerbe.moods[mode][temps][arrayIndex];
+    conjugaisonActuelle = donneesDuVerbe.moods[localMode][temps][arrayIndex];
     
     // Display the conjugation
     $('#verb-display').html(`<h2 class="highlight">${conjugaisonActuelle}</h2>`);
