@@ -17,6 +17,9 @@
       "targetReached": "¡Has alcanzado tu objetivo de {0} respuestas correctas!",
       "finalScore": "Puntuación final: {0}/{1}",
       "restart": "Comenzar de nuevo",
+      "chooseForm": "Modo: Elegir la Forma",
+      "identifyForm": "Modo: Identificar la Forma",
+      "gameSubtitle": "Mejora tu dominio de las conjugaciones españolas jugando",
 
       "loadVerbFirst": "Por favor carga un verbo primero.",
       "personNumberRequired": "Por favor selecciona una persona y un número.",

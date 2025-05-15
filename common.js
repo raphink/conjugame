@@ -51,19 +51,29 @@ function updateDifficultySelector() {
 }
 
 // Function to change language
-function changeLanguage(newLang) {
+async function changeLanguage(newLang) {
     if (newLang && supportedLanguages.includes(newLang)) {
         lang = newLang;
         updateApiBaseUrl();
-        translateUI();
+        
+        // Wait for UI translation to complete
+        await translateUI();
+        
         // If we're in a game, reload the current question
         if (typeof nextQuestion === 'function') {
             nextQuestion();
         }
+        
         // Update URL parameters
         updateUrlParameters();
+        
         // Update language flag selection
         updateLanguageSelection();
+        
+        // Make sure navigation links are updated
+        updateNavigationLinks();
+        
+        console.log(`Language changed to ${newLang} - UI updated`);
     }
 }
 
@@ -80,10 +90,12 @@ function updateNavigationLinks() {
     // Update all links to include current parameters
     $('a').each(function() {
         const href = $(this).attr('href');
-        // Only update internal links that don't already have parameters
-        if (href && href.startsWith('') && !href.includes('?')) {
-            const separator = href.includes('?') ? '&' : '?';
-            $(this).attr('href', `${href}${separator}lang=${lang}&difficulty=${difficulty}`);
+        // Only update internal links that go to HTML pages
+        if (href && href.endsWith('.html')) {
+            // Remove any existing parameters
+            const baseUrl = href.split('?')[0];
+            // Add current language and difficulty parameters
+            $(this).attr('href', `${baseUrl}?lang=${lang}&difficulty=${difficulty}`);
         }
     });
 }
@@ -277,14 +289,25 @@ async function translateUI() {
     // Update HTML lang attribute
     document.documentElement.lang = lang;
 
-    // Update all elements with data-translate attribute
-    $('[data-translate]').each(async function () {
-        const key = $(this).data('translate');
-        const translation = await localize(key);
-        if (translation) {
-            $(this).text(translation);
-        }
+    // Update all elements with data-translate attribute - using Promise.all for proper async handling
+    const translationPromises = [];
+    $('[data-translate]').each(function () {
+        const element = $(this);
+        const key = element.data('translate');
+        
+        // Create a promise for each translation
+        const promise = localize(key).then(translation => {
+            if (translation) {
+                // Make sure we update the text content properly
+                element.html(translation);
+            }
+        });
+        
+        translationPromises.push(promise);
     });
+    
+    // Wait for all translations to complete
+    await Promise.all(translationPromises);
     
     // Update language selection
     updateLanguageSelection();

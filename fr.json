@@ -17,6 +17,9 @@
       "targetReached": "Vous avez atteint votre objectif de {0} bonnes réponses !",
       "finalScore": "Score final : {0}/{1}",
       "restart": "Recommencer",
+      "chooseForm": "Mode: Choisir la Forme",
+      "identifyForm": "Mode: Identifier la Forme",
+      "gameSubtitle": "Améliorez votre maîtrise des conjugaisons françaises en jouant",
 
       "Please select a mood and tense": "Veuillez sélectionner un mode et un temps.",
 
