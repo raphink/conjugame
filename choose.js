@@ -23,7 +23,6 @@ async function genererOptionsIncorrectes(formeCorrecte, verbData, modeCorrect, t
 
     let langData = await getLangData();
     modeCorrectLocal = langData.verbData.moodsNames[modeCorrect].toLowerCase();
-    console.log("Generating incorrect options for:", formeCorrecte, modeCorrectLocal, tempsCorrect);
     
     // Strategy 1: Use the same person index but other tenses of the same mode
     const autresTompsMode = Object.keys(verbData.moods[modeCorrectLocal])
@@ -62,8 +61,6 @@ async function genererOptionsIncorrectes(formeCorrecte, verbData, modeCorrect, t
         }
     }
 
-    console.log("Generated options from other tenses/modes:", options);
-    
     // If we don't have enough options, create plausible variations
     if (options.length < nombreOptions) {
         // For first group verbs, create typical conjugation errors
@@ -196,11 +193,8 @@ async function nextQuestion() {
     // Get available forms for the current level
     const availableForms = await getAvailableForms(difficulty);
 
-    console.log("Available forms:", availableForms);
-    
     // Choose a random mode from those available for this level
     let langData = await getLangData();
-    console.log("Lang data:", langData);
     const modes = Object.keys(availableForms).filter(m => Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m].toLowerCase()));
     if (modes.length === 0) {
         console.warn(`No mode available for this verb and difficulty level`);
@@ -209,12 +203,6 @@ async function nextQuestion() {
     }
     const mode = modes[Math.floor(Math.random() * modes.length)];
     const localMode = langData.verbData.moodsNames[mode].toLowerCase();
-
-    console.log("Selected mode:", localMode);
-    console.log(verbData);
-
-    console.log("Available tenses:", availableForms[mode]);
-    console.log(verbData.moods[localMode]);
 
     // Choose a random tense for this mode
     const availableTenses = availableForms[mode].filter(t => Object.keys(verbData.moods[localMode]).includes(t));

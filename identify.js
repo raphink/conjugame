@@ -40,8 +40,6 @@ function getPersonneIndex(personSelection, numberSelection) {
     const personInt = parseInt(personSelection);
     const numberInt = parseInt(numberSelection);
 
-    console.log(`Person: ${personInt}, Number: ${numberInt}`);
-    
     if (numberInt === 0) { // Singular
         return personInt;
     } else { // Plural
@@ -278,7 +276,6 @@ async function nextQuestion() {
     
     // Calculate the correct array index based on mode
     let arrayIndex;
-    console.log(mode);
     if (mode === "imperative") {
         // For imperative, convert from the standard index to the array index
         arrayIndex = getImperativeArrayIndex(selectedPersonIndex);
@@ -347,9 +344,6 @@ async function verifyAnswer() {
         selectedPerson === currentAnswer.personne && 
         selectedMood === currentAnswer.mode && 
         selectedTense === currentAnswer.temps;
-
-    console.log(`Selected: ${selectedPerson}, ${selectedMood}, ${selectedTense}`);
-    console.log(`Correct: ${currentAnswer.personne}, ${currentAnswer.mode}, ${currentAnswer.temps}`);
 
     let localTenseName = await getFullTenseName(currentAnswer.temps);
     let personName = await getPersonFullName(currentAnswer.personne);
