@@ -10,7 +10,7 @@ let currentAnswer = {
     mode: "",
     temps: ""
 };
-let niveauDifficulte = "facile";
+let difficulty = "easy";
 let objectifScore = 10; // Number of correct answers needed to "win"
 let optionsConjugaison = []; // Conjugation options to display
 let indexOptionCorrecte = -1; // Index of the correct option
@@ -179,7 +179,7 @@ async function nextQuestion() {
     $('.verb-option').prop('disabled', false);
     
     // Choose a random verb based on difficulty level
-    const verbesDisponibles = await getVerbList(niveauDifficulte);
+    const verbesDisponibles = await getVerbList(difficulty);
     verbeActuel = verbesDisponibles[Math.floor(Math.random() * verbesDisponibles.length)];
     
     // Get verb data via API
@@ -194,7 +194,7 @@ async function nextQuestion() {
     $('#verb-infinitive').text(verbData.verb.infinitive);
     
     // Get available forms for the current level
-    const availableForms = await getAvailableForms(niveauDifficulte);
+    const availableForms = await getAvailableForms(difficulty);
 
     console.log("Available forms:", availableForms);
     
@@ -352,7 +352,7 @@ $(document).ready(function() {
     $('.difficulty-btn').click(function() {
         $('.difficulty-btn').removeClass('active');
         $(this).addClass('active');
-        niveauDifficulte = $(this).data('level');
+        difficulty = $(this).data('level');
         
         // Generate a new question for the selected level
         nextQuestion();

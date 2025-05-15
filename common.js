@@ -82,15 +82,15 @@ async function getLangData() {
 }
 
 // Get verb list based on difficulty level
-async function getVerbList(niveauDifficulte) {
+async function getVerbList(difficulty) {
     let langData = await getLangData();
 
-    switch(niveauDifficulte) {
-        case "facile":
+    switch(difficulty) {
+        case "easy":
             return langData.verbData.verbs.easy;
-        case "moyen":
+        case "medium":
             return [...langData.verbData.verbs.easy, ...langData.verbData.verbs.medium];
-        case "difficile":
+        case "hard":
             return [...langData.verbData.verbs.easy, ...langData.verbData.verbs.medium, ...langData.verbData.verbs.hard];
         default:
             return langData.verbData.verbs.easy;
@@ -98,17 +98,17 @@ async function getVerbList(niveauDifficulte) {
 }
 
 // Get available forms based on difficulty level
-async function getAvailableForms(niveauDifficulte) {
+async function getAvailableForms(difficulty) {
     let langData = await getLangData();
 
     console.log("Formes disponibles:", langData.verbData.moodsTenses);
 
-    switch (niveauDifficulte) {
-        case "facile":
+    switch (difficulty) {
+        case "easy":
             return langData.verbData.moodsTenses.easy;
-        case "moyen":
+        case "medium":
             return langData.verbData.moodsTenses.medium;
-        case "difficile":
+        case "hard":
             return langData.verbData.moodsTenses.hard;
         default:
             return langData.verbData.moodsTenses.easy;

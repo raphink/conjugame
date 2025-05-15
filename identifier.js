@@ -10,7 +10,7 @@ let currentAnswer = {
     mode: "",
     temps: ""
 };
-let niveauDifficulte = "facile";
+let niveauDifficulte = "easy";
 let objectifScore = 10; // Number of correct answers needed to "win"
 let availableModes = []; // Array to store available modes for current verb
 
@@ -89,13 +89,13 @@ async function updateTimeButtons(mode) {
     console.log("Language data:", langData);
     let availableTenses;
     switch (niveauDifficulte) {
-        case "facile":
+        case "easy":
             availableTenses = langData.verbData.moodsTenses.easy[mode];
             break;
-        case "moyen":
+        case "medium":
             availableTenses = langData.verbData.moodsTenses.medium[mode];
             break;
-        case "difficile":
+        case "hard":
             availableTenses = langData.verbData.moodsTenses.advanced[mode];
             break;
         default:
@@ -226,7 +226,7 @@ async function nextQuestion() {
     
     // Handle infinitive display based on level
     $('#infinitive-verb').text(verbData.verb.infinitive);
-    if (niveauDifficulte === "facile") {
+    if (niveauDifficulte === "easy") {
         $('#infinitive-badge').show();
     } else {
         $('#infinitive-badge').hide();
@@ -478,7 +478,7 @@ $(document).ready(function() {
         niveauDifficulte = $(this).data('level');
         
         // Update infinitive display based on level
-        if (niveauDifficulte === "facile") {
+        if (niveauDifficulte === "easy") {
             $('#infinitive-badge').show();
         } else {
             $('#infinitive-badge').hide();
