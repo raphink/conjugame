@@ -77,7 +77,6 @@ async function getLangData() {
         }
     });
     const response = await $.getJSON(`${lang}.json`);
-    console.log("Lang data loaded:", response);
     return response;
 }
 
@@ -101,18 +100,7 @@ async function getVerbList(difficulty) {
 async function getAvailableForms(difficulty) {
     let langData = await getLangData();
 
-    console.log("Formes disponibles:", langData.verbData.moodsTenses);
-
-    switch (difficulty) {
-        case "easy":
-            return langData.verbData.moodsTenses.easy;
-        case "medium":
-            return langData.verbData.moodsTenses.medium;
-        case "hard":
-            return langData.verbData.moodsTenses.hard;
-        default:
-            return langData.verbData.moodsTenses.easy;
-    }
+    return langData.verbData.moodsTenses[difficulty] || langData.verbData.moodsTenses.easy;
 }
 
 // Function to toggle between verify and next question buttons
