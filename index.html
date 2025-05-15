@@ -22,11 +22,10 @@
         </div>
         
         <div class="language-selector-container text-end">
-            <label for="language-selector" data-translate="language">Langue</label>:
-            <select id="language-selector" class="form-select form-select-sm d-inline-block w-auto">
-                <option value="fr" data-translate="french">Français</option>
-                <option value="es" data-translate="spanish">Espagnol</option>
-            </select>
+            <div class="language-flags">
+                <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
+                <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
+            </div>
         </div>
 
         <div class="mode-cards">
@@ -75,6 +74,7 @@
 
     <!-- JavaScript files -->
     <script src="common.js"></script>
+    <script src="languageFlags.js"></script>
     <script>
         // Initialize the application when the DOM is fully loaded
         $(document).ready(async function() {
@@ -83,12 +83,6 @@
             
             // Translate the UI
             await translateUI();
-            
-            // Handle language selection
-            $('#language-selector').change(function() {
-                const selectedLang = $(this).val();
-                changeLanguage(selectedLang);
-            });
             
             // Update URL parameters for any links
             $('a').each(function() {

@@ -10,7 +10,6 @@ let currentAnswer = {
     mode: "",
     temps: ""
 };
-let difficulty = "easy";
 let objectifScore = 10; // Number of correct answers needed to "win"
 let optionsConjugaison = []; // Conjugation options to display
 let indexOptionCorrecte = -1; // Index of the correct option

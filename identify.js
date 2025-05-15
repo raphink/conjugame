@@ -391,11 +391,7 @@ $(document).ready(async function() {
         $(this).addClass('active');
     });
     
-    // Handle language change
-    $('#language-selector').change(function() {
-        const selectedLang = $(this).val();
-        changeLanguage(selectedLang);
-    });
+    // Language selection is now handled by languageFlags.js
     
     $('.difficulty-btn').click(function() {
         $('.difficulty-btn').removeClass('active');

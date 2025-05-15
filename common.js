@@ -1,6 +1,7 @@
 // Default language and configuration
 let lang = "fr"; // Default language
 let difficulty = "easy"; // Default difficulty
+const supportedLanguages = ["fr", "es"]; // Supported languages (French, Spanish)
 
 // Function to get URL parameters
 function getUrlParameter(name) {
@@ -15,9 +16,9 @@ function initializeSettings() {
     const urlDifficulty = getUrlParameter('difficulty');
     
     // Set language if provided in URL
-    if (urlLang && ['fr', 'es', 'it'].includes(urlLang)) {
+    if (urlLang && supportedLanguages.includes(urlLang)) {
         lang = urlLang;
-        updateLanguageSelector();
+        updateLanguageSelection();
     }
     
     // Set difficulty if provided in URL
@@ -35,10 +36,11 @@ function updateApiBaseUrl() {
     api_base_url = `http://verbe.cc/verbecc/conjugate/${lang}/`;
 }
 
-// Function to update language selector
-function updateLanguageSelector() {
-    if ($('#language-selector').length) {
-        $('#language-selector').val(lang);
+// Function to update language selection in flag icons
+function updateLanguageSelection() {
+    if ($('.language-flag').length) {
+        $('.language-flag').removeClass('active');
+        $(`.language-flag[data-lang="${lang}"]`).addClass('active');
     }
 }
 
@@ -50,7 +52,7 @@ function updateDifficultySelector() {
 
 // Function to change language
 function changeLanguage(newLang) {
-    if (newLang && ['fr', 'es', 'it'].includes(newLang)) {
+    if (newLang && supportedLanguages.includes(newLang)) {
         lang = newLang;
         updateApiBaseUrl();
         translateUI();
@@ -60,6 +62,8 @@ function changeLanguage(newLang) {
         }
         // Update URL parameters
         updateUrlParameters();
+        // Update language flag selection
+        updateLanguageSelection();
     }
 }
 
@@ -69,6 +73,19 @@ function updateUrlParameters() {
     url.searchParams.set('lang', lang);
     url.searchParams.set('difficulty', difficulty);
     window.history.replaceState({}, '', url);
+}
+
+// Function to update all navigation links with current language and difficulty
+function updateNavigationLinks() {
+    // Update all links to include current parameters
+    $('a').each(function() {
+        const href = $(this).attr('href');
+        // Only update internal links that don't already have parameters
+        if (href && href.startsWith('') && !href.includes('?')) {
+            const separator = href.includes('?') ? '&' : '?';
+            $(this).attr('href', `${href}${separator}lang=${lang}&difficulty=${difficulty}`);
+        }
+    });
 }
 
 // Names of persons for display (legacy, will be replaced by translations)
@@ -269,8 +286,11 @@ async function translateUI() {
         }
     });
     
-    // Update language selector
-    updateLanguageSelector();
+    // Update language selection
+    updateLanguageSelection();
+    
+    // Update navigation links with current language
+    updateNavigationLinks();
 }
 
 // Function to get array index for imperative mode

@@ -21,11 +21,10 @@
         </div>
 
         <div class="language-selector-container text-end mb-2">
-            <label for="language-selector" data-translate="language">Language</label>:
-            <select id="language-selector" class="form-select form-select-sm d-inline-block w-auto">
-                <option value="fr" data-translate="french">French</option>
-                <option value="es" data-translate="spanish">Spanish</option>
-            </select>
+            <div class="language-flags">
+                <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
+                <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
+            </div>
         </div>
 
         <div class="game-stats">
@@ -135,6 +134,7 @@
 
     <!-- JavaScript files -->
     <script src="common.js"></script>
+    <script src="languageFlags.js"></script>
     <script src="identify.js"></script>
 </body>
 </html>
