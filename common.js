@@ -138,6 +138,18 @@ async function localize(item) {
     }
 }
 
+// Function to get the full tense name
+async function getFullTenseName(tense) {
+    let langData = await getLangData();
+    const tenseName = await langData.verbData.tensesNames[tense];
+    if (tenseName) {
+        return tenseName;
+    } else {
+        console.warn(`Tense not found: ${tense}`);
+        return tense; // Fallback to original tense if not found
+    }
+}
+
 // Function to translate UI elements
 async function translateUI() {
     let langData = await getLangData();

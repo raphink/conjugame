@@ -43,7 +43,7 @@
       "number": "Nombre",
       "mood": "Mode",
       "tense": "Temps",
-      "conjugateTo": "Conjuguez au {0} du {1}, {2} personne",
+      "conjugateTo": "Conjuguez au temps <strong>{0}</strong> du mode <strong>{1}</strong>, <strong>{2}</strong> personne",
       "singular": "Singulier",
       "plural": "Pluriel",
 

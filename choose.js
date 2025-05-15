@@ -244,15 +244,12 @@ async function nextQuestion() {
     };
     
     // Display information about the requested form
-    $('#verb-mode').text(localMode);
-    $('#verb-temps').text(temps);
+    const verbFormTmpl = await localize("conjugateTo");
+    const verbForm = verbFormTmpl.replace("{0}", await getFullTenseName(temps))
+        .replace("{1}", await localize(mode))
+        .replace("{2}", personnesAbrégées[indicePersonne]);
+    $('.verb-form-info').html(verbForm);
 
-    if (mode !== "imperatif") {
-        $('#verb-personne').text(personnesAbrégées[indicePersonne]);
-    } else {
-        $('#verb-personne').text(personnesImperatif[indicePersonne]);
-    }
-    
     // Get the correct conjugation
     currentConjugation = verbData.moods[localMode][temps][indicePersonne];
     
