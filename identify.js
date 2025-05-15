@@ -84,7 +84,6 @@ async function updateTimeButtons(mode) {
     if (!mode) return;
     let langData = await getLangData();
 
-    console.log("Language data:", langData);
     let moodTenses = langData.verbData.moodsTenses[difficulty];
     let availableTenses = moodTenses[mode] || langData.verbData.moodsTenses.easy[mode];
 
@@ -97,27 +96,15 @@ async function updateTimeButtons(mode) {
         );
     }
 
-    // If only one tense is available, select it automatically
-    if (availableTenses.length === 1) {
-        const temps = availableTenses[0];
-
-        console.log("Only one tense available:", temps);
-        const localName = langData.verbData.tensesNames[temps] || temps;
-        container.append(`<button type="button" class="btn btn-outline-secondary choice-btn active" data-value="${temps}">${localName}</button>`);
-    } else {
-        console.log("Multiple tenses available:", availableTenses);
-        // Otherwise add all available tenses as buttons
-        availableTenses.forEach(temps => {
-            const localName = langData.verbData.tensesNames[temps] || temps;
-            container.append(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">${localName}</button>`);
-        });
-
-        // Add event listeners for new buttons
-        $('#tense-container .choice-btn').click(function() {
+    availableTenses.forEach(async tense => {
+        const localName = await getFullTenseName(tense);
+        const btn = $(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${tense}">${localName}</button>`);
+        btn.click(function () {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
         });
-    }
+        container.append(btn);
+    });
 }
 
 // Handle person selection based on mode
