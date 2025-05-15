@@ -184,3 +184,9 @@ async function translateUI() {
         }
     });
 }
+
+// Function to get array index for imperative mode
+function getImperativeArrayIndex(standardPersonIndex) {
+    return imperative_mapping[standardPersonIndex.toString()] !== undefined ? 
+        imperative_mapping[standardPersonIndex.toString()] : 0;
+}

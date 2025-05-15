@@ -220,27 +220,46 @@ async function nextQuestion() {
         return;
     }
     
-    // Choose a random person (considering that imperative only has 3 persons)
-    let maxPersonne = verbData.moods[localMode][temps].length - 1;
-    const indicePersonne = Math.floor(Math.random() * (maxPersonne + 1));
+    // Get available persons for this mode
+    const availablePersons = personnesParMode[mode];
+
+    // Choose a random person from the available ones
+    const randomPersonIndex = Math.floor(Math.random() * availablePersons.length);
+    const selectedPersonIndex = availablePersons[randomPersonIndex];
     
     // Store the correct answer
     currentAnswer = {
-        personne: indicePersonne,
+        personne: selectedPersonIndex,
         mode: mode,
         temps: temps
     };
+
+    // Calculate the correct array index based on mode
+    let arrayIndex;
+    if (mode === "imperative") {
+        // For imperative, convert from the standard index to the array index
+        arrayIndex = getImperativeArrayIndex(selectedPersonIndex);
+    } else {
+        // For other modes, the standard index is the array index
+        arrayIndex = selectedPersonIndex;
+    }
+
+    // Check if arrayIndex is within bounds
+    const maxIndex = verbData.moods[localMode][temps].length - 1;
+    if (arrayIndex > maxIndex) {
+        arrayIndex = maxIndex;
+    }
     
     // Display information about the requested form
     const verbFormTmpl = await localize("conjugateTo");
     const verbForm = verbFormTmpl.replace("{0}", await getFullTenseName(temps))
         .replace("{1}", await localize(mode))
-        .replace("{2}", personnesAbrégées[indicePersonne]);
+        .replace("{2}", personnesAbrégées[selectedPersonIndex]);
     $('.verb-form-info').html(verbForm);
 
     // Get the correct conjugation
-    currentConjugation = verbData.moods[localMode][temps][indicePersonne];
-    
+    currentConjugation = verbData.moods[localMode][temps][arrayIndex];
+
     // Generate incorrect options
     optionsConjugaison = await genererOptionsIncorrectes(currentConjugation, verbData, mode, temps);
     

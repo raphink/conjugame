@@ -26,12 +26,6 @@ function getPersonneIndex(personSelection, numberSelection) {
     }
 }
 
-// Function to get array index for imperative mode
-function getImperativeArrayIndex(standardPersonIndex) {
-    return imperative_mapping[standardPersonIndex.toString()] !== undefined ? 
-        imperative_mapping[standardPersonIndex.toString()] : 0;
-}
-
 // Function to get standard person index from imperative array index
 function getStandardPersonIndex(imperativeArrayIndex) {
     return imperative_mapping[`array_${imperativeArrayIndex}`] !== undefined ?
