@@ -205,18 +205,12 @@ async function nextQuestion() {
     // Get available forms for the current level
     const availableForms = await getAvailableForms(difficulty);
 
-    console.log("Available forms:", availableForms);
-
-    console.log(verbData);
-    
     // Store and display only buttons for available modes
     let langData = await getLangData();
     availableModes = Object.keys(availableForms).filter(m =>
         Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m])
     );
 
-    console.log("Available modes:", availableModes);
-    
     // Remove all mode buttons first
     $('#mood-group button').remove();
 
@@ -226,7 +220,6 @@ async function nextQuestion() {
         const moodBtn = $(`<button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="${mode}">${localName}</button>`);
         moodBtn.click(function () {
             const mode = $(this).data('value');
-            console.log("Selected mode:", mode);
             $(this).addClass('active').siblings().removeClass('active');
             updateTimeButtons(mode);
             handlePersonSelection(mode);
@@ -247,11 +240,7 @@ async function nextQuestion() {
     }
     const mode = availableModes[Math.floor(Math.random() * availableModes.length)];
 
-    console.log("Selected mode:", mode);
     const localMode = langData.verbData.moodsNames[mode] || mode;
-    console.log("Local mode:", localMode);
-
-    console.log("Available tenses for this mode:", availableForms[mode]);
     
     // Choose a random tense for this mode
     const availableTenses = availableForms[mode].filter(t => 
