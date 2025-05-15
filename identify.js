@@ -345,8 +345,6 @@ async function verifyAnswer() {
         selectedMood === currentAnswer.mode && 
         selectedTense === currentAnswer.temps;
 
-    let langData = await getLangData();
-    
     let localTenseName = await getFullTenseName(currentAnswer.temps);
     let personName = await getPersonFullName(selectedPerson);
 
