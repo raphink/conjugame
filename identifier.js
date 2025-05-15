@@ -421,24 +421,6 @@ if (isCorrect) {
         
         // Format person name for display
         let personName = langData.verbData.personDisplay.fullNames[currentAnswer.personne] || currentAnswer.personne;
-        /*
-        if (currentAnswer.mode !== "imperatif") {
-            personName = personsNames[currentAnswer.personne];
-        } else {
-            // For imperative, use the custom display format based on the standard person index
-            if (currentAnswer.personne === 1) {
-                personName = "Tu (2ème personne singulier - impératif)";
-            } else if (currentAnswer.personne === 3) {
-                personName = "Nous (1ère personne pluriel - impératif)";
-            } else if (currentAnswer.personne === 4) {
-                personName = "Vous (2ème personne pluriel - impératif)";
-            } else {
-                // Fallback - should not happen with correct mapping
-                personName = personsNames[currentAnswer.personne] + " (impératif)";
-            }
-        }
-            */
-        
         $('#feedback').removeClass('correct').addClass('incorrect')
             .html(`<strong>Incorrect.</strong> "${currentConjugation}" est le ${localTenseName} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
             .show();
