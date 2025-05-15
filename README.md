@@ -11,6 +11,17 @@ Conjugame is a Progressive Web App (PWA) that helps users practice verb conjugat
 - Three difficulty levels
 - Language switching with flag icons
 - Installable as a Progressive Web App on mobile devices and desktops
+- Fully responsive design optimized for mobile devices without scrolling
+
+## Mobile Optimization
+
+The app is designed to work well on mobile devices with the following optimizations:
+- Responsive layout that fits entirely on mobile screens without scrolling
+- Compact buttons and controls optimized for touch
+- Flexible layout that adapts to different screen sizes
+- Efficient use of screen real estate
+- Dynamic spacing adjustments based on available space
+- Mobile-first PWA install experience
 
 ## PWA Functionality
 

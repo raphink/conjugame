@@ -19,20 +19,24 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Conjugame">
     <link rel="apple-touch-icon" href="icon.png">
+    <!-- Flag Colors Fix -->
+    <script src="flagFix.js"></script>
 </head>
 <body class="home">
     <div class="home-container">
         <div class="flag-colors"></div>
-        <div class="header">
-            <h1 class="title" data-translate="gameTitle">Jeu de Conjugaison Française</h1>
-            <p class="subtitle" data-translate="gameSubtitle">Améliorez votre maîtrise des conjugaisons françaises en jouant</p>
-        </div>
-        
-        <div class="language-selector-container text-end">
-            <div class="language-flags">
-                <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
-                <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
-                <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
+        <div class="d-flex justify-content-between align-items-start">
+            <div class="header mb-0">
+                <h1 class="title" data-translate="gameTitle">Jeu de Conjugaison Française</h1>
+                <p class="subtitle mb-0" data-translate="gameSubtitle">Améliorez votre maîtrise des conjugaisons françaises en jouant</p>
+            </div>
+            
+            <div class="language-selector-container">
+                <div class="language-flags">
+                    <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
+                    <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
+                    <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
+                </div>
             </div>
         </div>
 

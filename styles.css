@@ -43,8 +43,180 @@ body {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Mobile optimization to prevent scrolling */
+@media (max-width: 767px) {
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .game-container, .home-container {
+        max-width: 100%;
+        margin: 0;
+        padding: 10px;
+        border-radius: 0;
+        box-shadow: none;
+        height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .flag-colors {
+        margin-bottom: 10px;
+        height: 8px;
+        display: block !important;
+        width: 100%;
+        min-height: 8px;
+        position: relative;
+        z-index: 5;
+    }
+    
+    .game-header {
+        margin-bottom: 10px;
+    }
+    
+    .game-title {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+    
+    .difficulty-selector {
+        margin-bottom: 10px;
+    }
+    
+    .game-stats {
+        font-size: 0.9rem;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .verb-display {
+        margin: 10px 0;
+        min-height: auto;
+    }
+    
+    .highlight {
+        font-size: 2rem;
+    }
+    
+    .selector-container {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .selector-label {
+        margin-bottom: 5px;
+    }
+    
+    .selector-buttons {
+        gap: 5px;
+    }
+    
+    .btn-selector {
+        min-width: auto;
+        padding: 4px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .answer-feedback {
+        margin-top: 10px;
+    }
+    
+    .next-btn {
+        margin-top: 10px;
+    }
+    
+    .progress-container {
+        margin-top: 10px;
+    }
+    
+    .game-mode-links {
+        margin-top: 15px;
+    }
+    
+    .game-mode-links p {
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .game-mode-links a {
+        margin: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-check-answer, .next-btn {
+        padding: 8px;
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+    
+    .choice-btn {
+        margin: 2px;
+        font-size: 0.9rem;
+        padding: 4px 8px;
+    }
+    
+    .answer-feedback {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    
+    /* Make the game container take the full viewport height */
+    .game-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 20px);
+        max-height: 100vh;
+        overflow-y: auto;
+        padding-bottom: 10px;
+    }
+    
+    /* Make sure the verb display doesn't take too much space */
+    .verb-display {
+        margin: 5px 0;
+        padding: 10px 5px;
+    }
+    
+    /* Reduce emoji size on small screens */
+    .selector-label .emoji {
+        font-size: 1.2rem;
+    }
+    
+    /* Layout tweaks for various elements */
+    #verb-info {
+        margin-bottom: 5px;
+    }
+    
+    #infinitive-badge {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    
+    /* Shrink game title */
+    .game-title {
+        font-size: 1.4rem;
+        margin-bottom: 0;
+    }
+    
+    /* Make text smaller in the feedback */
+    .correct, .incorrect, .congratulations {
+        font-size: 0.9rem;
+    }
+    
+    /* Optimize progress display */
+    .progress-container small {
+        font-size: 0.8rem;
+    }
+    
+    .progress {
+        height: 6px;
+        margin-bottom: 5px;
+    }
 }
 
 /* Default flag colors - French */
@@ -52,6 +224,10 @@ body {
     background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
     height: 10px;
     margin-bottom: 20px;
+    display: block;
+    width: 100%;
+    content: " ";
+    min-height: 10px;
 }
 
 /* Spanish flag colors */
@@ -373,28 +549,278 @@ body.home {
     margin-top: 15px;
 }
 
-.game-stats {
-    background-color: white;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
+/* Mobile optimization for buttons */
+@media (max-width: 767px) {
+    .btn-check-answer, .next-btn {
+        padding: 8px;
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+    
+    .choice-btn {
+        margin: 2px;
+        font-size: 0.9rem;
+        padding: 4px 8px;
+    }
+    
+    .answer-feedback {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    
+    /* Make the game container take the full viewport height */
+    .game-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 20px);
+        max-height: 100vh;
+        overflow-y: auto;
+        padding-bottom: 10px;
+    }
+    
+    /* Make sure the verb display doesn't take too much space */
+    .verb-display {
+        margin: 5px 0;
+        padding: 10px 5px;
+    }
+    
+    /* Reduce emoji size on small screens */
+    .selector-label .emoji {
+        font-size: 1.2rem;
+    }
+    
+    /* Layout tweaks for various elements */
+    #verb-info {
+        margin-bottom: 5px;
+    }
+    
+    #infinitive-badge {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    
+    /* Shrink game title */
+    .game-title {
+        font-size: 1.4rem;
+        margin-bottom: 0;
+    }
+    
+    /* Make text smaller in the feedback */
+    .correct, .incorrect, .congratulations {
+        font-size: 0.9rem;
+    }
+    
+    /* Optimize progress display */
+    .progress-container small {
+        font-size: 0.8rem;
+    }
+    
+    .progress {
+        height: 6px;
+        margin-bottom: 5px;
+    }
 }
 
-/* Enhanced highlight style for the verb display */
-.highlight {
-    font-weight: bold;
-    color: #007bff;
-    font-size: 2.5rem;
-    text-align: center;
+/* Mobile optimization for choose.html */
+@media (max-width: 767px) {
+    /* Optimize verb form info display */
+    .verb-form-info {
+        font-size: 1rem;
+        margin: 10px 0;
+        padding: 8px;
+    }
+    
+    /* Make verb options more compact */
+    .verb-options {
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+    
+    .verb-option {
+        padding: 8px;
+        font-size: 1rem;
+    }
+    
+    /* Make badge smaller */
+    .verb-info h3 {
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+    }
+    
+    .badge {
+        font-size: 0.9rem;
+        padding: 5px 8px;
+    }
+    
+    /* Make answers fit better on mobile */
+    #verb-options .verb-option {
+        height: auto;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Remove unnecessary margin at the bottom */
+    .game-container > *:last-child {
+        margin-bottom: 0;
+    }
 }
 
-/* Emoji feedback styles */
-.correct strong::before {
-    content: "✅ ";
+/* General style improvements for mobile */
+@media (max-width: 767px) {
+    body {
+        /* Prevent 100vh issues on mobile browsers */
+        height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
+    
+    /* Fix for iOS Safari's 100vh issue */
+    .game-container, .home-container {
+        min-height: -webkit-fill-available;
+        height: -webkit-fill-available;
+    }
+    
+    /* Reduce font size of verbs to ensure they fit */
+    .verb-display .highlight {
+        font-size: 1.8rem;
+        word-break: break-word;
+        line-height: 1.2;
+    }
 }
 
-.incorrect strong::before {
-    content: "❌ ";
+/* Mobile optimization for index.html (home page) */
+@media (max-width: 767px) {
+    body.home {
+        display: block;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .home-container {
+        margin: 0;
+        padding: 15px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    .mode-cards {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .mode-card {
+        min-width: 100%;
+    }
+    
+    .card-description {
+        min-height: auto;
+        font-size: 0.9rem;
+    }
+    
+    .card-description ul {
+        padding-left: 20px;
+    }
+    
+    .footer {
+        margin-top: 15px;
+        font-size: 0.8rem;
+    }
+    
+    /* Make the install button prominent but not intrusive */
+    #pwa-install-container {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        text-align: center;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .pwa-install-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        border-radius: 20px;
+    }
+}
+
+/* Final mobile optimizations to prevent scrolling */
+@media (max-width: 767px) {
+    /* Ensure flag colors are visible at the top */
+    .flag-colors {
+        z-index: 10;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Make the verb-options take available space but not more */
+    .verb-options {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        max-height: 35vh;
+        min-height: 150px;
+    }
+    
+    /* Improve the footer spacing */
+    .footer p {
+        margin-bottom: 5px;
+    }
+    
+    /* Improve feedback display */
+    .answer-feedback {
+        padding: 5px;
+    }
+    
+    /* Make the verb form info more compact */
+    .verb-form-info {
+        font-size: 0.9rem;
+    }
+    
+    /* Fix potential overflow issues */
+    .game-container > * {
+        max-width: 100%;
+    }
+    
+    /* Adjust spacing for home container */
+    .home-container {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Use flexible layout for game container */
+    .game-container {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Make progress container take minimal space */
+    .progress-container {
+        margin-top: auto;
+        padding-top: 10px;
+    }
+    
+    /* Make the game mode links compact */
+    .game-mode-links {
+        margin-top: 5px;
+        padding-top: 5px;
+    }
 }

@@ -19,44 +19,37 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Conjugame">
     <link rel="apple-touch-icon" href="icon.png">
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#007bff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Conjugame">
-    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+    <!-- Flag Colors Fix -->
+    <script src="flagFix.js"></script>
 </head>
 <body>
     <div class="game-container">
-        <div class="flag-colors"></div>
-        <div class="game-header">
-            <h1 class="game-title" data-translate="gameTitle">Conjugation</h1>
-        </div>
-
-        <div class="language-selector-container text-end mb-2">
-            <div class="language-flags">
-                <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
-                <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
-                <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
+        <div class="flag-colors">&nbsp;</div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="game-header mb-0">
+                <h1 class="game-title" data-translate="gameTitle">Conjugation</h1>
             </div>
-        </div>
-
-        <div class="row mb-4">
-            <div class="col">
-                <div class="score-display">
-                    <span data-translate="score">Score</span>: <span id="score">0</span> / <span id="total">0</span>
-                </div>
-            </div>
-            <div class="col text-end">
-                <div class="streak-display">
-                    <span data-translate="streak">Streak</span>: <span id="streak">0</span> 🔥
+            
+            <div class="language-selector-container text-end">
+                <div class="language-flags">
+                    <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
+                    <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
+                    <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
                 </div>
             </div>
         </div>
 
-        <div class="difficulty-selector text-center mb-4">
-            <div class="btn-group" role="group">
+        <div class="game-stats d-flex justify-content-between mb-2">
+            <div class="score-display">
+                🎯 <span data-translate="score">Score</span>: <span id="score">0</span>/<span id="total">0</span>
+            </div>
+            <div class="streak-display">
+                <span data-translate="streak">Streak</span>: <span id="streak">0</span> 🔥
+            </div>
+        </div>
+
+        <div class="difficulty-selector text-center mb-2">
+            <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="easy" data-translate="easy">Easy</button>
                 <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="medium" data-translate="medium">Medium</button>
                 <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="hard" data-translate="hard">Hard</button>
@@ -64,43 +57,47 @@
         </div>
 
         <div id="loading" class="text-center">
-            <div class="spinner-border text-primary" role="status">
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
                 <span class="visually-hidden" data-translate="loading">Loading...</span>
             </div>
-            <p data-translate="loadingVerbData">Loading verb data...</p>
+            <p class="mb-1" data-translate="loadingVerbData">Loading verb data...</p>
         </div>
 
-        <div class="verb-info text-center">
-            <h3><span id="verb-infinitive" class="badge bg-primary" data-translate="loading">Loading...</span></h3>
+        <div class="verb-info text-center mb-1">
+            <h3 class="mb-1"><span id="verb-infinitive" class="badge bg-primary" data-translate="loading">Loading...</span></h3>
         </div>
 
-        <div class="verb-form-info">
-            Conjugate to <strong><span id="verb-temps" data-translate="loading">Loading...</span></strong> du <strong><span id="verb-mode" data-translate="loading">Loading...</span></strong>,
-            <strong><span id="verb-personne" data-translate="loading">Loading...</span></strong> personne
+        <div class="verb-form-info mb-2 py-2">
+            <span data-translate="conjugateTo">Conjugate to</span> <strong><span id="verb-temps" data-translate="loading">Loading...</span></strong> <span data-translate="of">of</span> <strong><span id="verb-mode" data-translate="loading">Loading...</span></strong>,
+            <strong><span id="verb-personne" data-translate="loading">Loading...</span></strong> <span data-translate="person">person</span>
         </div>
 
         <div class="verb-options" id="verb-options">
             <!-- Conjugation options will be added dynamically -->
         </div>
 
-        <button class="btn btn-success w-100 mt-4" id="check-answer" data-translate="checkAnswer">Check Answer</button>
+        <button class="btn btn-success w-100 mt-2" id="check-answer" data-translate="checkAnswer">Check Answer</button>
 
-        <div class="answer-feedback mt-4" id="feedback">
+        <div class="answer-feedback mt-2 mb-2" id="feedback">
         </div>
 
         <button class="btn btn-primary w-100 next-btn" id="next-question" data-translate="nextQuestion">Next Question</button>
 
-        <div class="progress-container">
-            <h6 data-translate="progress">Progress:</h6>
-            <div class="progress" role="progressbar">
+        <div class="progress-container mt-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <small data-translate="progress">Progress:</small>
+                <small><span id="score">0</span>/<span id="objectif">10</span></small>
+            </div>
+            <div class="progress" role="progressbar" style="height: 8px;">
                 <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
             </div>
         </div>
 
-        <div class="game-mode-links">
-            <p data-translate="changeGameMode">Switch Game Mode:</p>
-            <a href="index.html" class="btn btn-outline-secondary" data-translate="home">Home</a>
-            <a href="identify.html" class="btn btn-outline-primary" data-translate="identifyForm">Mode: Identify the Form</a>
+        <div class="game-mode-links mt-2">
+            <div class="d-flex justify-content-center flex-wrap gap-2">
+                <a href="index.html" class="btn btn-sm btn-outline-secondary" data-translate="home">Home</a>
+                <a href="identify.html" class="btn btn-sm btn-outline-primary" data-translate="identifyForm">Identify Form</a>
+            </div>
         </div>
     </div>
 
