@@ -34,13 +34,13 @@ async function callAPI(verbe) {
             const response = await fetch(apiUrl);
             
             if (!response.ok) {
-                throw new Error(`Erreur HTTP: ${response.status}`);
+                throw new Error(`HTTP Error: ${response.status}`);
             }
             
             const data = await response.json();
             
             if (!data || !data.value) {
-                throw new Error("Format de données inattendu");
+                throw new Error("Unexpected data format");
             }
             
             $('#loading').hide();
@@ -49,19 +49,19 @@ async function callAPI(verbe) {
             
         } catch (error) {
             attempts++;
-            console.error(`Erreur (tentative ${attempts}/${maxAttempts}):`, error);
-            
+            console.error(`Error (attempt ${attempts}/${maxAttempts}):`, error);
+
             if (attempts >= maxAttempts) {
                 // All retry attempts failed
                 $('#loading').hide();
                 $('#verb-display').show();
-                alert("Échec de la récupération des données après plusieurs tentatives.");
+                alert("Failed to retrieve data after multiple attempts.");
                 return null;
             }
             
             // Calculate backoff time and wait before next attempt
             const retryDelay = baseRetryInterval * Math.pow(2, attempts - 1);
-            console.log(`Nouvelle tentative dans ${retryDelay/1000} secondes...`);
+            console.log(`New attempt in ${retryDelay/1000} seconds...`);
             await new Promise(resolve => setTimeout(resolve, retryDelay));
         }
     }
