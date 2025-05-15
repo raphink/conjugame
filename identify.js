@@ -82,30 +82,13 @@ async function updateTimeButtons(mode) {
     container.empty();
 
     if (!mode) return;
-
-    console.log("Updating tense buttons for mode:", mode);
     let langData = await getLangData();
 
     console.log("Language data:", langData);
-    let availableTenses;
-    switch (difficulty) {
-        case "easy":
-            availableTenses = langData.verbData.moodsTenses.easy[mode];
-            break;
-        case "medium":
-            availableTenses = langData.verbData.moodsTenses.medium[mode];
-            break;
-        case "hard":
-            availableTenses = langData.verbData.moodsTenses.hard[mode];
-            break;
-        default:
-            availableTenses = langData.verbData.moodsTenses.easy[mode];
-    }
+    let moodTenses = langData.verbData.moodsTenses[difficulty];
+    let availableTenses = moodTenses[mode] || langData.verbData.moodsTenses.easy[mode];
 
     let localMode = langData.verbData.moodsNames[mode];
-
-    console.log("Local mode:", localMode);
-    console.log("Available tenses:", availableTenses);
 
     // Filter tenses that exist for this verb
     if (verbData && verbData.moods[localMode]) {
