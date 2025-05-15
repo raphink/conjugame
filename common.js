@@ -138,10 +138,4 @@ async function translateUI() {
         }
     }
     );
-
-    // Translate UI elements
-
-    $('.person-btn [data-person|="0"]').text(langData.verbData.personDisplay.ordinal[0]);
-    $('.person-btn [data-person|="1"]').text(langData.verbData.personDisplay.ordinal[1]);
-    $('.person-btn [data-person|="2"]').text(langData.verbData.personDisplay.ordinal[2]);
 }

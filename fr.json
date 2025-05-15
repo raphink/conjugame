@@ -33,6 +33,10 @@
       "singular": "Singulier",
       "plural": "Pluriel",
 
+      "first": "1ère",
+      "second": "2ème",
+      "third": "3ème",
+
       "indicative": "Indicatif",
       "infinitive": "Infinitif",
       "participle": "Participe",
