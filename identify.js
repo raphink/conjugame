@@ -251,22 +251,22 @@ async function nextQuestion() {
     $('#mood-group button').remove();
 
     // Generate buttons for available modes
-    availableModes.forEach(mode => {
-        const localName = langData.translations[mode] || mode;
-        $('#mood-group').append(`<button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="${mode}">${localName}</button>`);
-    });
-   // If only one mode is available, select it automatically
-    if (availableModes.length === 1) {
-        const singleMode = availableModes[0];
-        $(`#mood-group button[data-value="${singleMode}"]`).addClass('active');
-        updateTimeButtons(singleMode);
-    }
-    $('.mood-btn').click(function() {
-        const mode = $(this).data('value');
-        console.log("Selected mode:", mode);
-        $(this).addClass('active').siblings().removeClass('active');
-        updateTimeButtons(mode);
-        handlePersonSelection(mode);
+    availableModes.forEach(async mode => {
+        const localName = await localize(mode);
+        const moodBtn = $(`<button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="${mode}">${localName}</button>`);
+        moodBtn.click(function () {
+            const mode = $(this).data('value');
+            console.log("Selected mode:", mode);
+            $(this).addClass('active').siblings().removeClass('active');
+            updateTimeButtons(mode);
+            handlePersonSelection(mode);
+        });
+        // If only one mode is available, select it automatically
+        if (availableModes.length === 1) {
+            moodBtn.addClass('active');
+            updateTimeButtons(mode);
+        }
+        $('#mood-group').append(moodBtn);
     });
     
     // Choose a random mode from those available for this level
@@ -347,7 +347,7 @@ async function nextQuestion() {
 
 async function verifyAnswer() {
     if (!verbData) {
-        alert("Veuillez d'abord charger un verbe");
+        alert(await localize("loadVerbFirst"));
         return;
     }
 
@@ -360,7 +360,7 @@ async function verifyAnswer() {
     let selectedPerson;
     
     if (personSelection === undefined || numberSelection === undefined) {
-        alert("Veuillez sélectionner une personne et un nombre");
+        alert(await localize("personNumberRequired"));
         totalQuestions--; // Cancel the increment
         $('#total').text(totalQuestions);
         return;
@@ -373,7 +373,8 @@ async function verifyAnswer() {
     
     // Check that all choices have been made
     if (!selectedMood || !selectedTense) {
-        alert("Veuillez sélectionner un mode et un temps");
+        let err = await localize("moodTenseRequired");
+        alert(err);
         totalQuestions--; // Cancel the increment
         $('#total').text(totalQuestions);
         return;
@@ -387,43 +388,38 @@ async function verifyAnswer() {
 
         let langData = await getLangData();
     
-let localTenseName = langData.verbData.tensesNames[currentAnswer.temps].toLowerCase() || currentAnswer.temps;
-if (isCorrect) {
+    let localTenseName = langData.verbData.tensesNames[currentAnswer.temps].toLowerCase() || currentAnswer.temps;
+    // Format person name for display
+    let personName = langData.verbData.personDisplay.fullNames[selectedPerson] || selectedPerson;
+
+    if (isCorrect) {
         score++;
         streak++;
         $('#score').text(score);
         $('#streak').text(streak);
         
-        // Format person name for display
-        let personName;
-        if (currentAnswer.mode !== "imperatif") {
-            personName = langData.verbData.personDisplay.fullNames[currentAnswer.personne].toLowerCase() || currentAnswer.personne;
-        } else {
-            // For imperative, use the custom display format based on the standard person index
-            if (currentAnswer.personne === 1) {
-                personName = "Tu (2ème personne singulier - impératif)";
-            } else if (currentAnswer.personne === 3) {
-                personName = "Nous (1ère personne pluriel - impératif)";
-            } else if (currentAnswer.personne === 4) {
-                personName = "Vous (2ème personne pluriel - impératif)";
-            } else {
-                // Fallback - should not happen with correct mapping
-                personName = personsNames[currentAnswer.personne] + " (impératif)";
-            }
-        }
         
+        let correctMsgTemplate = await localize("identifyCorrectMessage");
+        let correctMsg = correctMsgTemplate.replace("{0}", currentConjugation)
+            .replace("{1}", localTenseName)
+            .replace("{2}", verbeActuel)
+            .replace("{3}", await localize(currentAnswer.mode))
+            .replace("{4}", personName);
         $('#feedback').removeClass('incorrect').addClass('correct')
-            .html(`<strong>Correct !</strong> "${currentConjugation}" est bien le ${localTenseName} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
-            .show();
+            .html(correctMsg).show();
     } else {
         streak = 0;
         $('#streak').text(streak);
         
         // Format person name for display
-        let personName = langData.verbData.personDisplay.fullNames[currentAnswer.personne] || currentAnswer.personne;
+        let incorrectMsgTemplate = await localize("identifyIncorrectMessage");
+        let incorrectMsg = incorrectMsgTemplate.replace("{0}", currentConjugation)
+            .replace("{1}", localTenseName)
+            .replace("{2}", verbeActuel)
+            .replace("{3}", await localize(currentAnswer.mode))
+            .replace("{4}", personName);
         $('#feedback').removeClass('correct').addClass('incorrect')
-            .html(`<strong>Incorrect.</strong> "${currentConjugation}" est le ${localTenseName} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
-            .show();
+            .html(incorrectMsg).show();
     }
     
     // Disable all form elements to prevent changes after submitting
@@ -439,12 +435,11 @@ if (isCorrect) {
     // Check if goal is reached
     if (score >= objectifScore) {
         // Congratulate the user
-        const message = `<div class="alert alert-success mt-3">
-            <h4>Félicitations !</h4>
-            <p>Vous avez atteint votre objectif de ${objectifScore} bonnes réponses !</p>
-            <p>Score final : ${score}/${totalQuestions}</p>
-            <button class="btn btn-success mt-2" onclick="location.reload()">Recommencer</button>
-        </div>`;
+        const messageTemplate = await localize("identifyCongratulationsMessage");
+        const message = messageTemplate.replace("{0}", score).replace("{1}", totalQuestions);
+        $('#feedback').removeClass('correct incorrect').addClass('congratulations')
+            .html(`<strong>${await localize("congratulations")}</strong> ${message}`)
+            .show();
         
         $('.game-container').append(message);
         $('#next-question').prop('disabled', true);

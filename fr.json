@@ -17,6 +17,16 @@
       "targetReached": "Vous avez atteint votre objectif de {0} bonnes réponses !",
       "finalScore": "Score final : {0}/{1}",
       "restart": "Recommencer",
+
+      "Please select a mood and tense": "Veuillez sélectionner un mode et un temps.",
+
+      "loadVerbFirst": "Veuillez d'abord charger un verbe.",
+      "personNumberRequired": "Veuillez sélectionner une personne et un nombre.",
+      "moodTenseRequired": "Veuillez sélectionner un mode et un temps.",
+
+      "identifyCorrectMessage": "<strong>Correct !</strong> \"{0}\" est bien le {1} de \"{2}\" au mode {3}, forme {4}.",
+      "identifyIncorrectMessage": "<strong>Incorrect.</strong> \"{0}\" est le {1} de \"{2}\" au mode {3}, forme {4}.",
+      "identifyCongratulationsMessage": "<h4>Félicitations !</h4><p>Vous avez atteint votre objectif de {0} bonnes réponses !</p><p>Score final: {1}/{2}.</p>",
       
       "identifyForm": "Mode: Identifier la Forme",
       "chooseForm": "Mode: Choisir la Forme",
@@ -138,12 +148,12 @@
       ],
       "imperative": ["2ème (tu)", "1ère (nous)", "2ème (vous)"],
       "fullNames": [
-        "Je (1ère personne singulier)",
-        "Tu (2ème personne singulier)",
-        "Il/Elle (3ème personne singulier)",
-        "Nous (1ère personne pluriel)",
-        "Vous (2ème personne pluriel)",
-        "Ils/Elles (3ème personne pluriel)"
+        "Je (1ère personne du singulier)",
+        "Tu (2ème personne du singulier)",
+        "Il/Elle (3ème personne du singulier)",
+        "Nous (1ère personne du pluriel)",
+        "Vous (2ème personne du pluriel)",
+        "Ils/Elles (3ème personne du pluriel)"
       ]
     },
     "personsByMood": {
