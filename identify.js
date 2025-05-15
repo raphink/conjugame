@@ -39,6 +39,8 @@ const imperative_mapping = {
 function getPersonneIndex(personSelection, numberSelection) {
     const personInt = parseInt(personSelection);
     const numberInt = parseInt(numberSelection);
+
+    console.log(`Person: ${personInt}, Number: ${numberInt}`);
     
     if (numberInt === 0) { // Singular
         return personInt;
@@ -261,7 +263,7 @@ async function nextQuestion() {
     }
     
     // Get available persons for this mode
-    const availablePersons = personnesParMode[mode] || [0, 1, 2, 3, 4, 5];
+    const availablePersons = personnesParMode[mode];
     
     // Choose a random person from the available ones
     const randomPersonIndex = Math.floor(Math.random() * availablePersons.length);
@@ -276,7 +278,8 @@ async function nextQuestion() {
     
     // Calculate the correct array index based on mode
     let arrayIndex;
-    if (mode === "imperatif") {
+    console.log(mode);
+    if (mode === "imperative") {
         // For imperative, convert from the standard index to the array index
         arrayIndex = getImperativeArrayIndex(selectedPersonIndex);
     } else {
@@ -345,8 +348,11 @@ async function verifyAnswer() {
         selectedMood === currentAnswer.mode && 
         selectedTense === currentAnswer.temps;
 
+    console.log(`Selected: ${selectedPerson}, ${selectedMood}, ${selectedTense}`);
+    console.log(`Correct: ${currentAnswer.personne}, ${currentAnswer.mode}, ${currentAnswer.temps}`);
+
     let localTenseName = await getFullTenseName(currentAnswer.temps);
-    let personName = await getPersonFullName(selectedPerson);
+    let personName = await getPersonFullName(currentAnswer.personne);
 
     if (isCorrect) {
         score++;
@@ -435,8 +441,8 @@ $(document).ready(async function() {
     // Handle combination of person and number
     $('.person-btn, .number-btn').click(function() {
         // If imperative mode is selected, handle special cases
-        if ($('.mood-btn.active').data('value') === "imperatif") {
-            handlePersonSelection("imperatif");
+        if ($('.mood-btn.active').data('value') === "imperative") {
+            handlePersonSelection("imperative");
         }
     });
 
