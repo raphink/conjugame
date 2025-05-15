@@ -2,7 +2,7 @@
   "name": "Conjugame - Jeu de Conjugaison",
   "short_name": "Conjugame",
   "description": "Améliorez votre maîtrise des conjugaisons en jouant",
-  "start_url": "/index.html",
+  "start_url": "/conjugame/index.html",
   "display": "standalone",
   "background_color": "#f8f9fa",
   "theme_color": "#007bff",

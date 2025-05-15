@@ -1,22 +1,22 @@
 // Service Worker for Conjugame
 const CACHE_NAME = 'conjugame-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/identify.html',
-  '/choose.html',
-  '/styles.css',
-  '/common.js',
-  '/identify.js',
-  '/choose.js',
-  '/languageFlags.js',
-  '/pwa-install.js',
-  '/fr.json',
-  '/es.json',
-  '/it.json',
-  '/icon.png',
-  '/favicon.ico',
-  '/manifest.webmanifest',
+  '/conjugame/',
+  '/conjugame/index.html',
+  '/conjugame/identify.html',
+  '/conjugame/choose.html',
+  '/conjugame/styles.css',
+  '/conjugame/common.js',
+  '/conjugame/identify.js',
+  '/conjugame/choose.js',
+  '/conjugame/languageFlags.js',
+  '/conjugame/pwa-install.js',
+  '/conjugame/fr.json',
+  '/conjugame/es.json',
+  '/conjugame/it.json',
+  '/conjugame/icon.png',
+  '/conjugame/favicon.ico',
+  '/conjugame/manifest.webmanifest',
   'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js'
@@ -88,7 +88,7 @@ self.addEventListener('fetch', event => {
         ).catch(() => {
           // If fetch fails (offline), attempt to serve the offline page
           if (event.request.mode === 'navigate') {
-            return caches.match('/index.html');
+            return caches.match('/conjugame/index.html');
           }
         });
       })
