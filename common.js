@@ -90,9 +90,9 @@ function updateNavigationLinks() {
     // Update all links to include current parameters
     $('a').each(function() {
         const href = $(this).attr('href');
-        // Only update internal links that go to HTML pages
-        if (href && href.endsWith('.html')) {
-            // Remove any existing parameters
+        // Only update internal links to our HTML pages
+        if (href && href.includes('.html')) {
+            // Remove any existing parameters by getting the base URL
             const baseUrl = href.split('?')[0];
             // Add current language and difficulty parameters
             $(this).attr('href', `${baseUrl}?lang=${lang}&difficulty=${difficulty}`);
