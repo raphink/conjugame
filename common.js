@@ -125,3 +125,24 @@ function toggleActionButtons(showVerify = true) {
         $('#next-question').show();
     }
 }
+
+
+async function translateUI() {
+    let langData = await getLangData();
+
+    $('[data-translate]').each(function() {
+        const key = $(this).data('translate');
+        const translation = langData.translations[key];
+        if (translation) {
+            $(this).text(translation);
+        }
+    }
+    );
+
+    // Translate UI elements
+    $('.infinitive-title').text(langData.verbData.moodsNames.infinitive);
+
+    $('.person-btn [data-person|="0"]').text(langData.verbData.personDisplay.ordinal[0]);
+    $('.person-btn [data-person|="1"]').text(langData.verbData.personDisplay.ordinal[1]);
+    $('.person-btn [data-person|="2"]').text(langData.verbData.personDisplay.ordinal[2]);
+}

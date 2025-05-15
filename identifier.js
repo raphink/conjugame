@@ -17,7 +17,7 @@ let availableModes = []; // Array to store available modes for current verb
 // Define available persons by mode (moved from common.js)
 const personnesParMode = {
     "indicative": [0, 1, 2, 3, 4, 5],      // all 6 persons
-    "subjonctive": [0, 1, 2, 3, 4, 5],     // all 6 persons
+    "subjunctive": [0, 1, 2, 3, 4, 5],     // all 6 persons
     "conditional": [0, 1, 2, 3, 4, 5],   // all 6 persons
     "imperative": [1, 3, 4]                // only 2nd sing, 1st plur, 2nd plur (tu, nous, vous)
 };
@@ -96,7 +96,7 @@ async function updateTimeButtons(mode) {
             availableTenses = langData.verbData.moodsTenses.medium[mode];
             break;
         case "hard":
-            availableTenses = langData.verbData.moodsTenses.advanced[mode];
+            availableTenses = langData.verbData.moodsTenses.hard[mode];
             break;
         default:
             availableTenses = langData.verbData.moodsTenses.easy[mode];
@@ -119,14 +119,14 @@ async function updateTimeButtons(mode) {
         const temps = availableTenses[0];
 
         console.log("Only one tense available:", temps);
-        const nomFrancais = langData.verbData.tensesNames[temps].toLowerCase() || temps;
-        container.append(`<button type="button" class="btn btn-outline-secondary choice-btn active" data-value="${temps}">${nomFrancais}</button>`);
+        const localName = langData.verbData.tensesNames[temps] || temps;
+        container.append(`<button type="button" class="btn btn-outline-secondary choice-btn active" data-value="${temps}">${localName}</button>`);
     } else {
         console.log("Multiple tenses available:", availableTenses);
         // Otherwise add all available tenses as buttons
         availableTenses.forEach(temps => {
-            const nomFrancais = langData.verbData.tensesNames[temps].toLowerCase() || temps;
-            container.append(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">${nomFrancais}</button>`);
+            const localName = langData.verbData.tensesNames[temps] || temps;
+            container.append(`<button type="button" class="btn btn-outline-secondary choice-btn" data-value="${temps}">${localName}</button>`);
         });
 
         // Add event listeners for new buttons
@@ -247,20 +247,27 @@ async function nextQuestion() {
 
     console.log("Available modes:", availableModes);
     
-    // Hide all mode buttons first
-    $('#mood-group button').hide();
-    
-    // Then show only available modes
+    // Remove all mode buttons first
+    $('#mood-group button').remove();
+
+    // Generate buttons for available modes
     availableModes.forEach(mode => {
-        $(`#mood-group button[data-value="${mode}"]`).show();
+        const nomFrancais = langData.verbData.moodsNames[mode];
+        $('#mood-group').append(`<button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="${mode}">${nomFrancais}</button>`);
     });
-    
-    // If only one mode is available, select it automatically
+   // If only one mode is available, select it automatically
     if (availableModes.length === 1) {
         const singleMode = availableModes[0];
         $(`#mood-group button[data-value="${singleMode}"]`).addClass('active');
         updateTimeButtons(singleMode);
     }
+    $('.mood-btn').click(function() {
+        const mode = $(this).data('value');
+        console.log("Selected mode:", mode);
+        $(this).addClass('active').siblings().removeClass('active');
+        updateTimeButtons(mode);
+        handlePersonSelection(mode);
+    });
     
     // Choose a random mode from those available for this level
     if (availableModes.length === 0) {
@@ -413,7 +420,8 @@ if (isCorrect) {
         $('#streak').text(streak);
         
         // Format person name for display
-        let personName;
+        let personName = langData.verbData.personDisplay.fullNames[currentAnswer.personne] || currentAnswer.personne;
+        /*
         if (currentAnswer.mode !== "imperatif") {
             personName = personsNames[currentAnswer.personne];
         } else {
@@ -429,6 +437,7 @@ if (isCorrect) {
                 personName = personsNames[currentAnswer.personne] + " (impératif)";
             }
         }
+            */
         
         $('#feedback').removeClass('correct').addClass('incorrect')
             .html(`<strong>Incorrect.</strong> "${currentConjugation}" est le ${localTenseName} de "${verbeActuel}" au mode ${currentAnswer.mode}, forme ${personName}.`)
@@ -461,37 +470,6 @@ if (isCorrect) {
     }
 }
 
-async function translateUI() {
-    let langData = await getLangData();
-    // Translate UI elements
-    $('.game-title').text(langData.translations.title);
-    $('.score-title').text(langData.translations.score);
-    $('.streak-title').text(langData.translations.streak);
-    $('.difficulty-selector [data-level|="easy"]').text(langData.translations.easy);
-    $('.difficulty-selector [data-level|="medium"]').text(langData.translations.medium);
-    $('.difficulty-selector [data-level|="hard"]').text(langData.translations.hard);
-    $('.infinitive-title').text(langData.verbData.moodsNames.infinitive);
-
-    $('.person-title').text(langData.translations.person);
-    $('.person-btn [data-person|="0"]').text(langData.verbData.personDisplay.ordinal[0]);
-    $('.person-btn [data-person|="1"]').text(langData.verbData.personDisplay.ordinal[1]);
-    $('.person-btn [data-person|="2"]').text(langData.verbData.personDisplay.ordinal[2]);
-    $('.number-title').text(langData.translations.number);
-    $('.title-mood').text(langData.translations.mood);
-    $('.title-tense').text(langData.translations.tense);
-
-    // Loading
-    $('.loading').text(langData.translations.loading);
-    $('.loading-verb-data').text(langData.translations.loadingVerbData);
-
-    $('#check-answer').text(langData.translations.checkAnswer);
-    $('#next-question').text(langData.translations.nextQuestion);
-    $('.title-progress').text(langData.translations.progress);
-    $('.title-game-mode').text(langData.translations.changeGameMode);
-    $('.title-home').text(langData.translations.home);
-    $('.title-choose-form').text(langData.translations.chooseForm);
-}
-
 // Initialize the game
 $(document).ready(async function() {
     // Initially hide the next question button
@@ -520,12 +498,6 @@ $(document).ready(async function() {
         // Generate a new question for the selected level
         nextQuestion();
     });
-
-    $('.mood-btn').click(function() {
-        const mode = $(this).data('value');
-        updateTimeButtons(mode);
-        handlePersonSelection(mode);
-    });
     
     // Handle combination of person and number
     $('.person-btn, .number-btn').click(function() {
@@ -537,10 +509,6 @@ $(document).ready(async function() {
 
     $('#check-answer').click(verifyAnswer);
     $('#next-question').click(nextQuestion);
-
-    // Select some default values to avoid empty selections
-    //$('button[data-person="0"]').addClass('active'); // 1st person
-    //$('button[data-number="0"]').addClass('active'); // singular
 
     // Start the game
     nextQuestion();

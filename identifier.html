@@ -17,23 +17,23 @@
     <div class="game-container">
         <div class="flag-colors"></div>
         <div class="game-header">
-            <h1 class="game-title">Conjugaison Française</h1>
+            <h1 class="game-title" data-translate="gameTitle">Conjugation</h1>
         </div>
 
         <div class="game-stats">
             <div class="score-display">
-                🎯 <span class='score-title'>Score</span>: <span id="score">0</span> / <span id="total">0</span>
+                🎯 <span data-translate="score">Score</span>: <span id="score">0</span> / <span id="total">0</span>
             </div>
             <div class="streak-display">
-                🔥 <span class='streak-title'>Streak</span>: <span id="streak">0</span>
+                🔥 <span data-translate="streak">Streak</span>: <span id="streak">0</span>
             </div>
         </div>
 
         <div class="difficulty-selector text-center mb-4">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="easy">Easy</button>
-                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="medium">Medium</button>
-                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="hard">Hard</button>
+                <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="easy" data-translate="easy">Easy</button>
+                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="medium" data-translate="medium">Medium</button>
+                <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="hard" data-translate="hard">Hard</button>
             </div>
         </div>
 
@@ -43,13 +43,13 @@
 
         <div id="loading" class="text-center">
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden loading">Loading...</span>
+                <span class="visually-hidden" data-translate="loading">Loading...</span>
             </div>
-            <p class="loading-verb-data">Loading verb data...</p>
+            <p class="loading-verb-data" data-translate="loadingVerbData">Loading verb data...</p>
         </div>
 
         <div class="verb-display" id="verb-display">
-            <h2 class="highlight loading">Loading...</h2>
+            <h2 class="highlight" data-translate="loading">Loading...</h2>
         </div>
 
         <div class="row">
@@ -57,7 +57,7 @@
             <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
-                        <span class="emoji">👤</span> <span class="person-title">Person</span>:
+                        <span class="emoji">👤</span> <span data-translate="person">Person</span>:
                     </div>
                     <div class="selector-buttons" id="person-group">
                         <button type="button" class="btn btn-selector btn-person choice-btn person-btn" data-person="0">First</button>
@@ -71,26 +71,23 @@
             <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
-                        <span class="emoji">🔢</span> <span class="number-title">Number</span>:
+                        <span class="emoji">🔢</span> <span data-translate="number">Number</span>:
                     </div>
                     <div class="selector-buttons" id="number-group">
-                        <button type="button" class="btn btn-selector btn-nombre choice-btn number-btn" data-number="0">Singulier</button>
-                        <button type="button" class="btn btn-selector btn-nombre choice-btn number-btn" data-number="1">Pluriel</button>
+                        <button type="button" class="btn btn-selector btn-nombre choice-btn number-btn" data-number="0" data-translate="singular">Singulier</button>
+                        <button type="button" class="btn btn-selector btn-nombre choice-btn number-btn" data-number="1" data-translate="plural">Pluriel</button>
                     </div>
                 </div>
             </div>
             
-            <!-- Mode Column -->
+            <!-- Mood Column -->
             <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
-                        <span class="emoji">🔄</span> <span class="title-mood">Mood</span>:
+                        <span class="emoji">🔄</span> <span data-translate="mood">Mood</span>:
                     </div>
                     <div class="selector-buttons" id="mood-group">
-                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="indicative">Indicatif</button>
-                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="subjunctive">Subjonctif</button>
-                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="conditional">Conditionnel</button>
-                        <button type="button" class="btn btn-selector btn-mode choice-btn mood-btn" data-value="imperative">Impératif</button>
+                        <!-- Mood buttons will be added dynamically -->
                     </div>
                 </div>
             </div>
@@ -99,7 +96,7 @@
             <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
-                        <span class="emoji">⏱️</span> <span class="title-tense">Tense</span>:
+                        <span class="emoji">⏱️</span> <span data-translate="tense">Tense</span>:
                     </div>
                     <div class="selector-buttons" id="tense-container">
                         <!-- Tense buttons will be added dynamically -->
@@ -108,23 +105,23 @@
             </div>
         </div>
 
-        <button class="btn btn-success w-100 btn-check-answer" id="check-answer">Vérifier la réponse</button>
+        <button class="btn btn-success w-100 btn-check-answer" id="check-answer" data-translate="checkAnswer">Check Answer</button>
 
         <div class="answer-feedback mt-4" id="feedback"></div>
 
-        <button class="btn btn-primary w-100 next-btn" id="next-question">Question suivante</button>
+        <button class="btn btn-primary w-100 next-btn" id="next-question" data-translate="nextQuestion">Next Question</button>
 
         <div class="progress-container mt-4">
-            <h6 class="title-progress">Progrès:</h6>
+            <h6 data-translate="progress">Progrès:</h6>
             <div class="progress" role="progressbar">
                 <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
             </div>
         </div>
 
         <div class="game-mode-links mt-4">
-            <p class="title-game-mode">Switch Game Mode:</p>
-            <a href="index.html" class="btn btn-outline-secondary title-home">Home</a>
-            <a href="choisir.html" class="btn btn-outline-primary title-choose-form">Mode: Choose the Form</a>
+            <p data-translate="changeGameMode">Switch Game Mode:</p>
+            <a href="index.html" class="btn btn-outline-secondary" data-translate="home">Home</a>
+            <a href="choisir.html" class="btn btn-outline-primary" data-translate="chooseForm">Mode: Choose the Form</a>
         </div>
     </div>
 

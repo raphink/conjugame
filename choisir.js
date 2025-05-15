@@ -344,9 +344,11 @@ function verifyAnswer() {
 }
 
 // Initialize the game
-$(document).ready(function() {
+$(document).ready(async function() {
     // Initially hide the next question button
     toggleActionButtons(true);
+
+    await translateUI();
     
     // Difficulty level management
     $('.difficulty-btn').click(function() {
