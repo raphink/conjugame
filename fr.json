@@ -23,6 +23,7 @@
       "loadVerbFirst": "Veuillez d'abord charger un verbe.",
       "personNumberRequired": "Veuillez sélectionner une personne et un nombre.",
       "moodTenseRequired": "Veuillez sélectionner un mode et un temps.",
+      "chooseConjugation": "Veillez sélectionner une conjugaison.",
 
       "identifyCorrectMessage": "<strong>Correct !</strong> \"{0}\" est bien le {1} de \"{2}\" au mode {3}, forme {4}.",
       "identifyIncorrectMessage": "<strong>Incorrect.</strong> \"{0}\" est le {1} de \"{2}\" au mode {3}, forme {4}.",

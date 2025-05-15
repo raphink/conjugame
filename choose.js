@@ -276,7 +276,8 @@ async function nextQuestion() {
 // Function to check the answer
 async function verifyAnswer() {
     if (!verbData) {
-        alert("Veuillez d'abord charger un verbe");
+        let err = await localize("loadVerbFirst");
+        alert(err);
         return;
     }
 
@@ -287,7 +288,8 @@ async function verifyAnswer() {
     
     // Check that an option has been selected
     if (optionSelectionneeIndex === undefined) {
-        alert("Veuillez sélectionner une conjugaison");
+        let err = await localize("chooseConjugation");
+        alert(err);
         totalQuestions--; // Cancel the increment
         $('#total').text(totalQuestions);
         return;
