@@ -351,9 +351,8 @@ async function verifyAnswer() {
           .replace("{1}", score)
           .replace("{2}", totalQuestions);
         $('#feedback').removeClass('incorrect').addClass('correct')
-            .html(message)
-            .show();
-        $('.game-container').append(message);
+            .html(message).show();
+        
         $('#next-question').prop('disabled', true);
         $('#check-answer').prop('disabled', true);
     }
