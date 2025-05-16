@@ -385,10 +385,8 @@ async function verifyAnswer() {
           .replace("{1}", score)
           .replace("{2}", totalQuestions);
         $('#feedback').removeClass('correct incorrect').addClass('congratulations')
-            .html(`<strong>${await localize("congratulations")}</strong> ${message}`)
-            .show();
+            .html(message).show();
         
-        $('.game-container').append(message);
         $('#next-question').prop('disabled', true);
         $('#check-answer').prop('disabled', true);
     }
