@@ -214,6 +214,8 @@ async function nextQuestion() {
         if (availableModes.length === 1) {
             moodBtn.addClass('active');
             updateTimeButtons(mode);
+
+            $('#mood-group').hide().parent().find('.selected-option').text(localName);
         }
         $('#mood-group').append(moodBtn);
     });
