@@ -74,6 +74,9 @@ async function updateTimeButtons(mode) {
         btn.click(function () {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
+
+            $(this).parent().parent().find('.selected-option').text($(this).text());
+            $('#tense-container').hide();
         });
         container.append(btn);
     });
@@ -145,6 +148,10 @@ async function nextQuestion() {
     // Hide feedback
     $('#feedback').hide();
 
+    // Show all option buttons
+    $('.selector-buttons').show();
+    $('.selected-option').text("");
+
     // Scroll back to the top of the page
     $('html, body').animate({ scrollTop: 0 }, 500);
     
@@ -198,6 +205,10 @@ async function nextQuestion() {
             $(this).addClass('active').siblings().removeClass('active');
             updateTimeButtons(mode);
             handlePersonSelection(mode);
+
+            $(this).parent().parent().find('.selected-option').text($(this).text());
+            $('#mood-group').hide();
+            $('#tense-container').show();
         });
         // If only one mode is available, select it automatically
         if (availableModes.length === 1) {
@@ -395,6 +406,14 @@ $(document).ready(async function() {
     $('.choice-btn').click(function() {
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
+
+        $(this).parent().parent().find('.selected-option').text($(this).text());
+        $(this).parent().hide();
+    });
+
+    // Toggle button visibility when clicking on titles
+    $('.selector-label').click(function() {
+        $(this).parent().find('.selector-buttons').toggle();
     });
     
     // Language selection is now handled by languageFlags.js

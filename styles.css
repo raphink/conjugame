@@ -47,6 +47,10 @@ body {
     margin-bottom: 20px;
 }
 
+.selected-option {
+    margin-left: 1ex;
+}
+
 /* Mobile optimization to prevent scrolling */
 @media (max-width: 767px) {
     body {
@@ -112,6 +116,7 @@ body {
     
     .selector-label {
         margin-bottom: 5px;
+        cursor: pointer;
     }
     
     .selector-buttons {
@@ -186,6 +191,7 @@ body {
     /* Reduce emoji size on small screens */
     .selector-label .emoji {
         font-size: 1.2rem;
+        cursor: pointer;
     }
     
     /* Layout tweaks for various elements */
@@ -473,6 +479,7 @@ body.home {
     align-items: center;
     margin-bottom: 10px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .selector-label .emoji {
