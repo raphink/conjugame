@@ -23,31 +23,34 @@
     <script src="flagFix.js"></script>
 </head>
 <body>
+    
     <div class="game-container">
         <div class="flag-colors">&nbsp;</div>
-        <div class="game-header">
-            <h1 class="game-title" data-translate="gameTitle">Conjugation</h1>
-        </div>
-
-        <div class="language-selector-container text-end mb-2">
-            <div class="language-flags">
-                <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
-                <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
-                <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="game-header mb-0">
+                <h1 class="game-title" data-translate="gameTitle">Conjugation</h1>
+            </div>
+            
+            <div class="language-selector-container text-end">
+                <div class="language-flags">
+                    <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
+                    <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
+                    <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
+                </div>
             </div>
         </div>
 
-        <div class="game-stats">
+        <div class="game-stats d-flex justify-content-between mb-2">
             <div class="score-display">
-                🎯 <span data-translate="score">Score</span>: <span id="score">0</span> / <span id="total">0</span>
+                🎯 <span data-translate="score">Score</span>: <span id="score">0</span>/<span id="total">0</span>
             </div>
             <div class="streak-display">
-                🔥 <span data-translate="streak">Streak</span>: <span id="streak">0</span>
+                <span data-translate="streak">Streak</span>: <span id="streak">0</span> 🔥
             </div>
         </div>
 
-        <div class="difficulty-selector text-center mb-4">
-            <div class="btn-group" role="group">
+        <div class="difficulty-selector text-center mb-2">
+            <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="easy" data-translate="easy">Easy</button>
                 <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="medium" data-translate="medium">Medium</button>
                 <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="hard" data-translate="hard">Hard</button>
