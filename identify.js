@@ -384,7 +384,7 @@ async function verifyAnswer() {
         const message = messageTemplate.replace("{0}", objectifScore)
           .replace("{1}", score)
           .replace("{2}", totalQuestions);
-        $('#feedback').removeClass('correct incorrect').addClass('congratulations')
+        $('#feedback').removeClass('incorrect').addClass('correct')
             .html(message).show();
         
         $('#next-question').prop('disabled', true);
