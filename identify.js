@@ -411,9 +411,9 @@ $(document).ready(async function() {
         $(this).parent().hide();
     });
 
-    // Toggle button visibility when clicking on titles
+    // Show button visibility when clicking on titles
     $('.selector-label').click(function() {
-        $(this).parent().find('.selector-buttons').toggle();
+        $(this).parent().find('.selector-buttons').show();
     });
     
     // Language selection is now handled by languageFlags.js
