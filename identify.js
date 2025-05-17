@@ -77,6 +77,9 @@ async function updateTimeButtons(mode) {
 
             $(this).parent().parent().find('.selected-option').text($(this).text());
             $('#tense-container').hide();
+            
+            // Update check button state when tense is selected
+            updateCheckButtonState();
         });
         container.append(btn);
     });
@@ -163,6 +166,10 @@ async function nextQuestion() {
     // Show verify button and hide next question button
     toggleActionButtons(true);
     
+    // Make sure the check button is disabled and greyed out until all selections are complete
+    $('#check-answer').prop('disabled', true).addClass('btn-disabled');
+    $('#selection-requirements').hide();
+    
     // Re-enable all form elements
     $('.choice-btn').prop('disabled', false);
     
@@ -194,6 +201,9 @@ async function nextQuestion() {
     availableModes = Object.keys(availableForms).filter(m =>
         Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m])
     );
+    
+    // Update the check button state as selections are reset
+    updateCheckButtonState();
 
     // Remove all mode buttons first
     $('#mood-group button').remove();
@@ -218,6 +228,9 @@ async function nextQuestion() {
             updateTimeButtons(mode);
 
             $('#mood-group').hide().parent().find('.selected-option').text(localName);
+            
+            // Update check button state for single mode case
+            updateCheckButtonState();
         }
         $('#mood-group').append(moodBtn);
     });
@@ -478,6 +491,9 @@ $(document).ready(async function() {
     // Initially hide the next question button
     toggleActionButtons(true);
 
+    // Initially disable the check answer button until all selections are made
+    updateCheckButtonState();
+
     await translateUI();
 
     // Configuration of event handlers
@@ -487,6 +503,9 @@ $(document).ready(async function() {
 
         $(this).parent().parent().find('.selected-option').text($(this).text());
         $(this).parent().hide();
+        
+        // Update check button state after selection changes
+        updateCheckButtonState();
     });
 
     // Show button visibility when clicking on titles
@@ -524,8 +543,44 @@ $(document).ready(async function() {
     });
 
     $('#check-answer').click(verifyAnswer);
-    $('#next-question').click(nextQuestion);
+    $('#next-question').click(function() {
+        // Hide selection requirements message immediately when next is clicked
+        $('#selection-requirements').hide();
+        nextQuestion();
+    });
 
     // Start the game
     nextQuestion();
 });
+
+// Function to check if all selections are made and update button state
+async function updateCheckButtonState() {
+    const personSelected = $('.person-btn.active').length > 0;
+    const numberSelected = $('.number-btn.active').length > 0;
+    const moodSelected = $('.mood-btn.active').length > 0;
+    const tenseSelected = $('#tense-container .active').length > 0;
+    
+    // Check if all selections are made
+    const allSelectionsComplete = personSelected && numberSelected && moodSelected && tenseSelected;
+    
+    if (allSelectionsComplete) {
+        $('#check-answer').prop('disabled', false).removeClass('btn-disabled');
+        $('#selection-requirements').hide();
+    } else {
+        $('#check-answer').prop('disabled', true).addClass('btn-disabled');
+        
+        // Create message about what needs to be selected
+        let missingSelections = [];
+        if (!personSelected) missingSelections.push(await localize('person'));
+        if (!numberSelected) missingSelections.push(await localize('number'));
+        if (!moodSelected) missingSelections.push(await localize('mood'));
+        if (!tenseSelected) missingSelections.push(await localize('tense'));
+        
+        if (missingSelections.length > 0) {
+            // Add translation key for this message
+            const selectMessage = await localize('selectMissing');
+            $('#selection-requirements').html(selectMessage + ': ' + missingSelections.join(', '));
+            $('#selection-requirements').show();
+        }
+    }
+}

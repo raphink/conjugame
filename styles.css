@@ -578,6 +578,21 @@ body.home {
     padding: 12px;
     font-weight: bold;
     margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+/* Styles for check answer button states */
+.btn-check-answer:disabled,
+.btn-check-answer.btn-disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.btn-check-answer:not(:disabled):not(.btn-disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile optimization for buttons */
@@ -1014,4 +1029,15 @@ body.home {
         height: 28px;
         font-size: 16px;
     }
+}
+
+/* Feedback message for selection requirements */
+.selection-required {
+    color: #856404;
+    background-color: #fff3cd;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
 }

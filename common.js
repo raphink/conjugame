@@ -252,6 +252,11 @@ function toggleActionButtons(showVerify = true) {
     if (showVerify) {
         $('#check-answer').show();
         $('#next-question').hide();
+        
+        // When switching to verify (check answer) mode, ensure button is initially disabled
+        if ($('#check-answer').length) {
+            $('#check-answer').prop('disabled', true).addClass('btn-disabled');
+        }
     } else {
         $('#check-answer').hide();
         $('#next-question').show();

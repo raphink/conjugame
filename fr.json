@@ -49,6 +49,8 @@
       "mood": "Mode",
       "tense": "Temps",
       "conjugateTo": "Conjuguez au temps <strong>{0}</strong> du mode <strong>{1}</strong>, <strong>{2}</strong> personne",
+      "selectAllParameters": "Veuillez sélectionner tous les paramètres pour vérifier votre réponse.",
+      "selectMissing": "Paramètres manquants",
       "singular": "Singulier",
       "plural": "Pluriel",
 
