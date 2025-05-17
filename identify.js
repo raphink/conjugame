@@ -150,7 +150,9 @@ async function nextQuestion() {
 
     // Show all option buttons
     $('.selector-buttons').show();
-    $('.selected-option').text("");
+    // Clear all text and classes from selected-option elements
+    $('.selected-option').text("")
+        .removeClass('correct incorrect');
 
     // Scroll back to the top of the page
     $('html, body').animate({ scrollTop: 0 }, 500);
@@ -335,6 +337,42 @@ async function verifyAnswer() {
 
     let localTenseName = await getFullTenseName(currentAnswer.temps);
     let personName = await getPersonFullName(currentAnswer.personne);
+    
+    // Add visual feedback to the selected options
+    // Decompose the expected person and number from currentAnswer.personne
+    const expectedComponents = convertPersonneIndexToComponents(currentAnswer.personne);
+    const expectedPerson = expectedComponents.person;
+    const expectedNumber = expectedComponents.number;
+    
+    // Ensure we're comparing the same types (string vs string)
+    const personSelectionStr = String(personSelection);
+    const numberSelectionStr = String(numberSelection);
+    const expectedPersonStr = String(expectedPerson);
+    const expectedNumberStr = String(expectedNumber);
+    
+    // Check if the selected person and number are correct individually
+    const isPersonCorrect = personSelectionStr === expectedPersonStr;
+    const isNumberCorrect = numberSelectionStr === expectedNumberStr;
+    const isMoodCorrect = selectedMood === currentAnswer.mode;
+    const isTenseCorrect = selectedTense === currentAnswer.temps;
+    
+    // Apply correct/incorrect classes to selected options
+    // For person and number, if both are correct, then the selectedPerson index matches
+    const personNumberCombinationCorrect = selectedPerson === currentAnswer.personne;
+    
+    // For person, mark as correct if the personNumberCombinationCorrect or just the person part is correct
+    $('#person-group').closest('.selector-container').find('.selected-option')
+        .addClass(isPersonCorrect ? 'correct' : 'incorrect');
+    
+    // For number, mark as correct if the personNumberCombinationCorrect or just the number part is correct  
+    $('#number-group').closest('.selector-container').find('.selected-option')
+        .addClass(isNumberCorrect ? 'correct' : 'incorrect');
+    
+    $('#mood-group').closest('.selector-container').find('.selected-option')
+        .addClass(isMoodCorrect ? 'correct' : 'incorrect');
+    
+    $('#tense-container').closest('.selector-container').find('.selected-option')
+        .addClass(isTenseCorrect ? 'correct' : 'incorrect');
 
     if (isCorrect) {
         score++;
