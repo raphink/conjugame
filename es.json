@@ -21,8 +21,8 @@
       "targetReached": "¡Has alcanzado tu objetivo de {0} respuestas correctas!",
       "finalScore": "Puntuación final: {0}/{1}",
       "restart": "Comenzar de nuevo",
-      "chooseForm": "Modo: Elegir la Forma",
-      "identifyForm": "Modo: Identificar la Forma",
+      "chooseForm": "Elegir la Forma",
+      "identifyForm": "Identificar la Forma",
       "gameSubtitle": "Mejora tu dominio de las conjugaciones españolas jugando",
 
       "loadVerbFirst": "Por favor carga un verbo primero.",
@@ -37,9 +37,6 @@
       "chooseCorrectMessage": "<strong>¡Correcto!</strong> \"{0}\" es la forma correcta del verbo {1} en el {2} del modo {3}, forma {4}.",
       "chooseIncorrectMessage": "<strong>Incorrecto.</strong> La forma correcta es \"{0}\".",
       "chooseCongratulationsMessage": "<h4>¡Felicidades!</h4><p>¡Has alcanzado tu objetivo de {0} respuestas correctas!</p><p>Puntuación final: {1}/{2}.</p>",
-      
-      "identifyForm": "Modo: Identificar la Forma",
-      "chooseForm": "Modo: Elegir la Forma",
       
       "easy": "Fácil",
       "medium": "Medio",

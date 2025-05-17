@@ -21,8 +21,8 @@
       "targetReached": "Vous avez atteint votre objectif de {0} bonnes réponses !",
       "finalScore": "Score final : {0}/{1}",
       "restart": "Recommencer",
-      "chooseForm": "Mode: Choisir la Forme",
-      "identifyForm": "Mode: Identifier la Forme",
+      "chooseForm": "Choisir la Forme",
+      "identifyForm": "Identifier la Forme",
       "gameSubtitle": "Améliorez votre maîtrise des conjugaisons françaises en jouant",
 
       "Please select a mood and tense": "Veuillez sélectionner un mode et un temps.",
@@ -39,9 +39,6 @@
       "chooseCorrectMessage": "<strong>Correct !</strong> \"{0}\" est bien la forme correcte du verbe {1} au {2} du mode {3}, forme {4}.",
       "chooseIncorrectMessage": "<strong>Incorrect.</strong> La forme correcte est \"{0}\".",
       "chooseCongratulationsMessage": "<h4>Félicitations !</h4><p>Vous avez atteint votre objectif de {0} bonnes réponses !</p><p>Score final: {1}/{2}.</p>",
-      
-      "identifyForm": "Mode: Identifier la Forme",
-      "chooseForm": "Mode: Choisir la Forme",
       
       "easy": "Facile",
       "medium": "Moyen",

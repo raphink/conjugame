@@ -21,8 +21,8 @@
       "targetReached": "Hai raggiunto il tuo obiettivo di {0} risposte corrette!",
       "finalScore": "Punteggio finale: {0}/{1}",
       "restart": "Ricomincia",
-      "chooseForm": "Modalità: Scegli la Forma",
-      "identifyForm": "Modalità: Identifica la Forma",
+      "chooseForm": "Scegli la Forma",
+      "identifyForm": "Identifica la Forma",
       "gameSubtitle": "Migliora la tua padronanza delle coniugazioni italiane giocando",
 
       "loadVerbFirst": "Per favore carica prima un verbo.",
