@@ -295,6 +295,8 @@ async function nextQuestion() {
 }
 
 async function verifyAnswer() {
+    // This function evaluates the user's selections for person, number, mood, and tense
+    // Special handling is included for the conditional mood which can be both a mood and a tense in French
     if (!verbData) {
         alert(await localize("loadVerbFirst"));
         return;
@@ -329,11 +331,34 @@ async function verifyAnswer() {
         return;
     }
     
-    // Check if the answer is correct - direct comparison with stored answer
-    let isCorrect = 
-        selectedPerson === currentAnswer.personne && 
-        selectedMood === currentAnswer.mode && 
-        selectedTense === currentAnswer.temps;
+    // Check if the answer is correct - with special handling for conditional
+    // In French grammar, "conditionnel" can be both a mood and a tense
+    let isCorrect;
+    
+    // Log debug information about the current answer and user selection
+    console.log("Debug - Current Answer:", {
+        expectedPerson: currentAnswer.personne,
+        expectedMood: currentAnswer.mode,
+        expectedTense: currentAnswer.temps
+    });
+    console.log("Debug - User Selection:", {
+        selectedPerson,
+        selectedMood,
+        selectedTense
+    });
+    
+    // Special handling for conditional mood
+    if ((selectedMood === 'conditional' && currentAnswer.mode === 'indicative' && currentAnswer.temps === 'conditionnel-présent') || 
+        (selectedMood === 'indicative' && currentAnswer.mode === 'conditional' && selectedTense === 'présent')) {
+        // This handles the case when conditional is selected as mood but expected as tense or vice versa
+        isCorrect = selectedPerson === currentAnswer.personne;
+    } else {
+        // Regular check for other moods/tenses
+        isCorrect = 
+            selectedPerson === currentAnswer.personne && 
+            selectedMood === currentAnswer.mode && 
+            selectedTense === currentAnswer.temps;
+    }
 
     let localTenseName = await getFullTenseName(currentAnswer.temps);
     let personName = await getPersonFullName(currentAnswer.personne);
@@ -353,8 +378,21 @@ async function verifyAnswer() {
     // Check if the selected person and number are correct individually
     const isPersonCorrect = personSelectionStr === expectedPersonStr;
     const isNumberCorrect = numberSelectionStr === expectedNumberStr;
-    const isMoodCorrect = selectedMood === currentAnswer.mode;
-    const isTenseCorrect = selectedTense === currentAnswer.temps;
+    
+    // Special handling for conditional mood/tense confusion
+    let isMoodCorrect = selectedMood === currentAnswer.mode;
+    let isTenseCorrect = selectedTense === currentAnswer.temps;
+    
+    // Handle the special case of conditional (which can be both a mood and a tense in French)
+    if (selectedMood === 'conditional' && currentAnswer.mode === 'indicative' && 
+        (currentAnswer.temps === 'conditionnel-présent' || currentAnswer.temps === 'conditionnel-passé')) {
+        isMoodCorrect = true;
+    }
+    if (selectedMood === 'indicative' && currentAnswer.mode === 'conditional' && 
+        (selectedTense === 'présent' || selectedTense === 'passé')) {
+        isMoodCorrect = true;
+        isTenseCorrect = true;
+    }
     
     // Apply correct/incorrect classes to selected options
     // For person and number, if both are correct, then the selectedPerson index matches
@@ -368,9 +406,11 @@ async function verifyAnswer() {
     $('#number-group').closest('.selector-container').find('.selected-option')
         .addClass(isNumberCorrect ? 'correct' : 'incorrect');
     
+    // Apply feedback classes for mood selection
     $('#mood-group').closest('.selector-container').find('.selected-option')
         .addClass(isMoodCorrect ? 'correct' : 'incorrect');
     
+    // Apply feedback classes for tense selection
     $('#tense-container').closest('.selector-container').find('.selected-option')
         .addClass(isTenseCorrect ? 'correct' : 'incorrect');
 
