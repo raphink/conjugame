@@ -51,6 +51,12 @@ body {
     margin-left: 1ex;
 }
 
+/* Style selected options when they have content */
+.selected-option:not(:empty) {
+    font-weight: bold;
+    color: #007bff;
+}
+
 /* Mobile optimization to prevent scrolling */
 @media (max-width: 767px) {
     body {
@@ -783,12 +789,6 @@ body.home {
     /* Make selected option text wrap naturally */
     .selector-label {
         flex-wrap: wrap;
-    }
-    
-    /* Give the selected option some extra styling to make it more visible when wrapped */
-    .selected-option:not(:empty) {
-        font-weight: bold;
-        color: #007bff;
     }
     
     /* Make the verb-options take available space but not more */
