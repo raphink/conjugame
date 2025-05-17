@@ -480,6 +480,7 @@ body.home {
     margin-bottom: 10px;
     font-weight: bold;
     cursor: pointer;
+    flex-wrap: wrap;
 }
 
 .selector-label .emoji {
@@ -777,6 +778,17 @@ body.home {
         z-index: 10;
         visibility: visible !important;
         opacity: 1 !important;
+    }
+    
+    /* Make selected option text wrap naturally */
+    .selector-label {
+        flex-wrap: wrap;
+    }
+    
+    /* Give the selected option some extra styling to make it more visible when wrapped */
+    .selected-option:not(:empty) {
+        font-weight: bold;
+        color: #007bff;
     }
     
     /* Make the verb-options take available space but not more */
