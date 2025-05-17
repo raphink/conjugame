@@ -130,15 +130,7 @@ function updateNavigationLinks() {
     });
 }
 
-// Names of persons for display (legacy, will be replaced by translations)
-const personnesAbrégées = [
-    "1ère (je)", "2ème (tu)", "3ème (il/elle)", "1ère (nous)", "2ème (vous)", "3ème (ils/elles)"
-];
-
-const personnesImperatif = ["2ème (tu)", "1ère (nous)", "2ème (vous)"];
-
-
-// Define available persons by mode (moved from common.js)
+// Define available persons by mode
 const personnesParMode = {
     "indicative": [0, 1, 2, 3, 4, 5],      // all 6 persons
     "subjunctive": [0, 1, 2, 3, 4, 5],     // all 6 persons
