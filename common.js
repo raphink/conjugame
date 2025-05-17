@@ -105,8 +105,11 @@ function updateUrlParameters() {
 
 // Function to update all navigation links with current language and difficulty
 function updateNavigationLinks() {
-    // Update all links to include current parameters
-    $('a').each(function() {
+    // Get current page to mark active link
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    // Update all navigation links (both back link and game mode links)
+    $('.nav-back, .game-mode-link').each(function() {
         const href = $(this).attr('href');
         // Only update internal links to our HTML pages
         if (href && href.includes('.html')) {
@@ -114,6 +117,15 @@ function updateNavigationLinks() {
             const baseUrl = href.split('?')[0];
             // Add current language and difficulty parameters
             $(this).attr('href', `${baseUrl}?lang=${lang}&difficulty=${difficulty}`);
+            
+            // Set active class for game mode links
+            if ($(this).hasClass('game-mode-link')) {
+                if (baseUrl === currentPage) {
+                    $(this).addClass('active');
+                } else {
+                    $(this).removeClass('active');
+                }
+            }
         }
     });
 }
@@ -339,3 +351,15 @@ function getImperativeArrayIndex(standardPersonIndex) {
     return imperative_mapping[standardPersonIndex.toString()] !== undefined ? 
         imperative_mapping[standardPersonIndex.toString()] : 0;
 }
+
+// Initialize common components when document is ready
+$(document).ready(function() {
+    // Initialize the navigation links with the current page
+    updateNavigationLinks();
+    
+    // Add click event handler to language flags
+    $('.language-flag').click(function() {
+        const newLang = $(this).data('lang');
+        changeLanguage(newLang);
+    });
+});

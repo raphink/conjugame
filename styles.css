@@ -860,3 +860,158 @@ body.home {
         padding-top: 5px;
     }
 }
+
+/* Flag colors */
+.flag-colors {
+    display: block;
+    width: 100%;
+    min-height: 8px;
+    z-index: 10;
+    visibility: visible !important;
+    margin-bottom: 10px;
+}
+
+/* Navigation styles - more subtle and modern */
+.game-nav {
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+    flex-wrap: wrap;
+}
+
+.nav-back {
+    color: #6c757d;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.nav-back:before {
+    content: "←";
+    margin-right: 5px;
+}
+
+.game-nav-modes {
+    display: flex;
+    gap: 15px;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.game-mode-link {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.game-mode-link:hover {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.game-mode-link.active {
+    font-weight: bold;
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+    position: relative;
+}
+
+.game-mode-link.active:after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background-color: #007bff;
+}
+
+.nav-title {
+    color: #495057;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 15px;
+    text-align: center;
+    display: none; /* Hide by default, only show on mobile */
+}
+
+.nav-back:hover {
+    color: #007bff;
+}
+
+/* Mobile responsive styles for navigation */
+@media (max-width: 767px) {
+    .game-nav {
+        padding-bottom: 0;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    
+    /* First row: Home button and language flags */
+    .game-nav-top-row {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 5px;
+    }
+    
+    .nav-back {
+        font-size: 0.85rem;
+        margin-right: 0;
+    }
+    
+    /* Second row: Game modes */
+    .game-nav-modes {
+        display: flex;
+        width: 100%;
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid #f0f0f0;
+    }
+    
+    .game-mode-link {
+        flex: 1;
+        text-align: center;
+        font-size: 0.85rem;
+        padding: 5px 2px;
+    }
+    
+    .language-flags {
+        gap: 5px;
+        margin-bottom: 0;
+    }
+    
+    .language-flag {
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
+    }
+}
+
+/* Language flags positioning */
+.game-nav-top-row .language-flags {
+    margin-left: auto;
+}
+
+.game-nav .language-flags {
+    margin-bottom: 0;
+    gap: 8px;
+}
+
+@media (max-width: 767px) {
+    .game-nav .language-flag {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+}
