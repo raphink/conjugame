@@ -1,5 +1,7 @@
 # Conjugame - Language Conjugation Game
 
+This game can be played [🛜 online](https://raphink.github.io/conjugame).
+
 Conjugame is a Progressive Web App (PWA) that helps users practice verb conjugations in different languages (currently French, Spanish, and Italian).
 
 ## Features
