@@ -392,6 +392,7 @@ $(document).ready(async function() {
     toggleActionButtons(true);
 
     await translateUI();
+    await initializeVerbSelection();
 
     // Configuration of event handlers
     $('.choice-btn').click(function() {

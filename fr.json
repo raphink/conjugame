@@ -23,6 +23,14 @@
       "restart": "Recommencer",
       "chooseForm": "Choisir la Forme",
       "identifyForm": "Identifier la Forme",
+      "chooseVerbs": "Choisir les verbes",
+      "searchVerbs": "Rechercher un verbe",
+      "applyVerbSelection": "Appliquer",
+      "allVerbs": "Tous les verbes",
+      "selectAll": "Tout sélectionner",
+      "deselectAll": "Tout désélectionner",
+      "verbsSelected": "verbes sélectionnés",
+      "verbSelectionRequired": "Veuillez sélectionner au moins un verbe.",
       "gameSubtitle": "Améliorez votre maîtrise des conjugaisons françaises en jouant",
 
       "Please select a mood and tense": "Veuillez sélectionner un mode et un temps.",
@@ -49,6 +57,7 @@
       "mood": "Mode",
       "tense": "Temps",
       "conjugateTo": "Conjuguez au temps <strong>{0}</strong> du mode <strong>{1}</strong>, <strong>{2}</strong> personne",
+      "of": "du",
       "singular": "Singulier",
       "plural": "Pluriel",
 

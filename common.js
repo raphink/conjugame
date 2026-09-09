@@ -1,6 +1,7 @@
 // Default language and configuration
 let lang = "fr"; // Default language
 let difficulty = "easy"; // Default difficulty
+let selectedVerbs = null; // null means use the complete difficulty-based pool
 const supportedLanguages = ["fr", "es", "it"]; // Supported languages (French, Spanish, Italian)
 
 // Function to get URL parameters
@@ -14,6 +15,7 @@ function initializeSettings() {
     // Check URL parameters for language and difficulty
     const urlLang = getUrlParameter('lang');
     const urlDifficulty = getUrlParameter('difficulty');
+    const urlVerbs = getUrlParameter('verbs');
     
     // Set language if provided in URL
     if (urlLang && supportedLanguages.includes(urlLang)) {
@@ -28,6 +30,10 @@ function initializeSettings() {
     if (urlDifficulty && ['easy', 'medium', 'hard'].includes(urlDifficulty)) {
         difficulty = urlDifficulty;
         updateDifficultySelector();
+    }
+
+    if (urlVerbs !== null) {
+        selectedVerbs = urlVerbs.split(',').map(verb => verb.trim()).filter(Boolean);
     }
     
     // Update API base URL
@@ -72,10 +78,14 @@ function updateDifficultySelector() {
 async function changeLanguage(newLang) {
     if (newLang && supportedLanguages.includes(newLang)) {
         lang = newLang;
+        selectedVerbs = null;
         updateApiBaseUrl();
+        updateUrlParameters();
         
         // Wait for UI translation to complete
         await translateUI();
+
+        await initializeVerbSelection();
         
         // If we're in a game, reload the current question
         if (typeof nextQuestion === 'function') {
@@ -100,11 +110,21 @@ function updateUrlParameters() {
     const url = new URL(window.location);
     url.searchParams.set('lang', lang);
     url.searchParams.set('difficulty', difficulty);
+    if (selectedVerbs && selectedVerbs.length > 0) {
+        url.searchParams.set('verbs', selectedVerbs.join(','));
+    } else {
+        url.searchParams.delete('verbs');
+    }
     window.history.replaceState({}, '', url);
 }
 
 // Function to update all navigation links with current language and difficulty
 function updateNavigationLinks() {
+    const query = new URLSearchParams({ lang, difficulty });
+    if (selectedVerbs && selectedVerbs.length > 0) {
+        query.set('verbs', selectedVerbs.join(','));
+    }
+
     // Update all links to include current parameters
     $('a').each(function() {
         const href = $(this).attr('href');
@@ -113,8 +133,88 @@ function updateNavigationLinks() {
             // Remove any existing parameters by getting the base URL
             const baseUrl = href.split('?')[0];
             // Add current language and difficulty parameters
-            $(this).attr('href', `${baseUrl}?lang=${lang}&difficulty=${difficulty}`);
+            $(this).attr('href', `${baseUrl}?${query.toString()}`);
         }
+    });
+}
+
+async function renderVerbSelection(allVerbs) {
+    const list = $('#verb-selection-list');
+    if (!list.length) return;
+
+    const selected = selectedVerbs === null ? allVerbs : selectedVerbs;
+    list.empty();
+
+    allVerbs.forEach(verb => {
+        const label = $('<label class="verb-choice"></label>');
+        const checkbox = $('<input type="checkbox" class="verb-choice-input">')
+            .val(verb)
+            .prop('checked', selected.includes(verb));
+        label.append(checkbox, document.createTextNode(` ${verb}`));
+        list.append(label);
+    });
+
+    const summary = $('#verb-selection-summary');
+    if (summary.length) {
+        if (selectedVerbs === null) {
+            summary.text(await localize('allVerbs'));
+        } else {
+            summary.text(`${selectedVerbs.length} ${await localize('verbsSelected')}`);
+        }
+    }
+}
+
+async function initializeVerbSelection() {
+    const list = $('#verb-selection-list');
+    if (!list.length) return;
+
+    const langData = await getLangData();
+    const allVerbs = [...new Set(Object.values(langData.verbData.verbs).flat())];
+
+    // Ignore stale or invalid values from a URL copied from another language.
+    if (selectedVerbs !== null) {
+        selectedVerbs = selectedVerbs.filter(verb => allVerbs.includes(verb));
+        if (selectedVerbs.length === 0) selectedVerbs = null;
+    }
+
+    await renderVerbSelection(allVerbs);
+
+    $('#verb-selection-toggle').off('click').on('click', function () {
+        $('#verb-selection-panel').toggle();
+    });
+
+    $('#verb-search').off('input').on('input', function () {
+        const query = $(this).val().toLowerCase();
+        $('.verb-choice').each(function () {
+            $(this).toggle($(this).text().toLowerCase().includes(query));
+        });
+    });
+
+    $('#apply-verb-selection').off('click').on('click', async function () {
+        const selected = $('.verb-choice-input:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        if (selected.length === 0) {
+            alert(await localize('verbSelectionRequired'));
+            return;
+        }
+
+        selectedVerbs = selected.length === allVerbs.length ? null : selected;
+        updateUrlParameters();
+        updateNavigationLinks();
+        await renderVerbSelection(allVerbs);
+        if (typeof nextQuestion === 'function') await nextQuestion();
+    });
+
+    $('#select-all-verb-selection').off('click').on('click', async function () {
+        $('.verb-choice-input').prop('checked', true);
+        $('#verb-selection-summary').text(await localize('allVerbs'));
+    });
+
+    $('#deselect-verb-selection').off('click').on('click', async function () {
+        $('.verb-choice-input').prop('checked', false);
+        $('#verb-selection-summary').text(`0 ${await localize('verbsSelected')}`);
     });
 }
 
@@ -197,7 +297,7 @@ const imperative_mapping = {
 // unreliable allorigins proxy. The old HTTP URL now fails at the proxy.
 let api_base_url = `https://verbe.cc/verbecc/conjugate/${lang}/`;
 
-// Function to call the Verbecc API using CORS proxy
+// Function to call the Verbecc API directly over HTTPS
 async function callAPI(verbe) {
     $('#loading').show();
     $('#verb-display').hide();
@@ -260,6 +360,13 @@ async function getLangData() {
 // Get verb list based on difficulty level
 async function getVerbList(difficulty) {
     let langData = await getLangData();
+    const allVerbs = [...new Set(Object.values(langData.verbData.verbs).flat())];
+
+    // A custom selection intentionally overrides the difficulty's verb pool;
+    // difficulty still controls which tenses are offered.
+    if (selectedVerbs !== null) {
+        return selectedVerbs.filter(verb => allVerbs.includes(verb));
+    }
 
     switch(difficulty) {
         case "easy":
@@ -363,6 +470,16 @@ async function translateUI() {
     
     // Wait for all translations to complete
     await Promise.all(translationPromises);
+
+    const placeholderPromises = [];
+    $('[data-translate-placeholder]').each(function () {
+        const element = $(this);
+        const key = element.data('translate-placeholder');
+        placeholderPromises.push(localize(key).then(translation => {
+            element.attr('placeholder', translation);
+        }));
+    });
+    await Promise.all(placeholderPromises);
     
     // Update language selection
     updateLanguageSelection();

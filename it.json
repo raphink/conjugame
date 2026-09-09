@@ -23,6 +23,14 @@
       "restart": "Ricomincia",
       "chooseForm": "Scegli la Forma",
       "identifyForm": "Identifica la Forma",
+      "chooseVerbs": "Scegli i verbi",
+      "searchVerbs": "Cerca un verbo",
+      "applyVerbSelection": "Applica",
+      "allVerbs": "Tutti i verbi",
+      "selectAll": "Seleziona tutto",
+      "deselectAll": "Deseleziona tutto",
+      "verbsSelected": "verbi selezionati",
+      "verbSelectionRequired": "Seleziona almeno un verbo.",
       "gameSubtitle": "Migliora la tua padronanza delle coniugazioni italiane giocando",
 
       "loadVerbFirst": "Per favore carica prima un verbo.",
@@ -47,6 +55,7 @@
       "mood": "Modo",
       "tense": "Tempo",
       "conjugateTo": "Coniuga nel <strong>{0}</strong> del modo <strong>{1}</strong>, <strong>{2}</strong> persona",
+      "of": "del",
       "singular": "Singolare",
       "plural": "Plurale",
 

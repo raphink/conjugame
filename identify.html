@@ -45,6 +45,22 @@
             </div>
         </div>
 
+        <div class="verb-selection mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm w-100" id="verb-selection-toggle" data-translate="chooseVerbs">Choose verbs</button>
+            <div id="verb-selection-panel" class="verb-selection-panel" style="display: none;">
+                <input type="search" class="form-control form-control-sm mb-2" id="verb-search" data-translate-placeholder="searchVerbs" placeholder="Search verbs">
+                <div id="verb-selection-list" class="verb-selection-list"></div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <small id="verb-selection-summary" class="text-muted"></small>
+                    <div>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="deselect-verb-selection" data-translate="deselectAll">Deselect all</button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="select-all-verb-selection" data-translate="selectAll">Select all</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="apply-verb-selection" data-translate="applyVerbSelection">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="verb-info" class="text-center mb-3">
             <span class="badge bg-info" id="infinitive-badge"><span data-translate="infinitive">Infinitive</span>: <span id="infinitive-verb">chargement...</span></span>
         </div>

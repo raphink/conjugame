@@ -42,6 +42,33 @@ body {
     color: #007bff;
 }
 
+.verb-selection-panel {
+    margin-top: 6px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: #f8f9fa;
+}
+
+.verb-selection-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 4px 10px;
+    max-height: 180px;
+    overflow-y: auto;
+    padding: 4px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.verb-choice {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
 .game-container, .home-container {
     max-width: 800px;
     margin: 0 auto;

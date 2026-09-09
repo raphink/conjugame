@@ -23,6 +23,14 @@
       "restart": "Comenzar de nuevo",
       "chooseForm": "Elegir la Forma",
       "identifyForm": "Identificar la Forma",
+      "chooseVerbs": "Elegir verbos",
+      "searchVerbs": "Buscar un verbo",
+      "applyVerbSelection": "Aplicar",
+      "allVerbs": "Todos los verbos",
+      "selectAll": "Seleccionar todo",
+      "deselectAll": "Deseleccionar todo",
+      "verbsSelected": "verbos seleccionados",
+      "verbSelectionRequired": "Selecciona al menos un verbo.",
       "gameSubtitle": "Mejora tu dominio de las conjugaciones españolas jugando",
 
       "loadVerbFirst": "Por favor carga un verbo primero.",
@@ -47,6 +55,7 @@
       "mood": "Modo",
       "tense": "Tiempo",
       "conjugateTo": "Conjuga en el <strong>{0}</strong> del modo <strong>{1}</strong>, <strong>{2}</strong> persona",
+      "of": "del",
       "singular": "Singular",
       "plural": "Plural",
 

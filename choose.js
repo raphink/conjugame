@@ -357,6 +357,7 @@ $(document).ready(async function() {
     toggleActionButtons(true);
 
     await translateUI();
+    await initializeVerbSelection();
     
     // Handle language change
     $('#language-selector').change(function() {
