@@ -36,7 +36,7 @@ function initializeSettings() {
 
 // Function to update API base URL when language changes
 function updateApiBaseUrl() {
-    api_base_url = `http://verbe.cc/verbecc/conjugate/${lang}/`;
+    api_base_url = `https://verbe.cc/verbecc/conjugate/${lang}/`;
 }
 
 // Function to update language selection in flag icons and update top flag colors
@@ -105,11 +105,8 @@ function updateUrlParameters() {
 
 // Function to update all navigation links with current language and difficulty
 function updateNavigationLinks() {
-    // Get current page to mark active link
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    
-    // Update all navigation links (both back link and game mode links)
-    $('.nav-back, .game-mode-link').each(function() {
+    // Update all links to include current parameters
+    $('a').each(function() {
         const href = $(this).attr('href');
         // Only update internal links to our HTML pages
         if (href && href.includes('.html')) {
@@ -117,20 +114,64 @@ function updateNavigationLinks() {
             const baseUrl = href.split('?')[0];
             // Add current language and difficulty parameters
             $(this).attr('href', `${baseUrl}?lang=${lang}&difficulty=${difficulty}`);
-            
-            // Set active class for game mode links
-            if ($(this).hasClass('game-mode-link')) {
-                if (baseUrl === currentPage) {
-                    $(this).addClass('active');
-                } else {
-                    $(this).removeClass('active');
-                }
-            }
         }
     });
 }
 
-// Define available persons by mode
+// Convert the API's person records into the six person/number slots used by
+// the game. The service returns extra gender/pronoun variants in some
+// languages, so relying on array positions produces incorrect answers.
+function normalizeConjugationForms(forms) {
+    const normalized = new Array(6);
+
+    forms.forEach((form, arrayIndex) => {
+        if (typeof form === "string") {
+            // Keep compatibility with the original six-string response shape.
+            if (forms.length === 6) {
+                normalized[arrayIndex] = form;
+            }
+            return;
+        }
+
+        if (!form || form.p === undefined || form.n === undefined) return;
+
+        const person = Number(form.p);
+        const number = form.n === "p" ? 1 : 0;
+        const personIndex = number * 3 + person - 1;
+        const value = Array.isArray(form.c) ? form.c[0] : form.c;
+
+        if (personIndex >= 0 && personIndex < normalized.length &&
+            normalized[personIndex] === undefined && typeof value === "string") {
+            normalized[personIndex] = value;
+        }
+    });
+
+    return normalized;
+}
+
+function normalizeVerbData(data) {
+    if (!data || !data.moods) return data;
+
+    Object.values(data.moods).forEach(mood => {
+        Object.keys(mood).forEach(tense => {
+            if (Array.isArray(mood[tense])) {
+                mood[tense] = normalizeConjugationForms(mood[tense]);
+            }
+        });
+    });
+
+    return data;
+}
+
+// Names of persons for display (legacy, will be replaced by translations)
+const personnesAbrégées = [
+    "1ère (je)", "2ème (tu)", "3ème (il/elle)", "1ère (nous)", "2ème (vous)", "3ème (ils/elles)"
+];
+
+const personnesImperatif = ["2ème (tu)", "1ère (nous)", "2ème (vous)"];
+
+
+// Define available persons by mode (moved from common.js)
 const personnesParMode = {
     "indicative": [0, 1, 2, 3, 4, 5],      // all 6 persons
     "subjunctive": [0, 1, 2, 3, 4, 5],     // all 6 persons
@@ -152,8 +193,9 @@ const imperative_mapping = {
 };
 
 // API configuration
-const PROXY_URL = "https://api.allorigins.win/raw?url=";
-let api_base_url = `http://verbe.cc/verbecc/conjugate/${lang}/`;
+// verbe.cc serves HTTPS and enables CORS, so use it directly instead of the
+// unreliable allorigins proxy. The old HTTP URL now fails at the proxy.
+let api_base_url = `https://verbe.cc/verbecc/conjugate/${lang}/`;
 
 // Function to call the Verbecc API using CORS proxy
 async function callAPI(verbe) {
@@ -166,16 +208,7 @@ async function callAPI(verbe) {
     
     while (attempts < maxAttempts) {
         try {
-            // Use CORS proxy to access the HTTP API
-            const apiUrl = `${PROXY_URL}${encodeURIComponent(api_base_url + encodeURIComponent(verbe))}`;
-            
-            // fetch from $lang.json with cache
-            $.ajaxSetup({ cache: true });
-            $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-                if (options.url === apiUrl) {
-                    options.cache = true; // Cache the request
-                }
-            });
+            const apiUrl = `${api_base_url}${encodeURIComponent(verbe)}`;
             const response = await fetch(apiUrl);
             
             if (!response.ok) {
@@ -190,7 +223,7 @@ async function callAPI(verbe) {
             
             $('#loading').hide();
             $('#verb-display').show();
-            return data.value;
+            return normalizeVerbData(data.value);
             
         } catch (error) {
             attempts++;
@@ -252,11 +285,6 @@ function toggleActionButtons(showVerify = true) {
     if (showVerify) {
         $('#check-answer').show();
         $('#next-question').hide();
-        
-        // When switching to verify (check answer) mode, ensure button is initially disabled
-        if ($('#check-answer').length) {
-            $('#check-answer').prop('disabled', true).addClass('btn-disabled');
-        }
     } else {
         $('#check-answer').hide();
         $('#next-question').show();
@@ -348,15 +376,3 @@ function getImperativeArrayIndex(standardPersonIndex) {
     return imperative_mapping[standardPersonIndex.toString()] !== undefined ? 
         imperative_mapping[standardPersonIndex.toString()] : 0;
 }
-
-// Initialize common components when document is ready
-$(document).ready(function() {
-    // Initialize the navigation links with the current page
-    updateNavigationLinks();
-    
-    // Add click event handler to language flags
-    $('.language-flag').click(function() {
-        const newLang = $(this).data('lang');
-        changeLanguage(newLang);
-    });
-});

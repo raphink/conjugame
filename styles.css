@@ -36,6 +36,12 @@ body {
     box-shadow: 0 0 8px rgba(0,123,255,0.5);
 }
 
+.selected-option {
+    margin-left: 1ex;
+    font-weight: bold;
+    color: #007bff;
+}
+
 .game-container, .home-container {
     max-width: 800px;
     margin: 0 auto;
@@ -45,31 +51,6 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
     margin-bottom: 20px;
-}
-
-.selected-option {
-    margin-left: 1ex;
-}
-
-/* Style selected options when they have content */
-.selected-option:not(:empty) {
-    font-weight: bold;
-    color: #007bff;
-}
-
-/* Feedback colors for selected options when checking answer */
-.selected-option.correct {
-    color: #155724;
-    background-color: #d4edda;
-    border-radius: 4px;
-    padding: 2px 6px;
-}
-
-.selected-option.incorrect {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-radius: 4px;
-    padding: 2px 6px;
 }
 
 /* Mobile optimization to prevent scrolling */
@@ -94,11 +75,6 @@ body {
     .flag-colors {
         margin-bottom: 10px;
         height: 8px;
-        display: block !important;
-        width: 100%;
-        min-height: 8px;
-        position: relative;
-        z-index: 5;
     }
     
     .game-header {
@@ -132,12 +108,10 @@ body {
     .selector-container {
         padding: 8px;
         margin-bottom: 10px;
-        height: 100%;
     }
     
     .selector-label {
         margin-bottom: 5px;
-        cursor: pointer;
     }
     
     .selector-buttons {
@@ -212,7 +186,6 @@ body {
     /* Reduce emoji size on small screens */
     .selector-label .emoji {
         font-size: 1.2rem;
-        cursor: pointer;
     }
     
     /* Layout tweaks for various elements */
@@ -252,10 +225,6 @@ body {
     background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
     height: 10px;
     margin-bottom: 20px;
-    display: block;
-    width: 100%;
-    content: " ";
-    min-height: 10px;
 }
 
 /* Spanish flag colors */
@@ -462,7 +431,7 @@ body.home {
     font-size: 2.5rem;
     margin: 30px 0;
     text-align: center;
-    min-height: auto;
+    min-height: 90px;
 }
 
 .verb-choices {
@@ -491,7 +460,6 @@ body.home {
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
-    height: 100%;
 }
 
 .selector-label {
@@ -500,8 +468,6 @@ body.home {
     align-items: center;
     margin-bottom: 10px;
     font-weight: bold;
-    cursor: pointer;
-    flex-wrap: wrap;
 }
 
 .selector-label .emoji {
@@ -578,21 +544,6 @@ body.home {
     padding: 12px;
     font-weight: bold;
     margin-top: 15px;
-    transition: all 0.3s ease;
-}
-
-/* Styles for check answer button states */
-.btn-check-answer:disabled,
-.btn-check-answer.btn-disabled {
-    background-color: #6c757d;
-    border-color: #6c757d;
-    cursor: not-allowed;
-    opacity: 0.65;
-}
-
-.btn-check-answer:not(:disabled):not(.btn-disabled):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile optimization for buttons */
@@ -809,18 +760,6 @@ body.home {
 
 /* Final mobile optimizations to prevent scrolling */
 @media (max-width: 767px) {
-    /* Ensure flag colors are visible at the top */
-    .flag-colors {
-        z-index: 10;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    /* Make selected option text wrap naturally */
-    .selector-label {
-        flex-wrap: wrap;
-    }
-    
     /* Make the verb-options take available space but not more */
     .verb-options {
         flex: 1;
@@ -874,170 +813,4 @@ body.home {
         margin-top: 5px;
         padding-top: 5px;
     }
-}
-
-/* Flag colors */
-.flag-colors {
-    display: block;
-    width: 100%;
-    min-height: 8px;
-    z-index: 10;
-    visibility: visible !important;
-    margin-bottom: 10px;
-}
-
-/* Navigation styles - more subtle and modern */
-.game-nav {
-    display: flex;
-    align-items: center;
-    padding-bottom: 8px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #e9ecef;
-    flex-wrap: wrap;
-}
-
-.nav-back {
-    color: #6c757d;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-}
-
-.nav-back:before {
-    content: "←";
-    margin-right: 5px;
-}
-
-.game-nav-modes {
-    display: flex;
-    gap: 15px;
-    flex-grow: 1;
-    justify-content: center;
-}
-
-.game-mode-link {
-    color: #6c757d;
-    text-decoration: none;
-    font-size: 0.95rem;
-    padding: 2px 6px;
-    border-radius: 3px;
-    transition: all 0.2s ease;
-}
-
-.game-mode-link:hover {
-    color: #007bff;
-    background-color: rgba(0, 123, 255, 0.05);
-}
-
-.game-mode-link.active {
-    font-weight: bold;
-    color: #007bff;
-    background-color: rgba(0, 123, 255, 0.1);
-    position: relative;
-}
-
-.game-mode-link.active:after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 2px;
-    background-color: #007bff;
-}
-
-.nav-title {
-    color: #495057;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0 15px;
-    text-align: center;
-    display: none; /* Hide by default, only show on mobile */
-}
-
-.nav-back:hover {
-    color: #007bff;
-}
-
-/* Mobile responsive styles for navigation */
-@media (max-width: 767px) {
-    .game-nav {
-        padding-bottom: 0;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-    }
-    
-    /* First row: Home button and language flags */
-    .game-nav-top-row {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 5px;
-    }
-    
-    .nav-back {
-        font-size: 0.85rem;
-        margin-right: 0;
-    }
-    
-    /* Second row: Game modes */
-    .game-nav-modes {
-        display: flex;
-        width: 100%;
-        margin-top: 5px;
-        padding-top: 5px;
-        border-top: 1px solid #f0f0f0;
-    }
-    
-    .game-mode-link {
-        flex: 1;
-        text-align: center;
-        font-size: 0.85rem;
-        padding: 5px 2px;
-    }
-    
-    .language-flags {
-        gap: 5px;
-        margin-bottom: 0;
-    }
-    
-    .language-flag {
-        width: 24px;
-        height: 24px;
-        font-size: 16px;
-    }
-}
-
-/* Language flags positioning */
-.game-nav-top-row .language-flags {
-    margin-left: auto;
-}
-
-.game-nav .language-flags {
-    margin-bottom: 0;
-    gap: 8px;
-}
-
-@media (max-width: 767px) {
-    .game-nav .language-flag {
-        width: 28px;
-        height: 28px;
-        font-size: 16px;
-    }
-}
-
-/* Feedback message for selection requirements */
-.selection-required {
-    color: #856404;
-    background-color: #fff3cd;
-    border-radius: 4px;
-    padding: 8px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    text-align: center;
 }

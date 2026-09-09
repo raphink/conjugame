@@ -59,7 +59,7 @@ async function updateTimeButtons(mode) {
     let moodTenses = langData.verbData.moodsTenses[difficulty];
     let availableTenses = moodTenses[mode] || langData.verbData.moodsTenses.easy[mode];
 
-    let localMode = langData.verbData.moodsNames[mode];
+    let localMode = langData.verbData.moodsNames[mode].toLowerCase();
 
     // Filter tenses that exist for this verb
     if (verbData && verbData.moods[localMode]) {
@@ -77,9 +77,6 @@ async function updateTimeButtons(mode) {
 
             $(this).parent().parent().find('.selected-option').text($(this).text());
             $('#tense-container').hide();
-            
-            // Update check button state when tense is selected
-            updateCheckButtonState();
         });
         container.append(btn);
     });
@@ -103,7 +100,7 @@ function handlePersonSelection(mode) {
             $(`button[data-person="${components.person}"]`).prop('disabled', false);
         } else {
             // Plural - enable the corresponding person button when plural is selected
-            if ($('.number-btn.active').data('number') === "1") {
+            if (Number($('.number-btn.active').data('number')) === 1) {
                 $(`button[data-person="${components.person}"]`).prop('disabled', false);
             }
         }
@@ -112,16 +109,17 @@ function handlePersonSelection(mode) {
     // If the currently selected person is not valid for this mode, select a valid one
     const currentPerson = $('.person-btn.active').data('person');
     const currentNumber = $('.number-btn.active').data('number');
-    const currentIndex = getPersonneIndex(currentPerson, currentNumber);
-    
-    if (!availablePersons.includes(currentIndex)) {
+    const hasPersonAndNumber = currentPerson !== undefined && currentNumber !== undefined;
+    const currentIndex = hasPersonAndNumber ? getPersonneIndex(currentPerson, currentNumber) : null;
+
+    if (hasPersonAndNumber && !availablePersons.includes(currentIndex)) {
         // Current selection is invalid, select the first valid one
         $('.person-btn.active').removeClass('active');
         
         // Find a valid person for the current number
         const validPersonForNumber = availablePersons.find(idx => {
             const comp = convertPersonneIndexToComponents(idx);
-            return comp.number === currentNumber.toString();
+            return comp.number === String(currentNumber);
         });
         
         if (validPersonForNumber !== undefined) {
@@ -153,9 +151,7 @@ async function nextQuestion() {
 
     // Show all option buttons
     $('.selector-buttons').show();
-    // Clear all text and classes from selected-option elements
-    $('.selected-option').text("")
-        .removeClass('correct incorrect');
+    $('.selected-option').text("");
 
     // Scroll back to the top of the page
     $('html, body').animate({ scrollTop: 0 }, 500);
@@ -165,10 +161,6 @@ async function nextQuestion() {
     
     // Show verify button and hide next question button
     toggleActionButtons(true);
-    
-    // Make sure the check button is disabled and greyed out until all selections are complete
-    $('#check-answer').prop('disabled', true).addClass('btn-disabled');
-    $('#selection-requirements').hide();
     
     // Re-enable all form elements
     $('.choice-btn').prop('disabled', false);
@@ -199,11 +191,8 @@ async function nextQuestion() {
     // Store and display only buttons for available modes
     let langData = await getLangData();
     availableModes = Object.keys(availableForms).filter(m =>
-        Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m])
+        Object.keys(verbData.moods).includes(langData.verbData.moodsNames[m].toLowerCase())
     );
-    
-    // Update the check button state as selections are reset
-    updateCheckButtonState();
 
     // Remove all mode buttons first
     $('#mood-group button').remove();
@@ -228,9 +217,6 @@ async function nextQuestion() {
             updateTimeButtons(mode);
 
             $('#mood-group').hide().parent().find('.selected-option').text(localName);
-            
-            // Update check button state for single mode case
-            updateCheckButtonState();
         }
         $('#mood-group').append(moodBtn);
     });
@@ -243,7 +229,7 @@ async function nextQuestion() {
     }
     const mode = availableModes[Math.floor(Math.random() * availableModes.length)];
 
-    const localMode = langData.verbData.moodsNames[mode] || mode;
+    const localMode = (langData.verbData.moodsNames[mode] || mode).toLowerCase();
     
     // Choose a random tense for this mode
     const availableTenses = availableForms[mode].filter(t => 
@@ -277,24 +263,14 @@ async function nextQuestion() {
         temps: temps
     };
     
-    // Calculate the correct array index based on mode
-    let arrayIndex;
-    if (mode === "imperative") {
-        // For imperative, convert from the standard index to the array index
-        arrayIndex = getImperativeArrayIndex(selectedPersonIndex);
-    } else {
-        // For other modes, the standard index is the array index
-        arrayIndex = selectedPersonIndex;
-    }
-    
-    // Check if arrayIndex is within bounds
-    const maxIndex = verbData.moods[localMode][temps].length - 1;
-    if (arrayIndex > maxIndex) {
-        arrayIndex = maxIndex;
-    }
-    
     // Get the actual conjugation
-    currentConjugation = verbData.moods[localMode][temps][arrayIndex];
+    currentConjugation = verbData.moods[localMode][temps][selectedPersonIndex];
+
+    if (!currentConjugation) {
+        console.warn(`No conjugation for person ${selectedPersonIndex} in ${mode}/${temps}`);
+        nextQuestion();
+        return;
+    }
     
     // Display the conjugation
     $('#verb-display').html(`<h2 class="highlight">${currentConjugation}</h2>`);
@@ -308,8 +284,6 @@ async function nextQuestion() {
 }
 
 async function verifyAnswer() {
-    // This function evaluates the user's selections for person, number, mood, and tense
-    // Special handling is included for the conditional mood which can be both a mood and a tense in French
     if (!verbData) {
         alert(await localize("loadVerbFirst"));
         return;
@@ -344,88 +318,14 @@ async function verifyAnswer() {
         return;
     }
     
-    // Check if the answer is correct - with special handling for conditional
-    // In French grammar, "conditionnel" can be both a mood and a tense
-    let isCorrect;
-    
-    // Log debug information about the current answer and user selection
-    console.log("Debug - Current Answer:", {
-        expectedPerson: currentAnswer.personne,
-        expectedMood: currentAnswer.mode,
-        expectedTense: currentAnswer.temps
-    });
-    console.log("Debug - User Selection:", {
-        selectedPerson,
-        selectedMood,
-        selectedTense
-    });
-    
-    // Special handling for conditional mood
-    if ((selectedMood === 'conditional' && currentAnswer.mode === 'indicative' && currentAnswer.temps === 'conditionnel-présent') || 
-        (selectedMood === 'indicative' && currentAnswer.mode === 'conditional' && selectedTense === 'présent')) {
-        // This handles the case when conditional is selected as mood but expected as tense or vice versa
-        isCorrect = selectedPerson === currentAnswer.personne;
-    } else {
-        // Regular check for other moods/tenses
-        isCorrect = 
-            selectedPerson === currentAnswer.personne && 
-            selectedMood === currentAnswer.mode && 
-            selectedTense === currentAnswer.temps;
-    }
+    // Check if the answer is correct - direct comparison with stored answer
+    let isCorrect = 
+        selectedPerson === currentAnswer.personne && 
+        selectedMood === currentAnswer.mode && 
+        selectedTense === currentAnswer.temps;
 
     let localTenseName = await getFullTenseName(currentAnswer.temps);
     let personName = await getPersonFullName(currentAnswer.personne);
-    
-    // Add visual feedback to the selected options
-    // Decompose the expected person and number from currentAnswer.personne
-    const expectedComponents = convertPersonneIndexToComponents(currentAnswer.personne);
-    const expectedPerson = expectedComponents.person;
-    const expectedNumber = expectedComponents.number;
-    
-    // Ensure we're comparing the same types (string vs string)
-    const personSelectionStr = String(personSelection);
-    const numberSelectionStr = String(numberSelection);
-    const expectedPersonStr = String(expectedPerson);
-    const expectedNumberStr = String(expectedNumber);
-    
-    // Check if the selected person and number are correct individually
-    const isPersonCorrect = personSelectionStr === expectedPersonStr;
-    const isNumberCorrect = numberSelectionStr === expectedNumberStr;
-    
-    // Special handling for conditional mood/tense confusion
-    let isMoodCorrect = selectedMood === currentAnswer.mode;
-    let isTenseCorrect = selectedTense === currentAnswer.temps;
-    
-    // Handle the special case of conditional (which can be both a mood and a tense in French)
-    if (selectedMood === 'conditional' && currentAnswer.mode === 'indicative' && 
-        (currentAnswer.temps === 'conditionnel-présent' || currentAnswer.temps === 'conditionnel-passé')) {
-        isMoodCorrect = true;
-    }
-    if (selectedMood === 'indicative' && currentAnswer.mode === 'conditional' && 
-        (selectedTense === 'présent' || selectedTense === 'passé')) {
-        isMoodCorrect = true;
-        isTenseCorrect = true;
-    }
-    
-    // Apply correct/incorrect classes to selected options
-    // For person and number, if both are correct, then the selectedPerson index matches
-    const personNumberCombinationCorrect = selectedPerson === currentAnswer.personne;
-    
-    // For person, mark as correct if the personNumberCombinationCorrect or just the person part is correct
-    $('#person-group').closest('.selector-container').find('.selected-option')
-        .addClass(isPersonCorrect ? 'correct' : 'incorrect');
-    
-    // For number, mark as correct if the personNumberCombinationCorrect or just the number part is correct  
-    $('#number-group').closest('.selector-container').find('.selected-option')
-        .addClass(isNumberCorrect ? 'correct' : 'incorrect');
-    
-    // Apply feedback classes for mood selection
-    $('#mood-group').closest('.selector-container').find('.selected-option')
-        .addClass(isMoodCorrect ? 'correct' : 'incorrect');
-    
-    // Apply feedback classes for tense selection
-    $('#tense-container').closest('.selector-container').find('.selected-option')
-        .addClass(isTenseCorrect ? 'correct' : 'incorrect');
 
     if (isCorrect) {
         score++;
@@ -491,9 +391,6 @@ $(document).ready(async function() {
     // Initially hide the next question button
     toggleActionButtons(true);
 
-    // Initially disable the check answer button until all selections are made
-    updateCheckButtonState();
-
     await translateUI();
 
     // Configuration of event handlers
@@ -503,9 +400,6 @@ $(document).ready(async function() {
 
         $(this).parent().parent().find('.selected-option').text($(this).text());
         $(this).parent().hide();
-        
-        // Update check button state after selection changes
-        updateCheckButtonState();
     });
 
     // Show button visibility when clicking on titles
@@ -543,44 +437,8 @@ $(document).ready(async function() {
     });
 
     $('#check-answer').click(verifyAnswer);
-    $('#next-question').click(function() {
-        // Hide selection requirements message immediately when next is clicked
-        $('#selection-requirements').hide();
-        nextQuestion();
-    });
+    $('#next-question').click(nextQuestion);
 
     // Start the game
     nextQuestion();
 });
-
-// Function to check if all selections are made and update button state
-async function updateCheckButtonState() {
-    const personSelected = $('.person-btn.active').length > 0;
-    const numberSelected = $('.number-btn.active').length > 0;
-    const moodSelected = $('.mood-btn.active').length > 0;
-    const tenseSelected = $('#tense-container .active').length > 0;
-    
-    // Check if all selections are made
-    const allSelectionsComplete = personSelected && numberSelected && moodSelected && tenseSelected;
-    
-    if (allSelectionsComplete) {
-        $('#check-answer').prop('disabled', false).removeClass('btn-disabled');
-        $('#selection-requirements').hide();
-    } else {
-        $('#check-answer').prop('disabled', true).addClass('btn-disabled');
-        
-        // Create message about what needs to be selected
-        let missingSelections = [];
-        if (!personSelected) missingSelections.push(await localize('person'));
-        if (!numberSelected) missingSelections.push(await localize('number'));
-        if (!moodSelected) missingSelections.push(await localize('mood'));
-        if (!tenseSelected) missingSelections.push(await localize('tense'));
-        
-        if (missingSelections.length > 0) {
-            // Add translation key for this message
-            const selectMessage = await localize('selectMissing');
-            $('#selection-requirements').html(selectMessage + ': ' + missingSelections.join(', '));
-            $('#selection-requirements').show();
-        }
-    }
-}

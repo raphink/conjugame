@@ -12,48 +12,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#007bff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Conjugame">
-    <link rel="apple-touch-icon" href="icon.png">
-    <!-- Flag Colors Fix -->
-    <script src="flagFix.js"></script>
 </head>
 <body>
-    
     <div class="game-container">
-        <div class="flag-colors">&nbsp;</div>
-        
-        <div class="game-nav">
-            <div class="game-nav-top-row">
-                <a href="index.html" class="nav-back" data-translate="home">Accueil</a>
-                <div class="language-flags">
-                    <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
-                    <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
-                    <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
-                </div>
-            </div>
-            <div class="game-nav-modes">
-                <a href="identify.html" class="game-mode-link active" data-translate="identifyForm">Identifier la Forme</a>
-                <a href="choose.html" class="game-mode-link" data-translate="chooseForm">Choisir la Forme</a>
-            </div>
-            <div class="nav-title" data-translate="identifyForm">Identifier la Forme</div>
+        <div class="flag-colors"></div>
+        <div class="game-header">
+            <h1 class="game-title" data-translate="gameTitle">Conjugation</h1>
         </div>
 
-        <div class="game-stats d-flex justify-content-between mb-2">
+        <div class="language-selector-container text-end mb-2">
+            <div class="language-flags">
+                <div class="language-flag" data-lang="fr" title="Français">🇫🇷</div>
+                <div class="language-flag" data-lang="es" title="Español">🇪🇸</div>
+                <div class="language-flag" data-lang="it" title="Italiano">🇮🇹</div>
+            </div>
+        </div>
+
+        <div class="game-stats">
             <div class="score-display">
-                🎯 <span data-translate="score">Score</span>: <span id="score">0</span>/<span id="total">0</span>
+                🎯 <span data-translate="score">Score</span>: <span id="score">0</span> / <span id="total">0</span>
             </div>
             <div class="streak-display">
-                <span data-translate="streak">Streak</span>: <span id="streak">0</span> 🔥
+                🔥 <span data-translate="streak">Streak</span>: <span id="streak">0</span>
             </div>
         </div>
 
-        <div class="difficulty-selector text-center mb-2">
-            <div class="btn-group btn-group-sm" role="group">
+        <div class="difficulty-selector text-center mb-4">
+            <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary difficulty-btn active" data-level="easy" data-translate="easy">Easy</button>
                 <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="medium" data-translate="medium">Medium</button>
                 <button type="button" class="btn btn-outline-primary difficulty-btn" data-level="hard" data-translate="hard">Hard</button>
@@ -71,13 +56,13 @@
             <p class="loading-verb-data" data-translate="loadingVerbData">Loading verb data...</p>
         </div>
 
-        <div class="verb-display mb-3" id="verb-display">
+        <div class="verb-display" id="verb-display">
             <h2 class="highlight" data-translate="loading">Loading...</h2>
         </div>
 
         <div class="row">
-            <!-- Person Column -->
-            <div class="col-lg-6 col-6 mb-3">
+            <!-- Personne Column -->
+            <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
                         <span class="emoji">👤</span> <span data-translate="person">Person</span>: <span class="selected-option"></span>
@@ -90,8 +75,8 @@
                 </div>
             </div>
             
-            <!-- Number Column -->
-            <div class="col-lg-6 col-6 mb-3">
+            <!-- Nombre Column -->
+            <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
                         <span class="emoji">🔢</span> <span data-translate="number">Number</span>: <span class="selected-option"></span>
@@ -104,7 +89,7 @@
             </div>
             
             <!-- Mood Column -->
-            <div class="col-lg-6 col-6 mb-3">
+            <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
                         <span class="emoji">🔄</span> <span data-translate="mood">Mood</span>: <span class="selected-option"></span>
@@ -115,21 +100,17 @@
                 </div>
             </div>
             
-            <!-- Tense Column -->
-            <div class="col-lg-6 col-6 mb-3">
+            <!-- Temps Column -->
+            <div class="col-md-6 mb-3">
                 <div class="selector-container">
                     <div class="selector-label">
-                        <span class="emoji">⏱️</span> <span data-translate="tense">Tense</span>: <span class="selected-option"></span> 
+                        <span class="emoji">⏱️</span> <span data-translate="tense">Tense</span>: <span class="selected-option"></span>
                     </div>
                     <div class="selector-buttons" id="tense-container">
                         <!-- Tense buttons will be added dynamically -->
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div id="selection-requirements" class="selection-required mt-2 mb-2" style="display: none;">
-            <span data-translate="selectAllParameters">Please select all parameters to check your answer.</span>
         </div>
 
         <button class="btn btn-success w-100 btn-check-answer" id="check-answer" data-translate="checkAnswer">Check Answer</button>
@@ -145,6 +126,11 @@
             </div>
         </div>
 
+        <div class="game-mode-links mt-4">
+            <p data-translate="changeGameMode">Switch Game Mode:</p>
+            <a href="index.html" class="btn btn-outline-secondary" data-translate="home">Home</a>
+            <a href="choose.html" class="btn btn-outline-primary" data-translate="chooseForm">Mode: Choose the Form</a>
+        </div>
     </div>
 
     <!-- JavaScript files -->

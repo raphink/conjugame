@@ -21,7 +21,7 @@ async function genererOptionsIncorrectes(formeCorrecte, verbData, modeCorrect, t
     const personneIdx = currentAnswer.personne; // Person for which to generate options
 
     let langData = await getLangData();
-    modeCorrectLocal = langData.verbData.moodsNames[modeCorrect].toLowerCase();
+    const modeCorrectLocal = langData.verbData.moodsNames[modeCorrect].toLowerCase();
     
     // Strategy 1: Use the same person index but other tenses of the same mode
     const autresTompsMode = Object.keys(verbData.moods[modeCorrectLocal])
@@ -236,31 +236,21 @@ async function nextQuestion() {
         temps: temps
     };
 
-    // Calculate the correct array index based on mode
-    let arrayIndex;
-    if (mode === "imperative") {
-        // For imperative, convert from the standard index to the array index
-        arrayIndex = getImperativeArrayIndex(selectedPersonIndex);
-    } else {
-        // For other modes, the standard index is the array index
-        arrayIndex = selectedPersonIndex;
-    }
-
-    // Check if arrayIndex is within bounds
-    const maxIndex = verbData.moods[localMode][temps].length - 1;
-    if (arrayIndex > maxIndex) {
-        arrayIndex = maxIndex;
-    }
-    
     // Display information about the requested form
     const verbFormTmpl = await localize("conjugateTo");
     const verbForm = verbFormTmpl.replace("{0}", await getFullTenseName(temps))
         .replace("{1}", await localize(mode))
-        .replace("{2}", await getPersonFullName(selectedPersonIndex));
+        .replace("{2}", personnesAbrégées[selectedPersonIndex]);
     $('.verb-form-info').html(verbForm);
 
     // Get the correct conjugation
-    currentConjugation = verbData.moods[localMode][temps][arrayIndex];
+    currentConjugation = verbData.moods[localMode][temps][selectedPersonIndex];
+
+    if (!currentConjugation) {
+        console.warn(`No conjugation for person ${selectedPersonIndex} in ${mode}/${temps}`);
+        nextQuestion();
+        return;
+    }
 
     // Generate incorrect options
     optionsConjugaison = await genererOptionsIncorrectes(currentConjugation, verbData, mode, temps);
@@ -319,7 +309,7 @@ async function verifyAnswer() {
             .replace("{1}", verbeActuel)
             .replace("{2}", temps)
             .replace("{3}", mode)
-            .replace("{4}", await getPersonFullName(currentAnswer.personne));
+            .replace("{4}", personnesAbrégées[currentAnswer.personne]);
         $('#feedback').removeClass('incorrect').addClass('correct')
             .html(message).show();
     } else {
