@@ -263,6 +263,15 @@ body {
     );
 }
 
+/* German flag colors */
+.flag-colors.de {
+    background: linear-gradient(to bottom,
+        #000000 33.33%,
+        #DD0000 33.33%, #DD0000 66.66%,
+        #FFCE00 66.66%
+    );
+}
+
 /* Italian flag colors */
 .flag-colors.it {
     background: linear-gradient(to right, 

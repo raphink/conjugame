@@ -240,7 +240,7 @@ async function nextQuestion() {
     const verbFormTmpl = await localize("conjugateTo");
     const verbForm = verbFormTmpl.replace("{0}", await getFullTenseName(temps))
         .replace("{1}", await localize(mode))
-        .replace("{2}", personnesAbrégées[selectedPersonIndex]);
+        .replace("{2}", await getPersonAbbreviation(selectedPersonIndex));
     $('.verb-form-info').html(verbForm);
 
     // Get the correct conjugation
@@ -307,9 +307,9 @@ async function verifyAnswer() {
         const messageTmpl = await localize("chooseCorrectMessage");
         const message = messageTmpl.replace("{0}", currentConjugation)
             .replace("{1}", verbeActuel)
-            .replace("{2}", temps)
+            .replace("{2}", await getFullTenseName(temps))
             .replace("{3}", mode)
-            .replace("{4}", personnesAbrégées[currentAnswer.personne]);
+            .replace("{4}", await getPersonAbbreviation(currentAnswer.personne));
         $('#feedback').removeClass('incorrect').addClass('correct')
             .html(message).show();
     } else {

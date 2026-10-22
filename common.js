@@ -2,7 +2,7 @@
 let lang = "fr"; // Default language
 let difficulty = "easy"; // Default difficulty
 let selectedVerbs = null; // null means use the complete difficulty-based pool
-const supportedLanguages = ["fr", "es", "it"]; // Supported languages (French, Spanish, Italian)
+const supportedLanguages = ["fr", "es", "it", "de"]; // Supported languages
 
 // Function to get URL parameters
 function getUrlParameter(name) {
@@ -60,7 +60,7 @@ function updateLanguageSelection() {
 // Function to update the top flag colors based on selected language
 function updateTopFlagColors() {
     // First, remove any language-specific classes
-    $('.flag-colors').removeClass('es it');
+    $('.flag-colors').removeClass('es it de');
     
     // Then add the class for the current language (leave fr as default)
     if (lang !== 'fr') {
@@ -263,14 +263,6 @@ function normalizeVerbData(data) {
     return data;
 }
 
-// Names of persons for display (legacy, will be replaced by translations)
-const personnesAbrégées = [
-    "1ère (je)", "2ème (tu)", "3ème (il/elle)", "1ère (nous)", "2ème (vous)", "3ème (ils/elles)"
-];
-
-const personnesImperatif = ["2ème (tu)", "1ère (nous)", "2ème (vous)"];
-
-
 // Define available persons by mode (moved from common.js)
 const personnesParMode = {
     "indicative": [0, 1, 2, 3, 4, 5],      // all 6 persons
@@ -297,6 +289,43 @@ const imperative_mapping = {
 // unreliable allorigins proxy. The old HTTP URL now fails at the proxy.
 let api_base_url = `https://verbe.cc/verbecc/conjugate/${lang}/`;
 
+const germanApiTenses = {
+    PRASENS: ['indicative', 'Präsens'],
+    PRATERITUM: ['indicative', 'Präteritum'],
+    PERFEKT: ['indicative', 'Perfekt'],
+    PLUSQUAMPERFEKT: ['indicative', 'Plusquamperfekt'],
+    FUTUR1: ['indicative', 'Futur I'],
+    FUTUR2: ['indicative', 'Futur II'],
+    KONJUNKTIV1_PRASENS: ['subjunctive', 'Präsens'],
+    KONJUNKTIV1_PERFEKT: ['subjunctive', 'Perfekt'],
+    KONJUNKTIV1_FUTUR1: ['subjunctive', 'Futur I'],
+    KONJUNKTIV2_PRATERITUM: ['conditional', 'Präteritum'],
+    KONJUNKTIV2_FUTUR1: ['conditional', 'Futur I'],
+    KONJUNKTIV2_FUTUR2: ['conditional', 'Futur II']
+};
+
+function normalizeGermanVerbData(payload, infinitive) {
+    const moods = { indikativ: {}, konjunktiv1: {}, konjunktiv2: {} };
+    const persons = ['S1', 'S2', 'S3', 'P1', 'P2', 'P3'];
+    const tenseData = payload && payload.data;
+
+    if (!tenseData || typeof tenseData !== 'object') return null;
+    if (!Object.keys(germanApiTenses).some(tense => tenseData[tense])) return null;
+
+    Object.entries(germanApiTenses).forEach(([apiTense, [mood, displayTense]]) => {
+        const rows = tenseData[apiTense];
+        if (!rows) return;
+        const forms = persons.map(person => {
+            const form = rows[person];
+            return Array.isArray(form) ? form.filter(Boolean).join(' ') : (form || '');
+        });
+        const moodKey = mood === 'indicative' ? 'indikativ' : mood === 'subjunctive' ? 'konjunktiv1' : 'konjunktiv2';
+        moods[moodKey][displayTense] = forms;
+    });
+
+    return { verb: { infinitive }, moods };
+}
+
 // Function to call the Verbecc API directly over HTTPS
 async function callAPI(verbe) {
     $('#loading').show();
@@ -308,6 +337,17 @@ async function callAPI(verbe) {
     
     while (attempts < maxAttempts) {
         try {
+            if (lang === 'de') {
+                const germanResponse = await fetch(`https://german-verbs-api.onrender.com/german-verbs-api?verb=${encodeURIComponent(verbe)}`);
+                if (!germanResponse.ok) throw new Error(`HTTP Error: ${germanResponse.status}`);
+                const germanData = await germanResponse.json();
+                const normalizedGermanData = normalizeGermanVerbData(germanData, verbe);
+                if (!normalizedGermanData) throw new Error('Unexpected German conjugation data format');
+                $('#loading').hide();
+                $('#verb-display').show();
+                return normalizedGermanData;
+            }
+
             const apiUrl = `${api_base_url}${encodeURIComponent(verbe)}`;
             const response = await fetch(apiUrl);
             
@@ -333,7 +373,7 @@ async function callAPI(verbe) {
                 // All retry attempts failed
                 $('#loading').hide();
                 $('#verb-display').show();
-                alert("Failed to retrieve data after multiple attempts.");
+                alert(await localize('apiError'));
                 return null;
             }
             
@@ -432,6 +472,11 @@ async function getPersonFullName(person) {
         console.warn(`Person not found: ${person}`);
         return person; // Fallback to original person if not found
     }
+}
+
+async function getPersonAbbreviation(person) {
+    const langData = await getLangData();
+    return langData.verbData.personDisplay.abbreviations[person] || String(person);
 }
 
 // Function to translate UI elements

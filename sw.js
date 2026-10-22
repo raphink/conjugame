@@ -1,5 +1,5 @@
 // Service Worker for Conjugame
-const CACHE_NAME = 'conjugame-v2';
+const CACHE_NAME = 'conjugame-v3';
 const urlsToCache = [
   '/conjugame/',
   '/conjugame/index.html',
@@ -14,6 +14,7 @@ const urlsToCache = [
   '/conjugame/fr.json',
   '/conjugame/es.json',
   '/conjugame/it.json',
+  '/conjugame/de.json',
   '/conjugame/icon.png',
   '/conjugame/favicon.ico',
   '/conjugame/manifest.webmanifest',

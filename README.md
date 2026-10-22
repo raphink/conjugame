@@ -1,10 +1,10 @@
 # Conjugame - Language Conjugation Game
 
-Conjugame is a Progressive Web App (PWA) that helps users practice verb conjugations in different languages (currently French, Spanish, and Italian).
+Conjugame is a Progressive Web App (PWA) that helps users practice verb conjugations in different languages (currently French, Spanish, Italian, and German).
 
 ## Features
 
-- Practice verb conjugations in French, Spanish, and Italian
+- Practice verb conjugations in French, Spanish, Italian, and German
 - Two game modes: 
   - Identify the verb form (person, mood, and tense)
   - Choose the correct conjugation
@@ -52,7 +52,7 @@ As a Progressive Web App, Conjugame can be installed directly from the browser:
 - `styles.css` - Styling
 - `common.js` - Shared functionality
 - `identify.js`, `choose.js` - Game mode specific logic
-- `fr.json`, `es.json`, `it.json` - Language files
+- `fr.json`, `es.json`, `it.json`, `de.json` - Language files
 - `languageFlags.js` - Language switching
 - `manifest.webmanifest` - PWA manifest file
 - `sw.js` - Service worker for offline functionality
@@ -61,4 +61,4 @@ As a Progressive Web App, Conjugame can be installed directly from the browser:
 
 ## Credits
 
-Verb conjugation data provided by [verbe.cc](http://verbe.cc/)
+Verb conjugation data is provided by [verbe.cc](http://verbe.cc/) for French, Spanish, and Italian, and by the [German Verb Conjugation API](https://github.com/JamesPartsafas/german-verbs-api) for German.
